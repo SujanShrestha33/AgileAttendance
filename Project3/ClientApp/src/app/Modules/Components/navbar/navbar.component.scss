@@ -1,0 +1,40 @@
+.logo{
+  height: 50px;
+  width: 200px;
+}
+
+.brand-left {
+  border-right: 1px solid white; /* Adjust the border style and color as needed */
+  padding-right: 10px; /* Add some spacing between the text and the vertical line */
+  margin-right: 10px; /* Add spacing on the right side of the vertical line */
+}
+
+.active{
+  color: white;
+}
+
+.py-1 :hover{
+  background-color: rgb(21, 13, 53);
+  color:white;
+  
+} 
+
+@media (max-width: 600px) {
+  .navbar-brand {
+    text-align: center; /* Center-align the content */
+    padding: 10px; /* Add some padding for better spacing */
+  }
+
+  .navbar-brand .brand-right {
+    display: none; /* Display the span element as a block to break into a new line */
+    font-size: 14px; /* Adjust the font size for smaller screens */
+  }
+
+  .brand-left {
+    border-right: none; /* Adjust the border style and color as needed */
+    padding-right: 10px; /* Add some spacing between the text and the vertical line */
+    margin-right: 10px; /* Add spacing on the right side of the vertical line */
+  }
+}
+
+

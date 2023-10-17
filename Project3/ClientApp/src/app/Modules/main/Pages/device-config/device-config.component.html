@@ -1,0 +1,241 @@
+<div class="main-content">
+  <div class="card">
+    <div class="card-body">
+      <div class="row my-3 d-flex justify-content-between">
+        <div class="col-sm-6">
+          <h3>Device Configurations</h3>
+        </div>
+        <div class="col-sm-4 pull-right">
+          <input class="form-control" id="search" type="text" [(ngModel)]="searchQuery" (input)="performSearch()"
+            placeholder="Search...">
+        </div>
+      </div>
+      <div class="row">
+        <div class="row col-12 my-3 pull-left d-flex">
+          <div class="col-sm-1">
+            <button *ngIf="!isAdding" (click)="toggleAdd()" title="Add New Device" class="btn btn-success btn-md">
+              <!-- <fa-icon [icon]="faPlus"></fa-icon> --><i class="fa fa-plus"></i>
+            </button>
+            <button *ngIf="isAdding" (click)="clearForm()" (click)="toggleAdd()" title="Cancel"
+              class="btn btn-danger btn-md">
+              <i class="fa fa-times"></i>
+              <!-- <fa-icon [icon]="faPlus"></fa-icon> -->
+
+              <!-- <fa-icon [icon]="faMultiply"></fa-icon> -->
+            </button>
+          </div>
+          <div class="col-sm-2">
+            <div class="btn-group d-flex justify-content-center" dropdown #dropdown="bs-dropdown" [autoClose]="false">
+              <button class="btn btn-outline-dark btn-md sync-option" *ngIf="!anyDeviceSelected()" (click)="fetchAllDevice()">
+                <span *ngIf="!smallSpinner">
+                  <i class="fa fa-refresh"></i>
+                  <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
+                </span>
+                <span *ngIf="smallSpinner" class="spinner">
+                  <!-- <i class="fa fa-rotate-right"></i> -->
+                  <i class="fa fa-refresh fa-spin"></i>
+                </span>
+                <span *ngIf="!smallSpinner">
+                  Update All Device Status
+                </span>
+                <span *ngIf="smallSpinner" >
+                  Updating....
+                </span>
+              </button>
+              <button class="btn btn-outline-dark btn-md" *ngIf="anyDeviceSelected()" (click)="fetchSelectedLiveStatus()">
+                <span *ngIf="!smallSpinner">
+                  <i class="fa fa-refresh"></i>
+                  <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
+                </span>
+                <span *ngIf="smallSpinner" class="spinner">
+                  <i class="fa fa-refresh fa-spin"></i>
+                </span>
+                <Span *ngIf="!smallSpinner">
+                  Update Selected Device Status
+                </Span>
+                <span *ngIf="smallSpinner">
+                  Updating....
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-2" >
+            <button class="btn btn-outline-dark btn-md" *ngIf="!anyDeviceSelected()" (click)="fetchAllAttendance()">
+              <span>
+                <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
+                <i class="fa fa-refresh"></i>
+              </span>
+              <Span>
+                Update Live Attendance (All Devices)
+              </Span>
+            </button>
+            <button class="btn btn-outline-dark btn-md" *ngIf="anyDeviceSelected()" (click)="fetchSelectedAttendence()">
+              <span>
+                <i class="fa fa-refresh"></i>
+                <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
+              </span>
+              <Span>
+                Update Live Attendance (Selected Device)
+              </Span>
+            </button>
+          </div>
+          <div class="col-sm-2" >
+            <button class="btn btn-outline-dark btn-md" *ngIf="!anyDeviceSelected()" (click)="navigateUser()">
+              <span>
+                <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
+                <i class="fa fa-refresh"></i>
+              </span>
+              <Span>
+                Update User Info (All Devices)
+              </Span>
+            </button>
+            <button class="btn btn-outline-dark btn-md" *ngIf="anyDeviceSelected()" (click)="fetchSelectedDeviceUsersInfo()">
+              <span>
+                <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
+                <i class="fa fa-refresh"></i>
+              </span>
+              <Span>
+                Update User Info(Selected Device)
+              </Span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isAdding" class="row my-3" [ngClass]="{'fade-in': isAdding}">
+        <div class="col-12 p-2">
+          <div class="form p-1">
+            <div class="card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-sm-2">
+                    <label class="form-label">
+                      Device Address
+                    </label>
+                    <input type="text" class="form-control" placeholder="Device Address" [(ngModel)]="deviceToAdd.name">
+                  </div>
+                  <div class="col-sm-2">
+                    <label class="form-label">
+                      IP Address
+                    </label>
+                    <input type="text" class="form-control" placeholder="IP Address"
+                      [(ngModel)]="deviceToAdd.ipaddress">
+                  </div>
+                  <div class="col-sm-2">
+                    <label class="form-label">
+                      Port
+                    </label>
+                    <input type="number" class="form-control" placeholder="Port" [(ngModel)]="deviceToAdd.port">
+                  </div>
+                  <div class="col-sm-2">
+                    <label class="form-label">
+                      Device ID
+                    </label>
+                    <input type="number" min="1" class="form-control" placeholder="Device ID"
+                      [(ngModel)]="deviceToAdd.deviceId">
+                  </div>
+                  <div class="col-sm-2 d-flex align-items-end">
+                    <button (click)="addDevice()" title="Submit" class="btn btn-success">
+                      <!-- <fa-icon [icon]="faCheck"></fa-icon> -->
+                  <i class="fa fa-check"></i>
+
+                    </button>
+                    <button (click)="clearForm()" title="Cancel" class="btn btn-danger ms-1">
+                      <!-- <fa-icon [icon]="faCancel"></fa-icon> -->
+                  <i class="fa fa-times"></i>
+
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height: 80vh; overflow: auto;">
+        <table class="table table-bordered ">
+          <thead>
+            <tr class="table-secondary">
+              <th scope="col">Select</th>
+              <th scope="col">ID</th>
+              <th scope="col">Device Address</th>
+              <th scope="col">IP Address</th>
+              <th scope="col">Port</th>
+              <th scope="col">Device ID</th>
+              <th scope="col">Status</th>
+              <th scope="col">Last Status Checked</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center" *ngFor="let item of filteredDeviceInfo; let i = index">
+              <td>
+                <input type="checkbox" [(ngModel)]="item.isSelected">
+              </td>
+              <td>
+                {{item.id}}
+              </td>
+              <td>
+                <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.name">
+              </td>
+              <td>
+                <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.ipaddress">
+              </td>
+              <td>
+                <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.port">
+              </td>
+              <td>
+                <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.deviceId">
+              </td>
+              <td>
+                {{ item.isActive ? 'Active' : 'Inactive' }}
+              </td>
+              <td>
+                {{ item.lastSyncDate ? (item.lastSyncDate | date:'yyyy-MM-dd hh:mm:ss a') : 'N/A' }}
+              </td>
+              <td style="width: 8%">
+                <i class="fabook"></i>
+
+                <button title="Edit Device" class="btn btn-sm btn-rounded btn-dark" *ngIf="!item.isEditable"
+                  (click)="edit(item)">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  <!-- <fa-icon [icon]="faedit"></fa-icon> -->
+                </button>
+                <button title="Delete Device" (click)="openModal(template)"
+                  class="btn btn-sm btn-rounded btn-danger ms-1" *ngIf="!item.isEditable">
+                  <!-- <fa-icon [icon]="coffee"></fa-icon> -->
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+                <button title="Submit" class="btn btn-sm btn-rounded btn-primary" *ngIf="item.isEditable"
+                  (click)="submit(item)">
+                  <i class="fa fa-check"></i>
+                  <!-- <fa-icon [icon]="faCheck"></fa-icon> -->
+                </button>
+                <button title="Cancel" class="btn btn-sm btn-rounded btn-danger ms-1" *ngIf="item.isEditable"
+                  (click)="cancel(item)">
+                  <!-- <fa-icon [icon]="faCancel"></fa-icon> -->
+                  <i class="fa fa-times"></i>
+                </button>
+              </td>
+              <ng-template #template>
+                <div class="modal-header text-center p-3">
+                  <h4 class="modal-title pull-left">Warning!!!</h4>
+                  <button type="button" class="close btn-close pull-right" aria-label="Close"
+                    (click)="modalRef?.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Are You Sure You Want To Delete {{item.name}} Device Config Permanently?
+                </div>
+                <div class="modal-footer d-flex justify-content-end">
+                  <button class="btn btn-danger" (click)="delete(item)" (click)="modalRef?.hide()">Yes</button>
+                  <button class="btn btn-primary" aria-label="Close" (click)="modalRef?.hide()">No</button>
+                </div>
+              </ng-template>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="main-content">
+  <div class="card">
+    <div class="card-body">
+      <div class="row my-3 d-flex justify-content-between">
+        <div class="col-sm-6">
+          <h3>User Info</h3>
+        </div>
+        <div class="col-sm-4 pull-right">
+          <input class="form-control" id="search" type="text" [(ngModel)]="searchQuery" (input)="performSearch()"
+            placeholder="Search...">
+        </div>
+      </div>
+      <div class="row col-6 my-2">
+
+        <div class="col-sm-6">
+        </div>
+      </div>
+
+      <div style="height: 80vh; overflow: auto;">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="table-secondary h-20">
+              <th scope="col">Device ID</th>
+              <th scope="col">Enroll Number</th>
+              <th scope="col">Username</th>
+              <th scope="col">Device Address</th>
+            </tr>
+          </thead>
+          <div *ngIf="isLoading"  class="fade show spinner-wrapper" 
+              style="text-align: center; padding-top: calc(100vh / 5); width:20%; font-family:Verdana, Geneva, Tahoma, sans-serif" >           
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar> 
+            <small>Loading, Please wait...</small>                       
+        </div>
+        
+          <!-- <div *ngIf="isLoading"  class="fade show spinner-wrapper" style="text-align: center; padding-top: calc(100vh / 5);">
+            <i class="spinner-border"></i>
+          </div> -->
+          <tbody *ngIf="!isLoading">
+            <tr *ngFor="let item of filteredUserInfo">
+              <td>{{item.deviceId}}</td>
+              <td>{{item.enrollNumber}}</td>
+              <td>{{item.userName}}</td>
+              <td>{{item.deviceName}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

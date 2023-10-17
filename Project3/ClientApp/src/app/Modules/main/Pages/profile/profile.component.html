@@ -1,0 +1,84 @@
+<div class="main-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto"> <!-- Add mx-auto class for horizontal centering -->
+        <div class="text-center">
+          <h5 style="margin-top: 30%;"></h5>
+        </div>
+        <div class="card">
+          <div class="card-header text-center card-header-caan" style="background-color:#12486B;color: white;">
+            <h4 class="card-title">Admin Profile</h4>
+          </div>
+          <div class="card-body">
+            <div  *ngIf="!isPassEdit">
+              <div class="form-group my-3">
+                <label for="email">Email</label>
+                <input [disabled]="!isEditable" [(ngModel)]="currentEmail" type="email" id="email" class="form-control">
+              </div>
+              <div class="form-group my-3">
+                <label for="name">Name</label>
+                <input [disabled]="!isEditable" [(ngModel)]="currentName" type="text" id="name" class="form-control">
+              </div>
+              <div class="form-group d-flex justify-content-center">
+                <button *ngIf="!isEditable" (click)="toggleEdit()" class="btn btn-outline-dark btn-sm">
+                  <span>
+                    <!-- <fa-icon [icon]="faedit"></fa-icon> -->
+                  </span>
+                  Edit Profile
+                </button>
+                <button *ngIf="isEditable" (click)="submitEdit()" class="btn btn-outline-dark btn-sm">
+                  <span>
+                    <!-- <fa-icon [icon]="facheck"></fa-icon> -->
+                  </span>
+                  Submit
+                </button>
+                <button *ngIf="isEditable" (click)="toggleEdit()" class="btn btn-outline-dark btn-sm ms-1">
+                  <span>
+                    <!-- <fa-icon [icon]="fax"></fa-icon> -->
+                  </span>
+                  Cancel
+                </button>
+              </div>
+            </div>
+            <div  *ngIf="isPassEdit">
+              <div class="form-group my-3">
+                <label>Current Password</label>
+                <input [(ngModel)]="currentPassword" type="password" id="Password" class="form-control">
+              </div>
+              <div class="form-group my-3">
+                <label for="name">New Password</label>
+                <input [(ngModel)]="tempNewPass" type="password" id="name" class="form-control">
+              </div>
+              <div class="form-group my-3">
+                <label for="name">Confirm New Password</label>
+                <input [(ngModel)]="newPass" type="password" id="name" class="form-control">
+              </div>
+              <div class="form-group d-flex justify-content-center">
+                <button *ngIf="isPassEdit" (click)="submitPass()" class="btn btn-outline-dark btn-sm">
+                  <span>
+                    <!-- <fa-icon [icon]="facheck"></fa-icon> -->
+                  </span>
+                  Submit
+                </button>
+                <button *ngIf="isPassEdit" (click)="toggleEditPassword()" class="btn btn-outline-dark btn-sm ms-1">
+                  <span>
+                    <!-- <fa-icon [icon]="fax"></fa-icon> -->
+                  </span>
+                  Cancel
+                </button>
+              </div>
+            </div>
+              <div *ngIf="!isPassEdit" class="form-group d-flex justify-content-center mt-2">
+                <button (click)="toggleEditPassword()" class="btn btn-outline-dark btn-sm">
+                  <span>
+                    <!-- <fa-icon [icon]="faedit"></fa-icon> -->
+                  </span>
+                  Change Password
+                </button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

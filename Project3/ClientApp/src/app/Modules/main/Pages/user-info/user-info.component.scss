@@ -1,0 +1,35 @@
+.main-content{
+  // margin-top: 20px !important;
+  padding-top: 7vh !important;
+}
+
+input:disabled{
+  border: none;
+  background: transparent;
+}
+
+input:not(:disabled) {
+  background-color: #ffffff; /* Change the background color */
+  color: #333; /* Change the text color */
+  border: 1px solid #007bff; /* Change the border color */
+  /* Add any other styles you want for enabled inputs */
+}
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.spinner-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

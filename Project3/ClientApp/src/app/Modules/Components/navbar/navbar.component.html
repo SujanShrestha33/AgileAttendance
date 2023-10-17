@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand p-2" [routerLink]="['/main/devices']">
+    <span class="brand-left">Civil Aviation Authority Nepal</span>
+    <span class="brand-divider"></span>
+    <span class="brand-right">Attendance System</span>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse" >
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link active" [routerLink]="['/main/devices']" routerLinkActive="active">Device Info</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link " [routerLink]="['/main/logs']" routerLinkActive="active">Attendance Log</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/main/users']" routerLinkActive="active">User Info</a>
+      </li>
+    </ul>
+  </div>
+  <ng-container *ngIf="currentUser$ | async as user">
+    <div class="dropdown ms-3 me-5" style="cursor: pointer;" dropdown>
+        <a dropdownToggle class="dropdown-toggle" style="text-decoration: none;color:white">
+            <strong>Welcome {{user.displayName}}</strong>
+        </a>
+
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
+          <li class="py-1 ">
+            <a routerLink="/main/profile" class="dropdown-item">
+                <i class="fa fa-user-o me-3 "></i> Profile
+            </a>
+          </li>
+          <li class="py-1 ">
+            <a routerLink="/main/apiInfo" class="dropdown-item">
+                <i class="fa fa-user-o me-3 "></i> API
+            </a>
+          </li>
+        <div class="dropdown-divider"></div>
+            <li class="py-1">
+                <a (click)="logout()" class="dropdown-item">
+                    <i class="fa fa-sign-out me-3"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+  </ng-container>
+</nav>
