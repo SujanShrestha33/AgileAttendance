@@ -13,20 +13,8 @@ export class AppComponent implements OnInit {
   constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
-    // this.loadCurrentUser();
+   
   }
 
-  // loadCurrentUser(){
-  //   const token = localStorage.getItem('token');
-  //   console.log(token);
-  //   if(token){
-  //     this.accountService.loadCurrentUser(token).subscribe(
-  //       () => {
-  //       console.log('Loaded user');
-  //     }, error => {
-  //       console.log(error);
-  //     }
-  //     );
-  //   }
-  // }
+  
 }

@@ -3,7 +3,7 @@
     <div class="card-body">
       <div class="row my-3 d-flex justify-content-between">
         <div class="col-sm-6">
-          <h3>Attendance Logs</h3>
+          <h1>Attendance Logs</h1>
         </div>
         <!-- <div class="col-sm-4 pull-right">
           <input class="form-control" id="search" type="text" [(ngModel)]="searchQuery" (input)="performSearch()"
@@ -53,23 +53,24 @@
                  <ng-select class="form-control"
                       placeholder="Choose device status"
                       [(ngModel)]="isActive"
-                      (change)="filterTable()" style="outline: none;border: none;">
+                      (change)="filterTable()" style="width:100%;outline: none;border: none;">
                       <ng-option [value]="item.booleanValue" *ngFor="let item of items">
                           {{item.name}}
                       </ng-option>
-                </ng-select>
+                  </ng-select>
                 </th>
             </tr>
           </thead>
 
-          <div *ngIf="isLoading"  class="fade show spinner-wrapper"
+          <!-- <div *ngIf="isLoading"  class="fade show spinner-wrapper"
             style="text-align: center; padding-top: calc(100vh / 5); width:20%;font-family:Verdana, Geneva, Tahoma, sans-serif" >
-              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-              <small>Loading, Please wait...</small>
-          </div>
-          <!-- <div *ngIf="isLoading"  class="fade show spinner-wrapper" style="text-align: center; padding-top: calc(100vh / 5);">
-            <i class="spinner-border"></i>
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            <small>Loading, Please wait...</small>
           </div> -->
+          <div *ngIf="isLoading"  class="fade show spinner-wrapper" style="text-align: center; padding-top: calc(100vh / 5);">
+            <i class="spinner-border"></i>
+            <!-- <small>Loading, Please wait...</small> -->
+          </div>
 
           <tbody *ngIf="!isLoading">
             <tr *ngFor="let log of filteredLog">

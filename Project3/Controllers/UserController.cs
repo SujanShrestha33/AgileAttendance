@@ -1,6 +1,6 @@
 ﻿using BiometricAttendanceSystem.Helper;
 using BiometricAttendanceSystem.Pagination;
-using BiometricAttendanceSystem.ViewModels;
+using BiometricAttendanceSystem.ReturnDTOs;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

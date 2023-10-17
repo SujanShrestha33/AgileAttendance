@@ -22,19 +22,19 @@
               <div class="form-group d-flex justify-content-center">
                 <button *ngIf="!isEditable" (click)="toggleEdit()" class="btn btn-outline-dark btn-sm">
                   <span>
-                    <!-- <fa-icon [icon]="faedit"></fa-icon> -->
+                    <i class="fa fa-edit"></i>
                   </span>
                   Edit Profile
                 </button>
                 <button *ngIf="isEditable" (click)="submitEdit()" class="btn btn-outline-dark btn-sm">
                   <span>
-                    <!-- <fa-icon [icon]="facheck"></fa-icon> -->
+                    <i class="fa fa-check"></i>
                   </span>
                   Submit
                 </button>
                 <button *ngIf="isEditable" (click)="toggleEdit()" class="btn btn-outline-dark btn-sm ms-1">
                   <span>
-                    <!-- <fa-icon [icon]="fax"></fa-icon> -->
+                    <i class="fa fa-times"></i>
                   </span>
                   Cancel
                 </button>
@@ -56,13 +56,13 @@
               <div class="form-group d-flex justify-content-center">
                 <button *ngIf="isPassEdit" (click)="submitPass()" class="btn btn-outline-dark btn-sm">
                   <span>
-                    <!-- <fa-icon [icon]="facheck"></fa-icon> -->
+                    <i class="fa fa-check"></i>
                   </span>
                   Submit
                 </button>
                 <button *ngIf="isPassEdit" (click)="toggleEditPassword()" class="btn btn-outline-dark btn-sm ms-1">
                   <span>
-                    <!-- <fa-icon [icon]="fax"></fa-icon> -->
+                    <i class="fa fa-times"></i>
                   </span>
                   Cancel
                 </button>
@@ -71,7 +71,7 @@
               <div *ngIf="!isPassEdit" class="form-group d-flex justify-content-center mt-2">
                 <button (click)="toggleEditPassword()" class="btn btn-outline-dark btn-sm">
                   <span>
-                    <!-- <fa-icon [icon]="faedit"></fa-icon> -->
+                    <i class="fa fa-edit"></i>
                   </span>
                   Change Password
                 </button>

@@ -129,16 +129,15 @@ export class DeviceConfigComponent implements OnInit {
       console.log('cancel');
       this.toastr.error('Please fill in all required fields.');
     } else {
-      if(this.deviceToAdd.deviceId){
-        this.toastr.error('Device ID already exists');
-      }
+
       this.deviceConfigService.addDevice(this.deviceToAdd).subscribe((res) => {
         // console.log(res);
         this.getDeviceConfig();
         this.toggleAdd();
         this.clearForm();
+        this.toastr.success('Device added successfully');
       }, error => {
-        // this.toastr.error(error.error);
+        this.toastr.error("Device ID already exists");
       });
     }
   }
@@ -189,7 +188,7 @@ export class DeviceConfigComponent implements OnInit {
     this.deviceConfigService.deleteDevice(id).subscribe((res) => {
       console.log('success');
       this.getDeviceConfig();
-      // this.toastr.success('Device Deleted Successfully');
+      this.toastr.warning('Device Deleted Successfully');
     });
   }
 
@@ -231,12 +230,12 @@ export class DeviceConfigComponent implements OnInit {
         // Handle the live status data, update the UI, or perform any necessary actions.
         this.getDeviceConfig();
         console.log('Live Status Data:', liveStatusData);
-        // this.toastr.success('Live status fetched successfully.');
+        this.toastr.success('Live status fetched successfully.');
     this.smallSpinner = false;
       },
       (error) => {
         console.error('Error fetching live status:', error);
-        // this.toastr.error('Error fetching live status.');
+        this.toastr.error('Error fetching live status.');
     this.smallSpinner = false;
       }
     );
@@ -252,7 +251,7 @@ export class DeviceConfigComponent implements OnInit {
   fetchSelectedAttendence(){
     const selectedDevices = this.deviceInfo.filter((item) => item.isSelected);
     if (selectedDevices.length === 0) {
-      // this.toastr.warning('Select at least one device to fetch live status.');
+      this.toastr.warning('Select at least one device to fetch live status.');
       return;
     }
     const selectedDeviceIds = selectedDevices.map((item) => item.deviceId);
@@ -267,7 +266,7 @@ export class DeviceConfigComponent implements OnInit {
   fetchSelectedDeviceUsersInfo(){
     const selectedDevices = this.deviceInfo.filter((item) => item.isSelected);
     if (selectedDevices.length === 0) {
-      // this.toastr.warning('Select at least one device to fetch live status.');
+      this.toastr.warning('Select at least one device to fetch live status.');
       return;
     }
     const selectedDeviceIds = selectedDevices.map((item) => item.deviceId);

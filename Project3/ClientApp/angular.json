@@ -35,7 +35,9 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
-              "node_modules/font-awesome/css/font-awesome.css"
+              "./node_modules/font-awesome/css/font-awesome.css" ,
+              "node_modules/ngx-toastr/toastr.css" ,
+              "@ng-select/ng-select/themes/material.theme.css"                        
             ],
             "scripts": []
           },
@@ -137,5 +139,8 @@
       }
     }
   },
-  "defaultProject": "Project3"
+  "defaultProject": "Project3",
+  "cli": {
+    "analytics": false
+  }
 }

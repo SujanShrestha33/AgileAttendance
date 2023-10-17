@@ -3,7 +3,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from 'src/app/Modules/auth/Services/account.service';
-// import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',

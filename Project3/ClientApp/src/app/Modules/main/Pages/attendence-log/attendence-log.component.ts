@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AttendanceService } from '../../Services/attendance.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-attendence-log',

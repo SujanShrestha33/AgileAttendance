@@ -820,19 +820,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {}
+    "C:\\Users\\Dell\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrator\\Desktop\\Attendance System for CAAN\\Project3\\Core\\Core.csproj",
+      "projectUniqueName": "C:\\Users\\Dell\\Source\\Repos\\AgileAttendance\\Core\\Core.csproj",
       "projectName": "Core",
-      "projectPath": "C:\\Users\\Administrator\\Desktop\\Attendance System for CAAN\\Project3\\Core\\Core.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrator\\Desktop\\Attendance System for CAAN\\Project3\\Core\\obj\\",
+      "projectPath": "C:\\Users\\Dell\\Source\\Repos\\AgileAttendance\\Core\\Core.csproj",
+      "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Dell\\Source\\Repos\\AgileAttendance\\Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

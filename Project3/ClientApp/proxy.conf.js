@@ -8,42 +8,45 @@ const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_H
     {
       context: [
         "/user/",
-     ],
-      target: target,
-      secure: false,
-      headers: {
-        Connection: 'Keep-Alive'
-    }
-    },
-    {
-      context: [
         "/deviceconfig/",
-     ],
-      target: target,
-      secure: false,
-      headers: {
-        Connection: 'Keep-Alive'
-      }
-    },
-    {
-      context: [
         "/attendancelog/",
-     ],
-      target: target,
-      secure: false,
-      headers: {
-        Connection: 'Keep-Alive'
-      }
-    },
-    {
-      context: [
         "/account/",
      ],
       target: target,
       secure: false,
       headers: {
         Connection: 'Keep-Alive'
-      }
+    }
+    // },
+    // {
+    //   context: [
+    //     "/deviceconfig/",
+    //  ],
+    //   target: target,
+    //   secure: false,
+    //   headers: {
+    //     Connection: 'Keep-Alive'
+    //   }
+    // },
+    // {
+    //   context: [
+    //     "/attendancelog/",
+    //  ],
+    //   target: target,
+    //   secure: false,
+    //   headers: {
+    //     Connection: 'Keep-Alive'
+    //   }
+    // },
+    // {
+    //   context: [
+    //     "/account/",
+    //  ],
+    //   target: target,
+    //   secure: false,
+    //   headers: {
+    //     Connection: 'Keep-Alive'
+    //   }
     }
   ]
 
