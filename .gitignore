@@ -6,3 +6,5 @@
 *.v2
 /.vs/Project3/v17/.suo
 /Project3/appsettings.json
+/Core/bin/Release/net6.0
+/Infrastructure/bin/Release/net6.0
