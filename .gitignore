@@ -9,3 +9,6 @@
 /.vs/Project3/v17/.futdcache.v2
 /.vs/ProjectEvaluation/project3.metadata.v7.bin
 /.vs/ProjectEvaluation/project3.projects.v7.bin
+/Infrastructure/bin/Release/net6.0
+/Infrastructure/obj/Release/net6.0/Infrastructure.csproj.AssemblyReference.cache
+/Core/bin/Release/net6.0
