@@ -40,13 +40,15 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
+    this.isLoading = true;
     // console.log(this.loginForm.value);
     this.accountService.login(this.loginForm.value).subscribe(() => {
       // console.log('user logged in')
-      this.isLoading = true;
+      this.isLoading = false;
       this.router.navigate(["main/devices"])
     },error =>{
-      console.log(error);
+      this.isLoading = false;
+      // console.log(error);
       this.toastr.error('Invalid username or password, Please try again')
     })
     

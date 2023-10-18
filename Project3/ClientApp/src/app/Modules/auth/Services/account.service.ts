@@ -4,7 +4,6 @@ import { BehaviorSubject, map } from 'rxjs';
 import { User } from '../../main/Models/user';
 import { Router } from '@angular/router';
 import { getBaseUrl } from 'src/main';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
