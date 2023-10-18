@@ -20,7 +20,7 @@ export class ProfileService {
   updateProfile(updatedUserData: any): Observable<any> {
     const url = `${this.baseUrl}account/editprofile`;
     const token = this.getToken();
-    console.log(token);
+    // console.log(token);
 
     // You can add headers and other options as needed
     // const httpOptions = {

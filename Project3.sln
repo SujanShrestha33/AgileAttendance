@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project3", "Project3\Project3.csproj", "{CF56B879-1F5E-4308-BFED-6829BA767E81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiometricAttendance", "Project3\BiometricAttendance.csproj", "{CF56B879-1F5E-4308-BFED-6829BA767E81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{27AC24FB-B254-4137-8E4E-FBD3B91E42FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{27AC24FB-B254-4137-8E4E-FBD3B91E42FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{F02A5342-939A-49A9-92D6-A97417155771}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{F02A5342-939A-49A9-92D6-A97417155771}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

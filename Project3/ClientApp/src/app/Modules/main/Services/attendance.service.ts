@@ -19,7 +19,7 @@ export class AttendanceService {
     const params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
-    console.log(params);
+    // console.log(params);
     return this.http.get(`${this.userUrl}/GetUserAttendanceLog`, { params });
   }
 
@@ -28,11 +28,11 @@ export class AttendanceService {
   }
 
   getMultipleDeviceLiveAttendance(body: any, pageNumber: number, pageSize: number): Observable<any> {
-    console.log(body);
+    // console.log(body);
     const params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
-      console.log(params);
+      // console.log(params);
     return this.http.post<any>(
       `${this.attUrl}/GetUserAttendanceLogOfMultipleDevicesLIVE`,
       body, // Send the request body here
@@ -65,7 +65,7 @@ export class AttendanceService {
       }
       if(isActive){
         params = params.set('isActive', isActive.toString());
-        console.log(params);
+        // console.log(params);
       }
 
     return this.http.get(`${this.attUrl}/filter`, { params });

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { apiInfo } from '../../Models/apiInfo';
 import { MatTableDataSource } from '@angular/material/table';
+import { getBaseUrl } from 'src/main';
 
 @Component({
   selector: 'app-api-info',
@@ -8,9 +9,11 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./api-info.component.scss'],
 })
 export class ApiInfoComponent {
-  private deviceUrl = 'http://localhost:5000/api/DeviceConfig';
-  private attendanceUrl = 'http://localhost:5000/api/AttendanceLog';
-  private userUrl = 'http://localhost:5000/api/User';
+
+  baseUrl = getBaseUrl();
+  private deviceUrl = `${this.baseUrl}deviceconfig`;
+  private attendanceUrl = `${this.baseUrl}attendancelog`;
+  private userUrl = `${this.baseUrl}user`;
 
   displayedColumns: string[] = ['title', 'type', 'url', 'params'];
 
