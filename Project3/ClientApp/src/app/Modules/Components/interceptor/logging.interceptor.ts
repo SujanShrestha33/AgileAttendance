@@ -11,7 +11,7 @@ import { Observable, tap } from 'rxjs';
 export class LoggingInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const modifiedRequest = request.clone({ setHeaders: { 'X-Request-ID': '123' } });
-    console.log('Request:', modifiedRequest);
+    // console.log('Request:', modifiedRequest);
 
     return next.handle(modifiedRequest);
   }

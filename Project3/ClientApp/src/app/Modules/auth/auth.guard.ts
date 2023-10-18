@@ -13,11 +13,11 @@ export class authGuard implements CanActivate {
       canActivate(): boolean {
         var user = this.accountService.currentUserSource;
         if (user.value != null) {
-          console.log("tr");
+          // console.log("tr");
           return true;
         }
         else {
-          console.log("f")
+          // console.log("f")
           this.router.navigate(['/auth/login']);
           return false;
         }

@@ -48,8 +48,8 @@ export class AttendenceLogComponent implements OnInit {
         }
       }
       this.type = params['param'];
-      console.log(this.selectedDeviceIds);
-      console.log(this.testIds); // This will log an array of selected device IDs
+      // console.log(this.selectedDeviceIds);
+      // console.log(this.testIds); // This will log an array of selected device IDs
     }
     );
 
@@ -57,7 +57,7 @@ export class AttendenceLogComponent implements OnInit {
       this.loadMultipleDeviceLog();
     }
      else if (this.type === 'live') {
-      console.log('live');
+      // console.log('live');
       // this.showProgressBar = true; // Show the progress bar when making the API call
       this.loadLiveDevice();
     } else {
@@ -105,7 +105,7 @@ export class AttendenceLogComponent implements OnInit {
     );
     // this.attendanceService.search();
     this.isLoading = false;
-    console.log(this.filteredLog);
+    // console.log(this.filteredLog);
   }
 
   loadAttendanceLogs(): void {
@@ -116,7 +116,7 @@ export class AttendenceLogComponent implements OnInit {
         (response: any) => {
           this.attendanceLogs = response.data;
           this.filteredLog = this.attendanceLogs;
-          console.log(this.attendanceLogs);
+          // console.log(this.attendanceLogs);
           this.totalRecords = response.totalRecords;
           this.isLoading = false;
         },
@@ -133,8 +133,8 @@ export class AttendenceLogComponent implements OnInit {
     this.attendanceService
       .getMultipleDeviceLiveAttendance(this.selectedDeviceIds, this.pageNumber, this.pageSize)
       .subscribe((res) => {
-        console.log('Multiple');
-        console.log(res);
+        // console.log('Multiple');
+        // console.log(res);
         this.attendanceLogs = res.data;
         this.filteredLog = this.attendanceLogs;
         this.totalRecords = res.totalRecords;
@@ -170,7 +170,7 @@ export class AttendenceLogComponent implements OnInit {
           this.deviceName,this.startDate,this.endDate,this.isActive)
         .subscribe((response: any) => {
           this.filteredLog = response.data;
-          console.log(this.filteredData);
+          // console.log(this.filteredData);
           this.totalRecords = response.totalRecords;
           this.isLoading = false;
         },

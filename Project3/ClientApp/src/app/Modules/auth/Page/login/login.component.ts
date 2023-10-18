@@ -40,9 +40,9 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.loginForm.value);
+    // console.log(this.loginForm.value);
     this.accountService.login(this.loginForm.value).subscribe(() => {
-      console.log('user logged in')
+      // console.log('user logged in')
       this.isLoading = true;
       this.router.navigate(["main/devices"])
     },error =>{

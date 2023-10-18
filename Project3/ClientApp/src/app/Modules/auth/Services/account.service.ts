@@ -33,22 +33,22 @@ export class AccountService {
       }
 
       this.currentUserSource = new BehaviorSubject<User>(user);
-      console.log(this.currentUserSource);
+      // console.log(this.currentUserSource);
 
       this.currentUser$ = this.currentUserSource.asObservable();
-      console.log(this.currentUser$);
+      // console.log(this.currentUser$);
   }
 }
 
   getCurrentUserValue(){
-    console.log(this.currentUser$);
-    console.log(this.currentUserSource);
+    // console.log(this.currentUser$);
+    // console.log(this.currentUserSource);
 
     return this.currentUserSource.value;
   }
 
   login(values: any){
-    console.log(this.loginUrl);
+    // console.log(this.loginUrl);
     return this.http.post(this.loginUrl + 'account/Login' ,values).pipe(
       map((user:User) =>{
         if(user){
