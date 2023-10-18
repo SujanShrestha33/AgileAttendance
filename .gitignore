@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Project3/FileContentIndex/3f18d264-0ae3-4d3b-87c0-cdf3304562a1.vsidx
+/Core/obj/Debug/net6.0/Core.assets.cache
+/Core/obj/Debug/net6.0/Core.csproj.AssemblyReference.cache
+/Core/obj/Debug/net6.0/Core.GeneratedMSBuildEditorConfig.editorconfig
+/Infrastructure/obj/Debug/net6.0/Infrastructure.csproj.AssemblyReference.cache
+/Infrastructure/obj/Debug/net6.0/Infrastructure.assets.cache
+/Infrastructure/obj/Debug/net6.0/Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
