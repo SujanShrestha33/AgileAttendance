@@ -3,7 +3,6 @@
   padding-top: 7vh !important;
 }
 
-
 input:disabled{
   border: none;
   background: transparent;
@@ -15,8 +14,6 @@ input:not(:disabled) {
   border: 1px solid #007bff; /* Change the border color */
   /* Add any other styles you want for enabled inputs */
 }
-
-
 
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;

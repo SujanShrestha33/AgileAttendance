@@ -37,7 +37,7 @@
               </th>
 
               <th scope="col">
-                <tr>
+                <tr class="d-flex justify-content-around">
                   <th>
                     <tr><label><small>StartDate</small></label></tr>
                     <tr><input class="filter-input-date" [(ngModel)]="startDate" type="date"  (input)="filterTable()" /></tr>
@@ -49,16 +49,18 @@
                 </tr>
               </th>
 
-              <th scope="col">
-                 <ng-select class="form-control"
-                      placeholder="Choose device status"
+              <th scope="col">   
+                <div class="form-control" style="border:none;width:auto;">
+                  <ng-select class="select-status"
+                      placeholder="Device status"
                       [(ngModel)]="isActive"
-                      (change)="filterTable()" style="width:100%;outline: none;border: none;">
+                      (change)="filterTable()" >
                       <ng-option [value]="item.booleanValue" *ngFor="let item of items">
                           {{item.name}}
                       </ng-option>
                   </ng-select>
-                </th>
+                </div>                           
+              </th>
             </tr>
           </thead>
 
@@ -67,7 +69,9 @@
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
             <small>Loading, Please wait...</small>
           </div> -->
-          <div *ngIf="isLoading"  class="fade show spinner-wrapper" style="text-align: center; padding-top: calc(100vh / 5);">
+       
+          <div *ngIf="isLoading"  class="fade show spinner-wrapper" 
+          style="text-align: center; padding-top: calc(100vh / 5); width:20%;font-family:Verdana, Geneva, Tahoma, sans-serif" >
             <i class="spinner-border"></i>
             <!-- <small>Loading, Please wait...</small> -->
           </div>

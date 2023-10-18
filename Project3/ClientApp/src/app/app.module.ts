@@ -4,8 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MainModule } from './Modules/main/main.module';
-import { AuthModule } from './Modules/auth/auth.module';
 import { AuthComponent } from './Modules/auth/auth.component';
 import { MainComponent } from './Modules/main/main.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -25,7 +23,7 @@ import { DatePipe } from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxFontAwesomeModule } from 'ngx-font-awesome';
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -51,6 +49,7 @@ import { NgxFontAwesomeModule } from 'ngx-font-awesome';
     ToastrModule.forRoot(),
     ProgressbarModule.forRoot(),
     MatFormFieldModule,
+    MatProgressBarModule,
     MatTableModule,
     NgSelectModule,
     NgxFontAwesomeModule,
