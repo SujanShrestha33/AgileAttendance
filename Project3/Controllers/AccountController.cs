@@ -30,7 +30,7 @@ namespace BiometricAttendanceSystem.Controllers
         [Route("[action]")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _userManager.FindByNameAsync(loginDto.DisplayName);
+            var user = await _userManager.FindByNameAsync(loginDto.Username);
             if (user == null)
             {
                 return Unauthorized(new ApiResponse(401));
@@ -44,9 +44,9 @@ namespace BiometricAttendanceSystem.Controllers
 
             return new UserDto
             {
-                Email = user.Email,
                 Token =_tokenService.CreateToken(user),
-                DisplayName = user.DisplayName
+                Username = user.UserName,
+                Email = user.Email
             };
         }
 
@@ -58,9 +58,9 @@ namespace BiometricAttendanceSystem.Controllers
 
             return new UserDto
             {
-                Email = user.Email,
+                Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                DisplayName = user.DisplayName
+             
             };
         }
 
@@ -80,8 +80,8 @@ namespace BiometricAttendanceSystem.Controllers
                 return NotFound(new ApiResponse(404, "User Not Found"));
             }
 
+            user.UserName = editProfileDto.Username;
             user.Email = editProfileDto.Email;
-            user.DisplayName = editProfileDto.DisplayName;
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -92,9 +92,9 @@ namespace BiometricAttendanceSystem.Controllers
 
             return new UserDto
             {
-                Email = user.Email,
+                Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                DisplayName = user.DisplayName
+                Email = user.Email
             };
         }
 

@@ -37,7 +37,7 @@
               </th>
 
               <th scope="col">
-                <tr class="d-flex justify-content-around">
+                <tr class="d-flex justify-content-between" >
                   <th>
                     <tr><label><small>StartDate</small></label></tr>
                     <tr><input class="filter-input-date" [(ngModel)]="startDate" type="date"  (input)="filterTable()" /></tr>
@@ -49,10 +49,10 @@
                 </tr>
               </th>
 
-              <th scope="col">   
-                <div class="form-control" style="border:none;width:auto;">
+              <th scope="col" style="width:15%">   
+                <div class="form-control" style="border:none;">
                   <ng-select class="select-status"
-                      placeholder="Device status"
+                      placeholder="Select device status"
                       [(ngModel)]="isActive"
                       (change)="filterTable()" >
                       <ng-option [value]="item.booleanValue" *ngFor="let item of items">

@@ -13,5 +13,12 @@ namespace BiometricAttendanceSystem.Helper
             return await userManager.Users
                 .SingleOrDefaultAsync(x => x.Email == user.FindFirstValue(ClaimTypes.Email));
         }
+
+        //public static async Task<AppUser> FindByUserNameFromClaimsPrincipal(this UserManager<AppUser> userManager,
+        //    ClaimsPrincipal user)
+        //{
+        //    return await userManager.Users
+        //        .SingleOrDefaultAsync(x => x.UserName == user.FindFirstValue(ClaimTypes.Name));
+        //}
     }
 }
