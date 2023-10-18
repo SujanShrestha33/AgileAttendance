@@ -57,7 +57,7 @@ export class ProfileComponent implements OnInit{
       .subscribe(res => {
         console.log(res);
         this.isEditable = false;
-        this.toastr.success("Update Successfull");
+        this.toastr.success("Update Successful");
       }, error => {
         console.log(error);
       })
