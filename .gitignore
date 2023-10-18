@@ -4,3 +4,5 @@
 
 *.vsidx
 *.v2
+/.vs/Project3/v17/.suo
+/Project3/appsettings.json
