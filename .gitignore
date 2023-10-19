@@ -13,3 +13,4 @@
 /Infrastructure/obj/Release/net6.0/Infrastructure.csproj.AssemblyReference.cache
 /Core/bin/Release/net6.0
 /.vs/Project3/config/applicationhost.config
+*.config
