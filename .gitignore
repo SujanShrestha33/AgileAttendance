@@ -17,3 +17,13 @@
 /.vs/AgileAttendance/v17/.wsuo
 /.vs/BiometricAttendance/v17
 /.vs/Project3/v17/fileList.bin
+*.config
+/Core/obj/project.nuget.cache
+/Core/obj/Core.csproj.nuget.dgspec.json
+/Core/obj/Debug/net6.0/Core.assets.cache
+/Core/obj/Debug/net6.0/Core.GeneratedMSBuildEditorConfig.editorconfig
+/Infrastructure/obj/Debug/net6.0/Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Infrastructure/obj/Debug/net6.0/Infrastructure.assets.cache
+/Infrastructure/obj/Infrastructure.csproj.nuget.dgspec.json
+/Infrastructure/obj/project.assets.json
+/Infrastructure/obj/project.nuget.cache
