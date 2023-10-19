@@ -14,3 +14,10 @@
 /Core/bin/Release/net6.0
 /.vs/Project3/config/applicationhost.config
 *.config
+/.vs/BiometricAttendance/v17/.suo
+/Core/bin/Debug/net6.0/Core.pdb
+/Core/bin/Debug/net6.0/Core.dll
+/Core/obj/Debug/net6.0/ref/Core.dll
+/Core/obj/Debug/net6.0/refint/Core.dll
+/Core/obj/Debug/net6.0/Core.dll
+/Core/obj/Debug/net6.0/Core.pdb
