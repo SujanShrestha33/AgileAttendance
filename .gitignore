@@ -21,3 +21,10 @@
 /Core/obj/Debug/net6.0/refint/Core.dll
 /Core/obj/Debug/net6.0/Core.dll
 /Core/obj/Debug/net6.0/Core.pdb
+/Infrastructure/obj/Debug/net6.0/Infrastructure.csproj.AssemblyReference.cache
+/Infrastructure/obj/Debug/net6.0/Infrastructure.pdb
+/Infrastructure/obj/Debug/net6.0/Infrastructure.dll
+/Infrastructure/bin/Debug/net6.0/Infrastructure.pdb
+/Infrastructure/bin/Debug/net6.0/Infrastructure.dll
+/Infrastructure/bin/Debug/net6.0/Core.pdb
+/Infrastructure/bin/Debug/net6.0/Core.dll
