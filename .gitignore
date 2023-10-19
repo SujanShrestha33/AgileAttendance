@@ -2,6 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+<<<<<<< HEAD
 /.vs/Project3/FileContentIndex/3f18d264-0ae3-4d3b-87c0-cdf3304562a1.vsidx
 /Core/obj/Debug/net6.0/Core.assets.cache
 /Core/obj/Debug/net6.0/Core.csproj.AssemblyReference.cache
@@ -9,3 +10,24 @@
 /Infrastructure/obj/Debug/net6.0/Infrastructure.csproj.AssemblyReference.cache
 /Infrastructure/obj/Debug/net6.0/Infrastructure.assets.cache
 /Infrastructure/obj/Debug/net6.0/Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+=======
+*.vsidx
+*.v2
+/.vs/Project3/v17/.suo
+/Project3/appsettings.json
+>>>>>>> 1541aefbe3a7f8d72bb715e21c41543656a5fafc
+/.vs/Project3/FileContentIndex/1367da98-2cd3-485e-a412-4238e699fcf7.vsidx
+/.vs/Project3/FileContentIndex/99c59c9c-705f-435f-b707-3ec39d740d55.vsidx
+/.vs/Project3/FileContentIndex/b74e5f73-bf0e-4217-bc82-66bc42fa337f.vsidx
+/.vs/Project3/FileContentIndex/bd05565e-1c03-4efc-adde-22dbb115cf1d.vsidx
+/.vs/Project3/FileContentIndex/9c6557e8-4f59-4c69-b114-f9e5ec365266.vsidx
+/.vs/Project3/FileContentIndex/ef1370bb-d6ff-4a01-bd26-4af0d6b68288.vsidx
+/.vs/Project3/v17/fileList.bin
+/.vs/ProjectEvaluation/project3.projects.v7.bin
+/.vs/ProjectEvaluation/project3.metadata.v7.bin
+/Core/bin/Release/net6.0/Core.deps.json
+/Infrastructure/bin/Release/net6.0/Core.dll
+/Core/obj/Release/net6.0/Core.csproj.CoreCompileInputs.cache
+/Core/obj/Release/net6.0/Core.csproj.FileListAbsolute.txt
+/.vs/AgileAttendance/FileContentIndex/d08c4986-2139-4375-a845-f26f4ffa6e48.vsidx
+/.vs/Project3/v17/.suo

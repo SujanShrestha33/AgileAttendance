@@ -17,8 +17,8 @@
               <form [formGroup]="loginForm" (submit)="submit()">
               <div class="row">
                 <mat-form-field appearance="outline">
-                  <mat-label>Email Address</mat-label>
-                  <input formControlName="email" matInput placeholder="Enter email address" />
+                  <mat-label>Username</mat-label>
+                  <input formControlName="username" matInput placeholder="Enter username" />
                   <mat-icon matSuffix>perm_identity</mat-icon>
                 </mat-form-field>
               </div>
@@ -48,11 +48,9 @@
               </div>
               <div class="text-center">
                 <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary btn-lg">Login
-                  <span
-                    class="spinner-border spinner-border-sm"
-                    role="status"
-                    *ngIf="isLoading"                 
-                  ></span>
+                  <div class=" spinner-border spinner-border-sm" role="status" *ngIf="isLoading">
+                    <span class="sr-only">Loading...</span>
+                  </div>
                 </button>              
               </div>
             </form>

@@ -19,16 +19,17 @@ export class AccountService {
     // console.log(a);
     // console.log(environment.apiUrl)
     if(localStorage.getItem('token') != null
-      || localStorage.getItem('name') != null
-      || localStorage.getItem('email') != null)
+      || localStorage.getItem('email') != null
+      || localStorage.getItem('username') != null
+      )
     {
       const token = localStorage.getItem('token').toString();
-      const name = localStorage.getItem('name').toString();
-      const email = localStorage.getItem('email').toString();
+      const email = localStorage.getItem('email');
+      const username = localStorage.getItem('username');
       const user = {
         email: email,
-        displayName: name,
-        token: token
+        token: token,
+        username: username
       }
 
       this.currentUserSource = new BehaviorSubject<User>(user);
@@ -51,8 +52,8 @@ export class AccountService {
     return this.http.post(this.loginUrl + 'account/Login' ,values).pipe(
       map((user:User) =>{
         if(user){
-          localStorage.setItem('name', user.displayName);
           localStorage.setItem('email', user.email);
+          localStorage.setItem('username', user.username);
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
         }
@@ -62,8 +63,8 @@ export class AccountService {
 
   logout(){
     localStorage.removeItem('token');
-    localStorage.removeItem('name');
     localStorage.removeItem('email');
+    localStorage.removeItem('username');
     this.currentUserSource.next(null);
     this.router.navigateByUrl('/');
   }

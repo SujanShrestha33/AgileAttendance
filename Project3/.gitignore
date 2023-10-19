@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/angular,visualstudio,visualstudiocode,dotnetcore
-# Edit at https://www.toptal.com/developers/gitignore?templates=angular,visualstudio,visualstudiocode,dotnetcore
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,dotnetcore,angular
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,visualstudiocode,dotnetcore,angular
 
 ### Angular ###
 ## Angular ##
@@ -454,4 +454,4 @@ FodyWeavers.xsd
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
-# End of https://www.toptal.com/developers/gitignore/api/angular,visualstudio,visualstudiocode,dotnetcore
+# End of https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,dotnetcore,angular

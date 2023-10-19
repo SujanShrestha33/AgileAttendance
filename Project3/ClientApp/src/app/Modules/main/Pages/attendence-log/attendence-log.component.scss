@@ -36,14 +36,13 @@ input:focus {
 }
 
 .filter-input-date{
-  width:98%;
-  margin-right:10%;
+  width:100%;
   padding: 8px;
 }
 
-.select-status{
-  outline: none !important;
-  width: 100%;
+.select-status {   
+  padding: 0; 
+  min-width:100%;
 }
 
 .select-status:focus, .form-control:focus{

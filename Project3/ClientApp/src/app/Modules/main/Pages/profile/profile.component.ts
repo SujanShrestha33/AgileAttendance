@@ -17,8 +17,8 @@ export class ProfileComponent implements OnInit{
   // facheck = faCheck;
   // faedit = faEdit;
   // fax = faX;
-  currentName : string;
   currentEmail : string;
+  currentUsername : string;
   isEditable : boolean = false;
   isPassEdit : boolean = false;
   isEditablePass : boolean = false;
@@ -38,31 +38,32 @@ export class ProfileComponent implements OnInit{
     const currentUser = this.authService.currentUserSource.subscribe(res => {
       console.log(res);
       if(res != null){
-        this.currentName = res.displayName;
         this.currentEmail = res.email;
+        this.currentUsername = res.username;
       }
     })
-    console.log(this.currentEmail, this.currentName);
+    console.log(this.currentUsername, this.currentEmail);
   }
   toggleEdit(){
     this.isEditable = !this.isEditable;
   }
   submitEdit(){
     var funBody = {
-      "Email": this.currentEmail,
-      "DisplayName": this.currentName
+      "UserName": this.currentUsername,
+      "Email": this.currentEmail
     }
     console.log(funBody);
     this.profileService.updateProfile(funBody)
       .subscribe(res => {
         console.log(res);
         this.isEditable = false;
-        this.toastr.success("Update Successfull");
+        this.toastr.success("Update Successful");
       }, error => {
         console.log(error);
       })
     this.getValue();
   }
+
   toggleEditPassword(){
     this.currentPassword = '';
     this.tempNewPass = '';

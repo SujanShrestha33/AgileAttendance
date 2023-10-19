@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginForm = this.fb.group({
-    email : ['', Validators.required],
+    username : ['', Validators.required],
     password : ['', Validators.required]
   })
 
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(["main/devices"])
     },error =>{
       console.log(error);
-      this.toastr.error('Invalid email or password, Please try again')
+      this.toastr.error('Invalid username or password, Please try again')
     })
     
   }

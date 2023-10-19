@@ -16,8 +16,8 @@
                 <input [disabled]="!isEditable" [(ngModel)]="currentEmail" type="email" id="email" class="form-control">
               </div>
               <div class="form-group my-3">
-                <label for="name">Name</label>
-                <input [disabled]="!isEditable" [(ngModel)]="currentName" type="text" id="name" class="form-control">
+                <label for="username">Username</label>
+                <input [disabled]="!isEditable" [(ngModel)]="currentUsername" type="text" id="name" class="form-control">
               </div>
               <div class="form-group d-flex justify-content-center">
                 <button *ngIf="!isEditable" (click)="toggleEdit()" class="btn btn-outline-dark btn-sm">

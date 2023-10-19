@@ -23,7 +23,7 @@
   <ng-container *ngIf="currentUser$ | async as user">
     <div class="dropdown ms-3 me-5" style="cursor: pointer;" dropdown>
         <a dropdownToggle class="dropdown-toggle" style="text-decoration: none;color:white">
-            <strong>Welcome {{user.displayName}}</strong>
+            <strong>Welcome {{user.username}}</strong>
         </a>
 
         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">

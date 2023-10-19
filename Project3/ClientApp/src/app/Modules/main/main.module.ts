@@ -12,7 +12,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 // import { NavbarComponent } from './Components/navbar/navbar.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBar, MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProfileComponent } from './Pages/profile/profile.component';
 import { MatFormFieldModule } from '@angular/material/form-field';

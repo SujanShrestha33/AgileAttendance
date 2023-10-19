@@ -169,10 +169,12 @@
           <tbody>
             <tr class="text-center" *ngFor="let item of filteredDeviceInfo; let i = index">
               <td>
-                <input type="checkbox" [(ngModel)]="item.isSelected">
+                <div class="form-control" style="border:none">
+                  <input type="checkbox" [(ngModel)]="item.isSelected">
+                </div>               
               </td>
               <td>
-                {{item.id}}
+                <div class="form-control" style="border:none">{{item.id}}</div>
               </td>
               <td>
                 <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.name">
@@ -187,10 +189,14 @@
                 <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.deviceId">
               </td>
               <td>
-                {{ item.isActive ? 'Active' : 'Inactive' }}
+                <div class="form-control" style="border:none">
+                    {{ item.isActive ? 'Active' : 'Inactive' }}
+                </div>
               </td>
               <td>
-                {{ item.lastSyncDate ? (item.lastSyncDate | date:'yyyy-MM-dd hh:mm:ss a') : 'N/A' }}
+                <div class="form-control" style="border:none">
+                  {{ item.lastSyncDate ? (item.lastSyncDate | date:'yyyy-MM-dd hh:mm:ss a') : 'N/A' }}
+                </div>     
               </td>
               <td style="width: 8%">
                 <i class="fabook"></i>
