@@ -34,6 +34,7 @@ namespace BiometricAttendanceSystem.Controllers
                              DeviceName = d.Name,
                              Username = u.Name,
                              InputDate = a.InputDate,
+                             InOutMode = a.InOutMode,
                              IsActive = d.IsActive,
                          }).Distinct();
 
@@ -156,6 +157,7 @@ namespace BiometricAttendanceSystem.Controllers
                                                          DeviceName = d.Name,
                                                          Username = u.Name,
                                                          InputDate = a.InputDate,
+                                                         InOutMode = a.InOutMode,
                                                          IsActive = d.IsActive,
                                                      });
 
@@ -203,6 +205,7 @@ namespace BiometricAttendanceSystem.Controllers
                              DeviceName = d.Name,
                              Username = u.Name,
                              InputDate = a.InputDate,
+                             InOutMode = a.InOutMode,
                              IsActive = d.IsActive,
                          }).ToListAsync();
 
@@ -272,6 +275,7 @@ namespace BiometricAttendanceSystem.Controllers
                         EnrollNumber = dwEnrollNumber,
                         InputDate = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond),
                         CreatedOn = DateTime.Now,
+                        InOutMode = dwInOutMode
                     });
                 }
             }

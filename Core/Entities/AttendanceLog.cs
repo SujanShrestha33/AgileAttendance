@@ -10,6 +10,7 @@ namespace Core.Entities
         public DateTime InputDate { get; set; }
         public DateTime CreatedOn { get; set; }
         public int DeviceId { get; set; }
+        public int? InOutMode { get; set; }
         
     }
 }
