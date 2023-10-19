@@ -168,7 +168,7 @@ export class AttendenceLogComponent implements OnInit {
     }
       this.attendanceService
         .filter(this.pageNumber, this.pageSize, this.deviceId,this.enrollNumber,this.userName,
-          this.deviceName,this.startDate,this.endDate,this.isActive)
+          this.deviceName,this.startDate,this.endDate,this.inOutMode,this.isActive)
         .subscribe((response: any) => {
           this.filteredLog = response.data;
           // console.log(this.filteredData);

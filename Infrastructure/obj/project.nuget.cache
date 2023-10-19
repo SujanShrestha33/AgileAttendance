@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XQhYr6Uw0OvRwrXazhl08OwvnGuefmNnIt85Pb/6nTA/FQ9ripCWqYOTnsKeuHOV4pq3HyV/kUqyeQ1AW/7VXA==",
+  "dgSpecHash": "Ddfy4OO6CTl0SzYmTuTbmyVDzGo1IFPlX3sGX6xX3fTlRXFjIOk3DZ04wKH2BTJBPntxzMpD3aUfLK8LJaZ+Zg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Dell\\source\\repos\\AgileAttendance\\Infrastructure\\Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\Dell\\Source\\Repos\\AgileAttendance\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

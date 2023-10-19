@@ -66,6 +66,7 @@ namespace BiometricAttendanceSystem.Controllers
                                                          DeviceName = d.Name,
                                                          Username = u.Name,
                                                          InputDate = a.InputDate,
+                                                         InOutMode = a.InOutMode,
                                                          IsActive = d.IsActive,
                                                      }).Distinct();
 
@@ -99,6 +100,11 @@ namespace BiometricAttendanceSystem.Controllers
             {
                 var endDate = filter.EndDate.Value.AddDays(1);
                 query = query.Where(a => a.InputDate <= endDate);
+            }
+
+            if (!string.IsNullOrEmpty(filter.InOutMode.ToString()))
+            {
+                query = query.Where(a => a.InOutMode == filter.InOutMode);
             }
 
             if (filter.IsActive.HasValue)
