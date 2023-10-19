@@ -11,5 +11,6 @@ namespace BiometricAttendanceSystem.ReturnDTOs
         public string Username { get; set; }
         public string DeviceName { get; set; }
         public bool? IsActive { get; set; }
+        public int? InOutMode { get; set; }
     }
 }

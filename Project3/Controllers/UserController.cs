@@ -121,6 +121,7 @@ namespace BiometricAttendanceSystem.Controllers
                           CreatedOn = a.CreatedOn,
                           DeviceName = d.Name,
                           Username = u.Name,
+                          InOutMode = a.InOutMode,
                           IsActive = d.IsActive
                       }).Distinct();        
 

@@ -19,6 +19,7 @@ export class AttendenceLogComponent implements OnInit {
   deviceName:any;
   startDate : any;
   endDate : any;
+  inOutMode: any;
   isActive:any;
 
   items = [
