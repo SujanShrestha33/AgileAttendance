@@ -30,3 +30,5 @@
 /Infrastructure/bin/Debug/net6.0/Core.dll
 /Core/obj/Debug/net6.0/Core.assets.cache
 /Core/obj/Debug/net6.0/Core.GeneratedMSBuildEditorConfig.editorconfig
+/Infrastructure/obj/Debug/net6.0/Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+*.cache
