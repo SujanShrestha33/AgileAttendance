@@ -46,3 +46,10 @@ input:not(:disabled) {
   margin-top: -0.125rem; /* Adjust vertical alignment if needed */
 }
 
+.spinner-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+

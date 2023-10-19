@@ -49,6 +49,8 @@ export class DeviceConfigComponent implements OnInit {
     deviceId: null,
     port: null,
   };
+
+  isLoading= false;
   smallSpinner : boolean = false;
 
   constructor(
@@ -60,10 +62,11 @@ export class DeviceConfigComponent implements OnInit {
     private router : Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
     this.getDeviceConfig();
   }
   getDeviceConfig() {
+    
     this.loading = true;
     // console.log('hello');
     this.deviceConfigService.getDeviceConfigs().subscribe(
@@ -71,6 +74,7 @@ export class DeviceConfigComponent implements OnInit {
         this.deviceInfo = res;
         this.filteredDeviceInfo = this.deviceInfo;
         this.loading = false;
+        this.isLoading = false;
         // console.log(this.deviceInfo);
       },
       (error) => {
