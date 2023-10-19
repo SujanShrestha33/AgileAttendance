@@ -248,7 +248,7 @@ namespace BiometricAttendanceSystem.Controllers
         {
             var attendanceLogs = new List<AttendanceLog>();
             var czkem = new CZKEM();
-
+         
             var isDeviceActive = czkem.Connect_Net(deviceConfig.Ipaddress, deviceConfig.Port);
             if (isDeviceActive)
             {
