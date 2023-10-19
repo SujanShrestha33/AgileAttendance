@@ -64,7 +64,7 @@ export class AttendanceService {
         params = params.set('endDate', endInputDate);
       }
       if(inOutMode){
-        params = params.set('inOutMode', deviceName.toString());
+        params = params.set('inOutMode', inOutMode.toString());
       }
       if(isActive){
         params = params.set('isActive', isActive.toString());
