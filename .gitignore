@@ -32,3 +32,15 @@
 /Core/obj/Debug/net6.0/Core.GeneratedMSBuildEditorConfig.editorconfig
 /Infrastructure/obj/Debug/net6.0/Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
 *.cache
+/Infrastructure/obj/Infrastructure.csproj.nuget.dgspec.json
+/Infrastructure/obj/project.assets.json
+/Infrastructure/obj/project.nuget.cache
+/Core/obj/Debug/net6.0/Core.assets.cache
+/.vs/ProjectEvaluation/biometricattendance.metadata.v7.bin
+/.vs/BiometricAttendance/v17/fileList.bin
+*.v2
+*.bin
+*.json
+/Core/obj/project.nuget.cache
+/Core/obj/Debug/net6.0/Core.GeneratedMSBuildEditorConfig.editorconfig
+/Core/obj/Core.csproj.nuget.dgspec.json
