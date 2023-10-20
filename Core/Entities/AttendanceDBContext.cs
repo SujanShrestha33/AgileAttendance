@@ -5,31 +5,31 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Core.Entities
 {
-    public partial class BiometricAttendanceReaderDBContext : DbContext
+    public partial class AttendanceDBContext : DbContext
     {
-        public BiometricAttendanceReaderDBContext()
+        public AttendanceDBContext()
         {
         }
 
-        public BiometricAttendanceReaderDBContext(DbContextOptions<BiometricAttendanceReaderDBContext> options)
+        public AttendanceDBContext(DbContextOptions<AttendanceDBContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<AttendanceLog> AttendanceLogs { get; set; }
-        public virtual DbSet<DeviceConfig> DeviceConfigs { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<RoleClaim> RoleClaims { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserClaim> UserClaims { get; set; }
-        public virtual DbSet<UserInfo> UserInfos { get; set; }
-        public virtual DbSet<UserLogin> UserLogins { get; set; }
-        public virtual DbSet<UserToken> UserTokens { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; } = null!;
+        public virtual DbSet<AttendanceLog> AttendanceLogs { get; set; } = null!;
+        public virtual DbSet<DeviceConfig> DeviceConfigs { get; set; } = null!;
+        public virtual DbSet<Role> Roles { get; set; } = null!;
+        public virtual DbSet<RoleClaim> RoleClaims { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserClaim> UserClaims { get; set; } = null!;
+        public virtual DbSet<UserInfo> UserInfos { get; set; } = null!;
+        public virtual DbSet<UserLogin> UserLogins { get; set; } = null!;
+        public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -76,36 +76,24 @@ namespace Core.Entities
 
                 entity.Property(e => e.DeviceId).HasColumnName("DeviceID");
 
-                entity.Property(e => e.EnrollNumber)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.EnrollNumber).HasMaxLength(50);
 
                 entity.Property(e => e.InputDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<DeviceConfig>(entity =>
             {
-                entity.HasIndex(e => e.DeviceId, "UQ_deviceID")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.DeviceId).HasColumnName("DeviceID");
 
                 entity.Property(e => e.Ipaddress)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("IPAddress");
 
-                entity.Property(e => e.IsActive)
-                    .IsRequired()
-                    .HasDefaultValueSql("((1))");
-
                 entity.Property(e => e.LastSyncDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Name).HasMaxLength(50);
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -125,8 +113,6 @@ namespace Core.Entities
             {
                 entity.HasIndex(e => e.RoleId, "IX_RoleClaims_RoleId");
 
-                entity.Property(e => e.RoleId).IsRequired();
-
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.RoleClaims)
                     .HasForeignKey(d => d.RoleId);
@@ -141,8 +127,6 @@ namespace Core.Entities
             {
                 entity.HasIndex(e => e.UserId, "IX_UserClaims_UserId");
 
-                entity.Property(e => e.UserId).IsRequired();
-
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserClaims)
                     .HasForeignKey(d => d.UserId);
@@ -152,15 +136,11 @@ namespace Core.Entities
             {
                 entity.ToTable("UserInfo");
 
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Enable).HasColumnName("enable");
-
                 entity.Property(e => e.EnrollNumber).HasMaxLength(50);
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name).HasMaxLength(100);
 
-                entity.Property(e => e.Password).HasMaxLength(50);
+                entity.Property(e => e.Password).HasMaxLength(100);
             });
 
             modelBuilder.Entity<UserLogin>(entity =>
@@ -168,8 +148,6 @@ namespace Core.Entities
                 entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
 
                 entity.HasIndex(e => e.UserId, "IX_UserLogins_UserId");
-
-                entity.Property(e => e.UserId).IsRequired();
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserLogins)
