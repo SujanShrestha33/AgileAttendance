@@ -118,7 +118,7 @@ export class AttendenceLogComponent implements OnInit {
         (response: any) => {
           this.attendanceLogs = response.data;
           this.filteredLog = this.attendanceLogs;
-          console.log(this.attendanceLogs);
+          // console.log(this.attendanceLogs);
           this.totalRecords = response.totalRecords;
           this.isLoading = false;
         },
@@ -131,7 +131,7 @@ export class AttendenceLogComponent implements OnInit {
   loadMultipleDeviceLog() {
     this.isLoading = true;
     // const body = [1, 2];
-    console.log(this.testIds, this.pageNumber, this.pageSize);
+    // console.log(this.testIds, this.pageNumber, this.pageSize);
     this.attendanceService
       .getMultipleDeviceLiveAttendance(this.selectedDeviceIds, this.pageNumber, this.pageSize)
       .subscribe((res) => {
@@ -173,9 +173,6 @@ export class AttendenceLogComponent implements OnInit {
     this.isLoading = true;
     this.filterBool = true;
 
-    console.log(this.deviceId, this.deviceName,this.enrollNumber,this.startDate, this.endDate,this.userName
-      , this.isActive);
-
     if(
         (this.deviceId == '' || this.deviceId == undefined) &&
         (this.deviceName == '' || this.deviceName == undefined ) &&
@@ -199,7 +196,7 @@ export class AttendenceLogComponent implements OnInit {
         this.deviceName,this.startDate,this.endDate,this.inOutMode,this.isActive)
         .subscribe((response: any) => {
           this.filteredLog = response.data;
-          console.log(this.filteredLog);
+          // console.log(this.filteredLog);
           this.totalRecords = response.totalRecords;
           this.isLoading = false;
         },
