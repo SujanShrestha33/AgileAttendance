@@ -140,7 +140,11 @@ export class AttendenceLogComponent implements OnInit {
         this.attendanceLogs = res.data;
         this.filteredLog = this.attendanceLogs;
         this.totalRecords = res.totalRecords;
-    this.isLoading = false;
+       
+        this.isLoading = false;
+        if(this.totalRecords == 0){
+          this.toastr.info('The device is Inactive');
+        }
 
       }, error => {
         console.log(error.error);

@@ -92,6 +92,8 @@
               <td *ngIf="log.inOutMode == 3">Break-In</td>
               <td *ngIf="log.inOutMode == 4">Overtime-In</td>
               <td *ngIf="log.inOutMode == 5">Overtime-Out</td>
+              <td *ngIf="log.inOutMode === null"></td>
+              
               <td [ngClass]="{'active': log.isActive, 'inactive': !log.isActive}">
                 {{ log.isActive ? 'Active' : 'Inactive' }}
               </td>
