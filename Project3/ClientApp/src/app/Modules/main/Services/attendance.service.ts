@@ -42,7 +42,10 @@ export class AttendanceService {
 
   filter(pageNumber: number, pageSize: number, deviceId:number, enrollNumber:string, userName:string,deviceName:string,startDate: Date, endDate:Date, inOutMode:string, isActive:string)
   : Observable<any> {
-    let params = new HttpParams();
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString()
+      );
       if(deviceId){
         params = params.set('deviceId', deviceId.toString());
       }

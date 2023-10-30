@@ -25,6 +25,7 @@ import { Router } from '@angular/router';
 })
 export class DeviceConfigComponent implements OnInit {
   loading: boolean;
+  // isActive: any;
   // coffee = faTrash;
   // faedit = faEdit;
   // faCheck = faCheck;
