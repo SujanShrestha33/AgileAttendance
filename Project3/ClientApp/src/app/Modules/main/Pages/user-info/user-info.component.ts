@@ -17,6 +17,7 @@ export class UserInfoComponent implements OnInit {
   selectedDeviceIds = [];
   pageNumber = 1;
   pageSize = 50;
+  totalRecords = 0;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -46,10 +47,11 @@ export class UserInfoComponent implements OnInit {
 
   getAllUsers(){
     this.isLoading = true;
-    this.userService.getUserInfo()
+    this.userService.getUserInfo(this.pageSize, this.pageNumber)
       .subscribe(res => {
         this.userInfo = res;
         this.filteredUserInfo = this.userInfo;
+        this.totalRecords = res.totalRecords;
         // console.log(res)
         // console.log(this.userInfo);
         this.isLoading = false;
@@ -60,7 +62,7 @@ export class UserInfoComponent implements OnInit {
 
   getAllUsersLive(){
     this.isLoading = true;
-    this.userService.getUserInfoLive()
+    this.userService.getUserInfoLive(this.pageSize, this.pageNumber)
       .subscribe(res => {
         this.userInfo = res.data;
         this.filteredUserInfo = this.userInfo;
@@ -100,5 +102,10 @@ export class UserInfoComponent implements OnInit {
     );
     // console.log(this.filteredUserInfo);
   }
- 
+
+  onPageChange(event: any): void {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+  }
+
 }

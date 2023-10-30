@@ -42,7 +42,6 @@ export class AttendenceLogComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.testIds = params['selectedDeviceIds'];
       if(this.testIds != undefined){
-
         if(this.testIds.length == 1){
           this.selectedDeviceIds = [...params['selectedDeviceIds']] ;
         }else{

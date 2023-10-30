@@ -12,12 +12,19 @@ export class UserServiceService {
 
   constructor(private http : HttpClient) { }
 
-  getUserInfo(){
-    return this.http.get<any>(`${this.userUrl}/GetUserInfo`)
+  getUserInfo(pageNumber: number, pageSize: number): Observable<any> {
+      const params = new HttpParams()
+        .set('pageNumber', pageNumber.toString())
+        .set('pageSize', pageSize.toString());
+    return this.http.get<any>(`${this.userUrl}/GetUserInfo`,{params})
    }
 
-  getUserInfoLive(){
-   return this.http.get<any>(`${this.userUrl}/GetUserInfoCZKEM`)
+  getUserInfoLive(
+    pageNumber: number, pageSize: number): Observable<any> {
+      const params = new HttpParams()
+        .set('pageNumber', pageNumber.toString())
+        .set('pageSize', pageSize.toString());
+   return this.http.get<any>(`${this.userUrl}/GetUserInfoCZKEM`,{params})
   }
 
   getMultipleDeviceUserInfo(body: any, pageNumber: number, pageSize: number): Observable<any> {

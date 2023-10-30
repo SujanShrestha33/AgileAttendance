@@ -16,10 +16,10 @@
         </div>
       </div>
 
-      <div style="height: 80vh; overflow: auto;">
+      <div style="height: 72vh; overflow: auto;">
         <table class="table table-bordered">
           <thead>
-            <tr class="table-secondary h-20">
+            <tr class="table-secondary ">
               <th scope="col">Device ID</th>
               <th scope="col">Enroll Number</th>
               <th scope="col">Username</th>
@@ -44,6 +44,14 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="row mt-2 d-flex justify-content-center">
+        <div class="col-md-6">
+          <mat-paginator [pageSizeOptions]="[50, 100, 500,1000]" [pageSize]="pageSize" [pageIndex]="pageNumber - 1"
+            [length]="totalRecords" (page)="onPageChange($event)"></mat-paginator>
+        </div>
       </div>
     </div>
   </div>

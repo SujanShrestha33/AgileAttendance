@@ -21,8 +21,10 @@ namespace BiometricAttendanceSystem.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfo()
+        public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfo([FromQuery] PaginationFilter filter)
         {
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
             var query = (from u in _db.UserInfos
                          join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId
                          select new DeviceUserInfo
@@ -31,9 +33,18 @@ namespace BiometricAttendanceSystem.Controllers
                              EnrollNumber = u.EnrollNumber,
                              DeviceName = d.Name,
                              UserName = u.Name
-                         }).ToListAsync();
+                         });
 
-            return Ok(await query);
+            // Apply pagination
+            var pagedData = await query
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToListAsync();
+
+            var totalRecords = await query.CountAsync(); ;
+            var pagedResponse = PaginationHelper.CreatePagedReponse<DeviceUserInfo>(pagedData, validFilter, totalRecords);
+            return Ok(pagedResponse);
+
         }
 
         [HttpGet]
