@@ -44,3 +44,4 @@
 /Core/obj/project.nuget.cache
 /Core/obj/Debug/net6.0/Core.GeneratedMSBuildEditorConfig.editorconfig
 /Core/obj/Core.csproj.nuget.dgspec.json
+/Infrastructure/Migrations
