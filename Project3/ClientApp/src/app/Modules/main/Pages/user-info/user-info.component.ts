@@ -22,8 +22,8 @@ export class UserInfoComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
         this.selectedDeviceIds = params['selectedDeviceIds'];
         this.type = params['type'];
-        console.log(this.type);     
-        console.log(this.selectedDeviceIds);
+        // console.log(this.type);     
+        // console.log(this.selectedDeviceIds);
       }
     );
     // throw new Error('Method not implemented.');
@@ -31,7 +31,7 @@ export class UserInfoComponent implements OnInit {
         this.getUsersInfoSelectedDeviceLive();
     }
     else if (this.type === 'live'){
-      console.log('live');
+      // console.log('live');
       this.getAllUsersLive();
     }
     else{
@@ -50,8 +50,8 @@ export class UserInfoComponent implements OnInit {
       .subscribe(res => {
         this.userInfo = res;
         this.filteredUserInfo = this.userInfo;
-        console.log(res)
-        console.log(this.userInfo);
+        // console.log(res)
+        // console.log(this.userInfo);
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -64,8 +64,8 @@ export class UserInfoComponent implements OnInit {
       .subscribe(res => {
         this.userInfo = res.data;
         this.filteredUserInfo = this.userInfo;
-        console.log(res)
-        console.log(this.filteredUserInfo);
+        // console.log(res)
+        // console.log(this.filteredUserInfo);
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -78,8 +78,8 @@ export class UserInfoComponent implements OnInit {
       .subscribe(res => {
         this.userInfo = res.data;
         this.filteredUserInfo = this.userInfo;
-        console.log(res)
-        console.log(this.filteredUserInfo);
+        // console.log(res)
+        // console.log(this.filteredUserInfo);
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -98,7 +98,7 @@ export class UserInfoComponent implements OnInit {
         item.enrollNumber.toLowerCase().includes(query) ||
         item.deviceId.toString().includes(query)
     );
-    console.log(this.filteredUserInfo);
+    // console.log(this.filteredUserInfo);
   }
  
 }

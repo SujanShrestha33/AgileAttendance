@@ -25,6 +25,7 @@ import { Router } from '@angular/router';
 })
 export class DeviceConfigComponent implements OnInit {
   loading: boolean;
+  // isActive: any;
   // coffee = faTrash;
   // faedit = faEdit;
   // faCheck = faCheck;
@@ -49,6 +50,8 @@ export class DeviceConfigComponent implements OnInit {
     deviceId: null,
     port: null,
   };
+
+  isLoading= false;
   smallSpinner : boolean = false;
 
   constructor(
@@ -60,17 +63,19 @@ export class DeviceConfigComponent implements OnInit {
     private router : Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
     this.getDeviceConfig();
   }
   getDeviceConfig() {
+    
     this.loading = true;
-    console.log('hello');
+    // console.log('hello');
     this.deviceConfigService.getDeviceConfigs().subscribe(
       (res: DeviceConfig[]) => {
         this.deviceInfo = res;
         this.filteredDeviceInfo = this.deviceInfo;
         this.loading = false;
+        this.isLoading = false;
         // console.log(this.deviceInfo);
       },
       (error) => {
@@ -94,7 +99,7 @@ export class DeviceConfigComponent implements OnInit {
         (item.isActive ? 'active' : 'inactive').includes(query) ||
         (item.lastSyncDate ? item.lastSyncDate.includes(query) : false)
     );
-    console.log(this.filteredDeviceInfo);
+    // console.log(this.filteredDeviceInfo);
   }
 
   edit(item) {
@@ -119,14 +124,14 @@ export class DeviceConfigComponent implements OnInit {
   }
 
   addDevice() {
-    console.log(this.deviceToAdd);
+    // console.log(this.deviceToAdd);
     if (
       this.deviceToAdd.ipaddress === '' ||
       this.deviceToAdd.name === '' ||
       this.deviceToAdd.port === null ||
       this.deviceToAdd.deviceId === null
     ) {
-      console.log('cancel');
+      // console.log('cancel');
       this.toastr.error('Please fill in all required fields.');
     } else {
 
@@ -167,12 +172,12 @@ export class DeviceConfigComponent implements OnInit {
       },
     ];
 
-    console.log(body);
+    // console.log(body);
 
     this.deviceConfigService.editDevice(id, body).subscribe(
       (res) => {
         this.editedDeviceConfig = res;
-        console.log(this.editedDeviceConfig);
+        // console.log(this.editedDeviceConfig);
         // console.log(this.isEditable);
         item.isEditable = false;
       },
@@ -183,10 +188,10 @@ export class DeviceConfigComponent implements OnInit {
   }
 
   delete(item) {
-    console.log(item);
+    // console.log(item);
     var id = item.deviceId;
     this.deviceConfigService.deleteDevice(id).subscribe((res) => {
-      console.log('success');
+      // console.log('success');
       this.getDeviceConfig();
       this.toastr.warning('Device Deleted Successfully');
     });
@@ -201,7 +206,7 @@ export class DeviceConfigComponent implements OnInit {
     this.deviceConfigService.fetchAllDevice()
       .subscribe(res => {
         this.smallSpinner = false;
-        console.log(res);
+        // console.log(res);
         this.getDeviceConfig();
       }, error => {
         this.smallSpinner = false;
@@ -226,10 +231,10 @@ export class DeviceConfigComponent implements OnInit {
 
     this.deviceConfigService.fetchMultipleDevice(selectedDeviceIds).subscribe(
       (liveStatusData) => {
-        console.log(selectedDeviceIds);
+        // console.log(selectedDeviceIds);
         // Handle the live status data, update the UI, or perform any necessary actions.
         this.getDeviceConfig();
-        console.log('Live Status Data:', liveStatusData);
+        // console.log('Live Status Data:', liveStatusData);
         this.toastr.success('Live status fetched successfully.');
     this.smallSpinner = false;
       },

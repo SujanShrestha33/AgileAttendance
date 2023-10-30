@@ -18,9 +18,9 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class DeviceConfigController : ControllerBase
     {
-        private readonly BiometricAttendanceReaderDBContext _db;
+        private readonly AttendanceDBContext _db;
 
-        public DeviceConfigController(BiometricAttendanceReaderDBContext db)
+        public DeviceConfigController(AttendanceDBContext db)
         {
             _db = db;
         }

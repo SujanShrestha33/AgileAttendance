@@ -13,8 +13,8 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class AttendancelogController : ControllerBase
     {
-        private static BiometricAttendanceReaderDBContext _db;
-        public AttendancelogController(BiometricAttendanceReaderDBContext db)
+        private static AttendanceDBContext _db;
+        public AttendancelogController(AttendanceDBContext db)
         {
             _db = db;
         }
@@ -34,6 +34,7 @@ namespace BiometricAttendanceSystem.Controllers
                              DeviceName = d.Name,
                              Username = u.Name,
                              InputDate = a.InputDate,
+                             InOutMode = a.InOutMode,
                              IsActive = d.IsActive,
                          }).Distinct();
 
@@ -65,6 +66,7 @@ namespace BiometricAttendanceSystem.Controllers
                                                          DeviceName = d.Name,
                                                          Username = u.Name,
                                                          InputDate = a.InputDate,
+                                                         InOutMode = a.InOutMode,
                                                          IsActive = d.IsActive,
                                                      }).Distinct();
 
@@ -98,6 +100,11 @@ namespace BiometricAttendanceSystem.Controllers
             {
                 var endDate = filter.EndDate.Value.AddDays(1);
                 query = query.Where(a => a.InputDate <= endDate);
+            }
+
+            if (!string.IsNullOrEmpty(filter.InOutMode.ToString()))
+            {
+                query = query.Where(a => a.InOutMode == filter.InOutMode);
             }
 
             if (filter.IsActive.HasValue)
@@ -156,6 +163,7 @@ namespace BiometricAttendanceSystem.Controllers
                                                          DeviceName = d.Name,
                                                          Username = u.Name,
                                                          InputDate = a.InputDate,
+                                                         InOutMode = a.InOutMode,
                                                          IsActive = d.IsActive,
                                                      });
 
@@ -203,6 +211,7 @@ namespace BiometricAttendanceSystem.Controllers
                              DeviceName = d.Name,
                              Username = u.Name,
                              InputDate = a.InputDate,
+                             InOutMode = a.InOutMode,
                              IsActive = d.IsActive,
                          }).ToListAsync();
 
@@ -248,7 +257,7 @@ namespace BiometricAttendanceSystem.Controllers
         {
             var attendanceLogs = new List<AttendanceLog>();
             var czkem = new CZKEM();
-
+         
             var isDeviceActive = czkem.Connect_Net(deviceConfig.Ipaddress, deviceConfig.Port);
             if (isDeviceActive)
             {
@@ -272,6 +281,7 @@ namespace BiometricAttendanceSystem.Controllers
                         EnrollNumber = dwEnrollNumber,
                         InputDate = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond),
                         CreatedOn = DateTime.Now,
+                        InOutMode = dwInOutMode
                     });
                 }
             }

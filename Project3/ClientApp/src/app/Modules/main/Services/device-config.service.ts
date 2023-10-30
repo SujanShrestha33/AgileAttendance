@@ -19,12 +19,12 @@ export class DeviceConfigService {
   }
 
   editDevice(id : number, body : any ){
-    console.log(id);
+    // console.log(id);
     return this.http.patch<DeviceConfig[]>(`${this.baseUrl}/EditDeviceConfig?id=${id}`, body);
   }
 
   deleteDevice(id : number){
-    console.log(id);
+    // console.log(id);
     return this.http.delete<any>(`${this.baseUrl}/RemoveDevice/?id=${id}`)
   }
 
@@ -37,7 +37,7 @@ export class DeviceConfigService {
   }
 
   fetchMultipleDevice(body : any){
-    console.log(body)
+    // console.log(body)
     return this.http.post<any>(`${this.baseUrl}/GetMultipleDevicesCZKEM`, body)
 
   }

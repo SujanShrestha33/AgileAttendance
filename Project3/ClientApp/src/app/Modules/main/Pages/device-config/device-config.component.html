@@ -156,7 +156,7 @@
           <thead>
             <tr class="table-secondary">
               <th scope="col">Select</th>
-              <th scope="col">ID</th>
+              <th scope="col">S.N.</th>
               <th scope="col">Device Address</th>
               <th scope="col">IP Address</th>
               <th scope="col">Port</th>
@@ -166,6 +166,7 @@
               <th scope="col">Actions</th>
             </tr>
           </thead>
+
           <tbody>
             <tr class="text-center" *ngFor="let item of filteredDeviceInfo; let i = index">
               <td>
@@ -174,7 +175,7 @@
                 </div>               
               </td>
               <td>
-                <div class="form-control" style="border:none">{{item.id}}</div>
+                <div class="form-control" style="border:none">{{i+1}}</div>
               </td>
               <td>
                 <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.name">
@@ -188,10 +189,20 @@
               <td>
                 <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.deviceId">
               </td>
-              <td>
-                <div class="form-control" style="border:none">
+              <td style="width:13%">
+                <div class="form-control" style="border:none;">
                     {{ item.isActive ? 'Active' : 'Inactive' }}
-                </div>
+                    <span *ngIf="item.isActive">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                        <circle cx="3" cy="7" r="3" fill="green" fill-opacity="1.0"/>
+                      </svg>
+                    </span>
+                    <span *ngIf="!item.isActive">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                        <circle cx="3" cy="7" r="3" fill="red" fill-opacity="1.0"/>
+                      </svg>
+                    </span>
+                </div>              
               </td>
               <td>
                 <div class="form-control" style="border:none">

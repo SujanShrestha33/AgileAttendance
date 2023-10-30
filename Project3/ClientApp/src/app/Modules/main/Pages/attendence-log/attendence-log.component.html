@@ -21,6 +21,7 @@
               <th scope="col">Device Address</th>
               <th scope="col">Input Date</th>
               <th scope="col">Device Status</th>
+              <th scope="col">In/Out Mode</th>
             </tr>
             <tr>
               <th scope="col">
@@ -35,7 +36,7 @@
               <th scope="col">
                 <input class="filter-input" [(ngModel)]="deviceName" type="text" placeholder="Device Name" (input)="filterTable()"/>
               </th>
-
+             
               <th scope="col">
                 <tr class="d-flex justify-content-between" >
                   <th>
@@ -48,7 +49,7 @@
                   </th>
                 </tr>
               </th>
-
+              
               <th scope="col" style="width:15%">   
                 <div class="form-control" style="border:none;">
                   <ng-select class="select-status"
@@ -60,6 +61,9 @@
                       </ng-option>
                   </ng-select>
                 </div>                           
+              </th>
+              <th scope="col">
+                <!-- <input class="filter-input" [(ngModel)]="inOutMode" type="text" placeholder="InOutMode" (input)="filterTable()"/> -->
               </th>
             </tr>
           </thead>
@@ -83,9 +87,18 @@
               <td>{{ log.username }}</td>
               <td>{{ log.deviceName }}</td>
               <td>{{ log.inputDate | date:'yyyy-MM-dd hh:mm:ss a' }}</td>
+
               <td [ngClass]="{'active': log.isActive, 'inactive': !log.isActive}">
                 {{ log.isActive ? 'Active' : 'Inactive' }}
               </td>
+
+              <td *ngIf="log.inOutMode == 0">Check-In</td>
+              <td *ngIf="log.inOutMode == 1">Check-Out</td>
+              <td *ngIf="log.inOutMode == 2">Break-Out</td>
+              <td *ngIf="log.inOutMode == 3">Break-In</td>
+              <td *ngIf="log.inOutMode == 4">Overtime-In</td>
+              <td *ngIf="log.inOutMode == 5">Overtime-Out</td>
+                                     
             </tr>
           </tbody>
         </table>

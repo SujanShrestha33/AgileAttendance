@@ -36,13 +36,13 @@ export class ProfileComponent implements OnInit{
   ){ }
   getValue(){
     const currentUser = this.authService.currentUserSource.subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if(res != null){
         this.currentEmail = res.email;
         this.currentUsername = res.username;
       }
     })
-    console.log(this.currentUsername, this.currentEmail);
+    // console.log(this.currentUsername, this.currentEmail);
   }
   toggleEdit(){
     this.isEditable = !this.isEditable;
@@ -52,14 +52,14 @@ export class ProfileComponent implements OnInit{
       "UserName": this.currentUsername,
       "Email": this.currentEmail
     }
-    console.log(funBody);
+    // console.log(funBody);
     this.profileService.updateProfile(funBody)
       .subscribe(res => {
-        console.log(res);
+        // console.log(res);
         this.isEditable = false;
         this.toastr.success("Update Successful");
       }, error => {
-        console.log(error);
+        // console.log(error);
       })
     this.getValue();
   }
@@ -84,11 +84,11 @@ export class ProfileComponent implements OnInit{
     }else{
       this.profileService.changePassword(funBody)
         .subscribe((res) => {
-          console.log(res);
+          // console.log(res);
           this.toggleEditPassword();
           this.toastr.success("Password Changed Successfully");
         }, error => {
-          console.log(error);
+          // console.log(error);
           this.toastr.error(error.error.message);
         })
     }

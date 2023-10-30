@@ -10,5 +10,6 @@ namespace BiometricAttendanceSystem.ReturnDTOs
         public string Username { get; set; }
         public DateTime InputDate { get; set; }
         public bool? IsActive { get; set; }
+        public int? InOutMode { get; set; }
     }
 }

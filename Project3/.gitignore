@@ -16,6 +16,9 @@ bower_components/
 # IDEs and editors
 .idea/
 
+/BiometricAttendanceSystem/ClientApp/.angular/cache/16.2.2/angular-webpack/6742ee0bac191b28a9e78fcc9f0ff640ea06f278
+/BiometricAttendanceSystem/ClientApp/.angular/cache/16.2.2/babel-webpack
+
 # misc
 .sass-cache/
 connect.lock/
