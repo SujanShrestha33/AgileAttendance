@@ -36,9 +36,10 @@ namespace BiometricAttendanceSystem.Controllers
                              InputDate = a.InputDate,
                              InOutMode = a.InOutMode,
                              IsActive = d.IsActive,
-                         }).Distinct();
+                         });
 
             var pagedData = await query
+                .Distinct()
                 .OrderByDescending(x => x.InputDate)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
@@ -68,7 +69,7 @@ namespace BiometricAttendanceSystem.Controllers
                                                          InputDate = a.InputDate,
                                                          InOutMode = a.InOutMode,
                                                          IsActive = d.IsActive,
-                                                     }).Distinct();
+                                                     });
 
             var query = userAttendanceLogOfMultipleDevice.AsQueryable();
 
@@ -115,6 +116,7 @@ namespace BiometricAttendanceSystem.Controllers
             // Execute the query and return the filtered results
             //Apply Pagination
             var pagedData = await query
+                .Distinct()
                 .OrderByDescending(x => x.InputDate)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
@@ -352,7 +354,6 @@ namespace BiometricAttendanceSystem.Controllers
                         _db.SaveChanges();
                     }
                 }
-
             }
             return _db.UserInfos.ToList();
         }
