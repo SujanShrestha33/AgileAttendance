@@ -12,11 +12,8 @@ export class UserServiceService {
 
   constructor(private http : HttpClient) { }
 
-  getUserInfo(pageNumber: number, pageSize: number): Observable<any> {
-      const params = new HttpParams()
-        .set('pageNumber', pageNumber.toString())
-        .set('pageSize', pageSize.toString());
-    return this.http.get<any>(`${this.userUrl}/GetUserInfo`,{params})
+  getUserInfo(){
+    return this.http.get<any>(`${this.userUrl}/GetUserInfo`)
    }
 
   getUserInfoLive(

@@ -47,13 +47,13 @@ export class UserInfoComponent implements OnInit {
 
   getAllUsers(){
     this.isLoading = true;
-    this.userService.getUserInfo(this.pageSize, this.pageNumber)
+    this.userService.getUserInfo()
       .subscribe(res => {
         this.userInfo = res;
         this.filteredUserInfo = this.userInfo;
         this.totalRecords = res.totalRecords;
         // console.log(res)
-        // console.log(this.userInfo);
+        console.log(this.userInfo);
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
