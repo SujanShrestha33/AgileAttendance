@@ -134,10 +134,11 @@ namespace BiometricAttendanceSystem.Controllers
                           Username = u.Name,
                           InOutMode = a.InOutMode,
                           IsActive = d.IsActive
-                      }).Distinct();        
+                      });        
 
             // Apply pagination
             var pagedData = await query
+                .Distinct()
                 .OrderByDescending(x => x.InputDate)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
