@@ -357,5 +357,7 @@ namespace BiometricAttendanceSystem.Controllers
             }
             return _db.UserInfos.ToList();
         }
+
+
     }
 }
