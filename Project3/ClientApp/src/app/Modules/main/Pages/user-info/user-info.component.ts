@@ -68,6 +68,7 @@ export class UserInfoComponent implements OnInit {
         this.filteredUserInfo = this.userInfo;
         // console.log(res)
         // console.log(this.filteredUserInfo);
+        this.totalRecords = res.totalRecords;
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -80,6 +81,7 @@ export class UserInfoComponent implements OnInit {
       .subscribe(res => {
         this.userInfo = res.data;
         this.filteredUserInfo = this.userInfo;
+        this.totalRecords = res.totalRecords;
         // console.log(res)
         // console.log(this.filteredUserInfo);
         this.isLoading = false;
