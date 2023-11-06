@@ -14,48 +14,10 @@ namespace BiometricAttendanceSystem.Controllers
     public class AttendancelogController : ControllerBase
     {
         private static AttendanceDBContext _db;
-        public zkemkeeper.CZKEMClass axCZKEM1 = new zkemkeeper.CZKEMClass();
-        private static int iMachineNumber = 1;
-        public int GetMachineNumber()
-        {
-            return iMachineNumber;
-        }
-
         public AttendancelogController(AttendanceDBContext db)
         {
             _db = db;
         }
-
-        //[HttpGet]
-        //public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
-        //{
-        //    var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-
-        //    var query = (from a in _db.AttendanceLogs
-        //                 join d in _db.DeviceConfigs on a.DeviceId equals d.DeviceId
-        //                 join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
-        //                 select new UserAttendanceLogByDeviceDetails
-        //                 {
-        //                     DeviceId = d.DeviceId,
-        //                     EnrollNumber = a.EnrollNumber,
-        //                     DeviceName = d.Name,
-        //                     Username = u.Name,
-        //                     InputDate = a.InputDate,
-        //                     InOutMode = a.InOutMode,
-        //                     IsActive = d.IsActive,
-        //                 });
-
-        //    var pagedData = await query
-        //        .Distinct()
-        //        .OrderByDescending(x => x.InputDate)
-        //        .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-        //        .Take(validFilter.PageSize)
-        //        .ToListAsync();
-
-        //    var totalRecords = await query.CountAsync(); ;
-        //    var pagedResponse = PaginationHelper.CreatePagedReponse<UserAttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
-        //    return Ok(pagedResponse);
-        //}
 
         [HttpGet("filter")]
         [Route("[action]")]
@@ -280,6 +242,8 @@ namespace BiometricAttendanceSystem.Controllers
                 int dwMinute = 0;
                 int dwSecond = 0;
                 int dwWorkCode = 0;
+
+                axCZKEM1
 
                 if (czkem.ReadGeneralLogData(deviceConfig.DeviceId))
                 {
