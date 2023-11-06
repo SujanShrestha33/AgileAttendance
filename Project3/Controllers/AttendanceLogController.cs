@@ -38,7 +38,7 @@ namespace BiometricAttendanceSystem.Controllers
                                                          InputDate = a.InputDate,
                                                          InOutMode = a.InOutMode,
                                                          IsActive = d.IsActive,
-                                                     });
+                                                     }).Distinct();
 
             var query = userAttendanceLogOfMultipleDevice.AsQueryable();
 
@@ -85,7 +85,7 @@ namespace BiometricAttendanceSystem.Controllers
             // Execute the query and return the filtered results
             //Apply Pagination
             var pagedData = await query
-                .Distinct()
+                
                 .OrderByDescending(x => x.InputDate)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
@@ -243,6 +243,7 @@ namespace BiometricAttendanceSystem.Controllers
                 int dwSecond = 0;
                 int dwWorkCode = 0;
 
+                
                 //out keyword is used to pass arguments as referens, Used when method returns multiple value
                 while (czkem.SSR_GetGeneralLogData(deviceConfig.DeviceId, out dwEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkCode))
                 {

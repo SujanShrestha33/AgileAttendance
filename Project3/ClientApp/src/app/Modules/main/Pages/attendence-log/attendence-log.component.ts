@@ -164,18 +164,17 @@ export class AttendenceLogComponent implements OnInit {
 
     if (this.testIds != undefined) {
       if(this.testIds.length == 1){
-
         this.loadMultipleDeviceLog();
       }
     } else {
       this.loadAttendanceLogs();
     }
     
-    // if (!this.filterBool) {
-    //   this.loadAttendanceLogs();
-    // } else {
-    //   this.filterTable();
-    // } 
+    if (!this.filterBool) {
+      this.loadAttendanceLogs();
+    } else {
+      this.filterTable();
+    } 
   }
 
   filterTable(){
@@ -205,8 +204,9 @@ export class AttendenceLogComponent implements OnInit {
         this.deviceName,this.startDate,this.endDate,this.inOutMode,this.isActive)
         .subscribe((response: any) => {
           this.filteredLog = response.data;
-          // console.log(this.filteredLog);
+          console.log(this.filteredLog);
           this.totalRecords = response.totalRecords;
+          console.log(this.totalRecords);
           this.isLoading = false;
         },
         error=>{
