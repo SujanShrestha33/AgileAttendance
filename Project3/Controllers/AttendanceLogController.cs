@@ -4,6 +4,7 @@ using BiometricAttendanceSystem.ReturnDTOs;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Data;
 using zkemkeeper;
 
@@ -188,6 +189,61 @@ namespace BiometricAttendanceSystem.Controllers
 
             return Ok(await query);
         }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult<IReadOnlyList<AttendanceLog>>> GetUpdatedAttendanceLogByTime([FromQuery] PaginationFilter filter)
+        {
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+            var fromTime = new DateTime(2023,11,01,12,12,12);
+            var toTime = new DateTime(2023,11,07,12,12,12);
+
+            List<DeviceConfig> deviceConfigs = GetDeviceConfigLIVE();
+
+            if (deviceConfigs.Count > 0)
+            {
+                foreach (var deviceConfig in deviceConfigs)
+                {
+                    var attendanceLogs = GetAttendanceLogsCZKEMByTimeRange(deviceConfig, fromTime.ToString(), toTime.ToString());
+                    if (attendanceLogs.Count > 0)
+                    {
+                        if (deviceConfig.LastSyncDate.HasValue)
+                        {
+                            deviceConfig.LastSyncDate = deviceConfig.LastSyncDate.Value.AddDays(-7);
+                        }
+                        UpdateAttendanceLogs(deviceConfig.Name, attendanceLogs, deviceConfig.Ipaddress, deviceConfig.Port, deviceConfig.LastSyncDate);
+                    }
+                }
+            }
+
+            //inner join of DeviceConfig, UserInfo and AttendanceLog
+            var query = (from a in _db.AttendanceLogs
+                         join d in _db.DeviceConfigs on a.DeviceId equals d.DeviceId
+                         join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
+
+                         select new UserAttendanceLogByDeviceDetails
+                         {
+                             DeviceId = d.DeviceId,
+                             EnrollNumber = a.EnrollNumber,
+                             DeviceName = d.Name,
+                             Username = u.Name,
+                             InputDate = a.InputDate,
+                             InOutMode = a.InOutMode,
+                             IsActive = d.IsActive,
+                         }).Distinct();
+
+            var pagedData = await query
+                .OrderByDescending(x => x.InputDate)
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToListAsync();
+
+            var totalRecords = await query.CountAsync(); ;
+            var pagedResponse = PaginationHelper.CreatePagedReponse<UserAttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
+            return Ok(pagedResponse);
+        }
+
         static private int UpdateAttendanceLogs(string deviceName, List<AttendanceLog> attendanceLogs, string ipAddress, int port, DateTime? syncedDate)
         {
             int rowsCount = 0;
@@ -228,6 +284,44 @@ namespace BiometricAttendanceSystem.Controllers
         {
             var attendanceLogs = new List<AttendanceLog>();
             var czkem = new CZKEM();
+
+            var isDeviceActive = czkem.Connect_Net(deviceConfig.Ipaddress, deviceConfig.Port);
+            if (isDeviceActive)
+            {
+                string dwEnrollNumber = "";
+                int dwVerifyMode = 0;
+                int dwInOutMode = 0;
+                int dwYear = 0;
+                int dwMonth = 0;
+                int dwDay = 0;
+                int dwHour = 0;
+                int dwMinute = 0;
+                int dwSecond = 0;
+                int dwWorkCode = 0;
+
+
+                //czkem.ReadTimeGLogData(deviceConfig.DeviceId, string sTime, string eTime);
+                //out keyword is used to pass arguments as referens, Used when method returns multiple value
+                while (czkem.SSR_GetGeneralLogData(deviceConfig.DeviceId, out dwEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkCode))
+                {
+                    attendanceLogs.Add(new AttendanceLog
+                    {
+                        DeviceId = deviceConfig.DeviceId,
+                        EnrollNumber = dwEnrollNumber,
+                        InputDate = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond),
+                        CreatedOn = DateTime.Now,
+                        InOutMode = dwInOutMode
+                    });
+                }
+            }
+
+            return attendanceLogs;
+        }
+
+        public List<AttendanceLog> GetAttendanceLogsCZKEMByTimeRange(DeviceConfig deviceConfig, string fromTime, string toTime)
+        {
+            var attendanceLogs = new List<AttendanceLog>();
+            var czkem = new CZKEM();
          
             var isDeviceActive = czkem.Connect_Net(deviceConfig.Ipaddress, deviceConfig.Port);
             if (isDeviceActive)
@@ -242,19 +336,21 @@ namespace BiometricAttendanceSystem.Controllers
                 int dwMinute = 0;
                 int dwSecond = 0;
                 int dwWorkCode = 0;
-                       
-                
-                //out keyword is used to pass arguments as referens, Used when method returns multiple value
-                while (czkem.SSR_GetGeneralLogData(deviceConfig.DeviceId, out dwEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkCode))
+
+
+                if (czkem.ReadTimeGLogData(deviceConfig.DeviceId, fromTime, toTime))
                 {
-                    attendanceLogs.Add(new AttendanceLog
+                    while (czkem.SSR_GetGeneralLogData(deviceConfig.DeviceId, out dwEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkCode))
                     {
-                        DeviceId = deviceConfig.DeviceId,
-                        EnrollNumber = dwEnrollNumber,
-                        InputDate = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond),
-                        CreatedOn = DateTime.Now,
-                        InOutMode = dwInOutMode
-                    });
+                        attendanceLogs.Add(new AttendanceLog
+                        {
+                            DeviceId = deviceConfig.DeviceId,
+                            EnrollNumber = dwEnrollNumber,
+                            InputDate = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond),
+                            CreatedOn = DateTime.Now,
+                            InOutMode = dwInOutMode
+                        });
+                    }
                 }
             }
 
