@@ -64,3 +64,7 @@
 /Infrastructure/obj/Release/net6.0/Infrastructure.dll
 /Infrastructure/obj/Release/net6.0/Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
 /Infrastructure/obj/Release/net6.0/Infrastructure.pdb
+/Core/bin/Debug/net6.0/Core.deps.json
+/Core/obj/Debug/net6.0/Core.csproj.AssemblyReference.cache
+/Core/obj/Debug/net6.0/Core.csproj.FileListAbsolute.txt
+/Core/obj/project.assets.json
