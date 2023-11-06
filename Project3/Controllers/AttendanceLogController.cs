@@ -242,7 +242,7 @@ namespace BiometricAttendanceSystem.Controllers
                 int dwMinute = 0;
                 int dwSecond = 0;
                 int dwWorkCode = 0;
-
+                       
                 
                 //out keyword is used to pass arguments as referens, Used when method returns multiple value
                 while (czkem.SSR_GetGeneralLogData(deviceConfig.DeviceId, out dwEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkCode))
