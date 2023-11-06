@@ -135,9 +135,10 @@ export class AttendenceLogComponent implements OnInit {
       .getMultipleDeviceLiveAttendance(this.selectedDeviceIds, this.pageNumber, this.pageSize)
       .subscribe((res) => {
         // console.log('Multiple');
-        console.log(res);
+        // console.log(res);
         this.attendanceLogs = res.data;
         this.filteredLog = this.attendanceLogs;
+        console.log(this.filteredLog);
         this.totalRecords = res.totalRecords;
        
         this.isLoading = false;
@@ -154,18 +155,27 @@ export class AttendenceLogComponent implements OnInit {
   onPageSizeChange(): void {
     this.pageNumber = 1; // Reset to the first page when the page size changes.
     this.loadAttendanceLogs();
+   
   }
 
   onPageChange(event: any): void {
     this.pageNumber = event.pageIndex + 1;
     this.pageSize = event.pageSize;
 
-    if(!this.filterBool){
+    if (this.testIds != undefined) {
+      if(this.testIds.length == 1){
+
+        this.loadMultipleDeviceLog();
+      }
+    } else {
       this.loadAttendanceLogs();
-    }else{
-      this.filterTable();
     }
     
+    // if (!this.filterBool) {
+    //   this.loadAttendanceLogs();
+    // } else {
+    //   this.filterTable();
+    // } 
   }
 
   filterTable(){

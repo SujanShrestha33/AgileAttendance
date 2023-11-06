@@ -13,41 +13,10 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class AttendancelogController : ControllerBase
     {
-        private static AttendanceDBContext _db;
-        public AttendancelogController(AttendanceDBContext db)
+        private static BiometricAttendanceReaderDBContext _db;
+        public AttendancelogController(BiometricAttendanceReaderDBContext db)
         {
             _db = db;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
-        {
-            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-
-            var query = (from a in _db.AttendanceLogs
-                         join d in _db.DeviceConfigs on a.DeviceId equals d.DeviceId
-                         join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
-                         select new UserAttendanceLogByDeviceDetails
-                         {
-                             DeviceId = d.DeviceId,
-                             EnrollNumber = a.EnrollNumber,
-                             DeviceName = d.Name,
-                             Username = u.Name,
-                             InputDate = a.InputDate,
-                             InOutMode = a.InOutMode,
-                             IsActive = d.IsActive,
-                         });
-
-            var pagedData = await query
-                .Distinct()
-                .OrderByDescending(x => x.InputDate)
-                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-                .Take(validFilter.PageSize)
-                .ToListAsync();
-
-            var totalRecords = await query.CountAsync(); ;
-            var pagedResponse = PaginationHelper.CreatePagedReponse<UserAttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
-            return Ok(pagedResponse);
         }
 
         [HttpGet("filter")]
@@ -167,10 +136,10 @@ namespace BiometricAttendanceSystem.Controllers
                                                          InputDate = a.InputDate,
                                                          InOutMode = a.InOutMode,
                                                          IsActive = d.IsActive,
-                                                     });
+                                                     }).Distinct();
 
             var pagedData = await userAttendanceLogOfMultipleDevice
-                .Distinct()
+                
                 .OrderByDescending(x => x.InputDate)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)

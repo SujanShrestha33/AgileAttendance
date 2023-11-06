@@ -16,23 +16,16 @@ export class UserServiceService {
     return this.http.get<any>(`${this.userUrl}/GetUserInfo`)
    }
 
-  getUserInfoLive(
-    pageNumber: number, pageSize: number): Observable<any> {
-      const params = new HttpParams()
-        .set('pageNumber', pageNumber.toString())
-        .set('pageSize', pageSize.toString());
-   return this.http.get<any>(`${this.userUrl}/GetUserInfoCZKEM`,{params})
+  getUserInfoLive(): Observable<any> {
+      return this.http.get<any>(`${this.userUrl}/GetUserInfoCZKEM`)
   }
 
-  getMultipleDeviceUserInfo(body: any, pageNumber: number, pageSize: number): Observable<any> {
-    const params = new HttpParams()
-      .set('pageNumber', pageNumber.toString())
-      .set('pageSize', pageSize.toString());
-
+  getMultipleDeviceUserInfo(body: any): Observable<any> {
+   
     return this.http.post<any>(
       `${this.userUrl}/GetUserInfoOfMultipleDevicesCZKEM`,
       body, // Send the request body here
-      { params } // Send query parameters here
+       // Send query parameters here
     );
   }
 }

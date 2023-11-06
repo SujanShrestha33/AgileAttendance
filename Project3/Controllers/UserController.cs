@@ -13,8 +13,8 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        private static AttendanceDBContext _db;
-        public UserController(AttendanceDBContext db)
+        private static BiometricAttendanceReaderDBContext _db;
+        public UserController(BiometricAttendanceReaderDBContext db)
         {
             _db = db;
         }
@@ -134,11 +134,11 @@ namespace BiometricAttendanceSystem.Controllers
                           Username = u.Name,
                           InOutMode = a.InOutMode,
                           IsActive = d.IsActive
-                      });        
+                      }).Distinct();        
 
             // Apply pagination
             var pagedData = await query
-                .Distinct()
+                
                 .OrderByDescending(x => x.InputDate)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)

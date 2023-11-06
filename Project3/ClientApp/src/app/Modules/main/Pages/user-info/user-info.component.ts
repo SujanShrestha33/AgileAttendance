@@ -51,7 +51,7 @@ export class UserInfoComponent implements OnInit {
       .subscribe(res => {
         this.userInfo = res;
         this.filteredUserInfo = this.userInfo;
-        this.totalRecords = res.totalRecords;
+        // this.totalRecords = res.totalRecords;
         // console.log(res)
         console.log(this.userInfo);
         this.isLoading = false;
@@ -62,13 +62,13 @@ export class UserInfoComponent implements OnInit {
 
   getAllUsersLive(){
     this.isLoading = true;
-    this.userService.getUserInfoLive(this.pageSize, this.pageNumber)
+    this.userService.getUserInfoLive()
       .subscribe(res => {
         this.userInfo = res.data;
         this.filteredUserInfo = this.userInfo;
         // console.log(res)
-        // console.log(this.filteredUserInfo);
-        this.totalRecords = res.totalRecords;
+        console.log(this.filteredUserInfo);
+        // this.totalRecords = res.totalRecords;
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -77,13 +77,13 @@ export class UserInfoComponent implements OnInit {
 
   getUsersInfoSelectedDeviceLive(){
     this.isLoading = true;
-    this.userService.getMultipleDeviceUserInfo(this.selectedDeviceIds, this.pageNumber, this.pageSize)
+    this.userService.getMultipleDeviceUserInfo(this.selectedDeviceIds)
       .subscribe(res => {
         this.userInfo = res.data;
         this.filteredUserInfo = this.userInfo;
         // console.log(res)
-        // console.log(this.filteredUserInfo);
-        this.totalRecords = res.totalRecords;
+        console.log(this.filteredUserInfo);
+        // this.totalRecords = res.totalRecords;
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
