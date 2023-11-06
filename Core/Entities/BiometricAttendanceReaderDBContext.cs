@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Core.Entities
 {
-    public partial class AttendanceDBContext : DbContext
+    public partial class BiometricAttendanceReaderDBContext : DbContext
     {
-        public AttendanceDBContext()
+        public BiometricAttendanceReaderDBContext()
         {
         }
 
-        public AttendanceDBContext(DbContextOptions<AttendanceDBContext> options)
+        public BiometricAttendanceReaderDBContext(DbContextOptions<BiometricAttendanceReaderDBContext> options)
             : base(options)
         {
         }
@@ -29,7 +29,7 @@ namespace Core.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -83,6 +83,9 @@ namespace Core.Entities
 
             modelBuilder.Entity<DeviceConfig>(entity =>
             {
+                entity.HasIndex(e => e.DeviceId, "UQ_deviceID")
+                    .IsUnique();
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.DeviceId).HasColumnName("DeviceID");
@@ -90,6 +93,10 @@ namespace Core.Entities
                 entity.Property(e => e.Ipaddress)
                     .HasMaxLength(50)
                     .HasColumnName("IPAddress");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.LastSyncDate).HasColumnType("datetime");
 
@@ -136,11 +143,15 @@ namespace Core.Entities
             {
                 entity.ToTable("UserInfo");
 
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Enable).HasColumnName("enable");
+
                 entity.Property(e => e.EnrollNumber).HasMaxLength(50);
 
-                entity.Property(e => e.Name).HasMaxLength(100);
+                entity.Property(e => e.Name).HasMaxLength(50);
 
-                entity.Property(e => e.Password).HasMaxLength(100);
+                entity.Property(e => e.Password).HasMaxLength(50);
             });
 
             modelBuilder.Entity<UserLogin>(entity =>

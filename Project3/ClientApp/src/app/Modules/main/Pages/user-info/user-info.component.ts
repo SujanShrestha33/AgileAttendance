@@ -17,6 +17,7 @@ export class UserInfoComponent implements OnInit {
   selectedDeviceIds = [];
   pageNumber = 1;
   pageSize = 50;
+  totalRecords = 0;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -50,8 +51,9 @@ export class UserInfoComponent implements OnInit {
       .subscribe(res => {
         this.userInfo = res;
         this.filteredUserInfo = this.userInfo;
+        // this.totalRecords = res.totalRecords;
         // console.log(res)
-        // console.log(this.userInfo);
+        console.log(this.userInfo);
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -65,7 +67,8 @@ export class UserInfoComponent implements OnInit {
         this.userInfo = res.data;
         this.filteredUserInfo = this.userInfo;
         // console.log(res)
-        // console.log(this.filteredUserInfo);
+        console.log(this.filteredUserInfo);
+        // this.totalRecords = res.totalRecords;
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -74,12 +77,13 @@ export class UserInfoComponent implements OnInit {
 
   getUsersInfoSelectedDeviceLive(){
     this.isLoading = true;
-    this.userService.getMultipleDeviceUserInfo(this.selectedDeviceIds, this.pageNumber, this.pageSize)
+    this.userService.getMultipleDeviceUserInfo(this.selectedDeviceIds)
       .subscribe(res => {
         this.userInfo = res.data;
         this.filteredUserInfo = this.userInfo;
         // console.log(res)
-        // console.log(this.filteredUserInfo);
+        console.log(this.filteredUserInfo);
+        // this.totalRecords = res.totalRecords;
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -100,5 +104,10 @@ export class UserInfoComponent implements OnInit {
     );
     // console.log(this.filteredUserInfo);
   }
- 
+
+  onPageChange(event: any): void {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+  }
+
 }

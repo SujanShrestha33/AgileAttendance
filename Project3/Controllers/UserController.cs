@@ -13,16 +13,18 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        private static AttendanceDBContext _db;
-        public UserController(AttendanceDBContext db)
+        private static BiometricAttendanceReaderDBContext _db;
+        public UserController(BiometricAttendanceReaderDBContext db)
         {
             _db = db;
         }
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfo()
+        public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfo([FromQuery] PaginationFilter filter)
         {
+            //var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
             var query = (from u in _db.UserInfos
                          join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId
                          select new DeviceUserInfo
@@ -33,7 +35,16 @@ namespace BiometricAttendanceSystem.Controllers
                              UserName = u.Name
                          }).ToListAsync();
 
+            //// Apply pagination
+            //var pagedData = await query
+            //    .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+            //    .Take(validFilter.PageSize)
+            //    .ToListAsync();
+
+            //var totalRecords = await query.CountAsync(); ;
+            //var pagedResponse = PaginationHelper.CreatePagedReponse<DeviceUserInfo>(pagedData, validFilter, totalRecords);
             return Ok(await query);
+
         }
 
         [HttpGet]
@@ -127,6 +138,7 @@ namespace BiometricAttendanceSystem.Controllers
 
             // Apply pagination
             var pagedData = await query
+                
                 .OrderByDescending(x => x.InputDate)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
