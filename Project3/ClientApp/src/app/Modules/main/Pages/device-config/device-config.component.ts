@@ -17,6 +17,7 @@ import { AddDevice } from '../../Models/add-device';
 import { ToastrService } from 'ngx-toastr';
 import { AttendanceService } from '../../Services/attendance.service';
 import { Router } from '@angular/router';
+import { getBaseUrl } from 'src/main';
 
 @Component({
   selector: 'app-device-config',
@@ -50,6 +51,9 @@ export class DeviceConfigComponent implements OnInit {
     deviceId: null,
     port: null,
   };
+  
+  a = getBaseUrl();
+  private attUrl = `${this.a}attendancelog`;
 
   isLoading= false;
   smallSpinner : boolean = false;
@@ -65,6 +69,17 @@ export class DeviceConfigComponent implements OnInit {
 
   ngOnInit(): void { 
     this.getDeviceConfig();
+  }
+
+  GetAttendanceLogByTime(){
+    this.http.get<any>(`${this.attUrl}/GetUpdatedAttendanceLogByTime`).subscribe(
+    (response) => {
+        console.log(response);
+    },
+    error => {
+      console.log(error.error);
+    }
+    )
   }
   getDeviceConfig() {
     

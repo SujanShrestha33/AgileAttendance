@@ -192,12 +192,15 @@ namespace BiometricAttendanceSystem.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<IReadOnlyList<AttendanceLog>>> GetUpdatedAttendanceLogByTime([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IReadOnlyList<AttendanceLog>>> GetUpdatedAttendanceLogByTime(/*string fromTime,string toTime,*/ [FromQuery] PaginationFilter filter)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
-            var fromTime = new DateTime(2023,11,01,12,12,12);
-            var toTime = new DateTime(2023,11,07,12,12,12);
+            //DateTime fromDate = DateTime.Parse(fromTime);
+            //DateTime toDate = DateTime.Parse(toTime);
+
+            string fromTime = "2023-10-31 12:12:12";
+            string toTime = "2023-11-07 23:23:23";
 
             List<DeviceConfig> deviceConfigs = GetDeviceConfigLIVE();
 
@@ -205,7 +208,7 @@ namespace BiometricAttendanceSystem.Controllers
             {
                 foreach (var deviceConfig in deviceConfigs)
                 {
-                    var attendanceLogs = GetAttendanceLogsCZKEMByTimeRange(deviceConfig, fromTime.ToString(), toTime.ToString());
+                    var attendanceLogs = GetAttendanceLogsCZKEMByTimeRange(deviceConfig, fromTime, toTime);
                     if (attendanceLogs.Count > 0)
                     {
                         if (deviceConfig.LastSyncDate.HasValue)
@@ -217,11 +220,14 @@ namespace BiometricAttendanceSystem.Controllers
                 }
             }
 
+            DateTime fromDate = DateTime.Parse(fromTime);
+            DateTime toDate = DateTime.Parse(toTime);
+
             //inner join of DeviceConfig, UserInfo and AttendanceLog
             var query = (from a in _db.AttendanceLogs
                          join d in _db.DeviceConfigs on a.DeviceId equals d.DeviceId
                          join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
-
+                         where a.InputDate >= fromDate && a.InputDate <= toDate
                          select new UserAttendanceLogByDeviceDetails
                          {
                              DeviceId = d.DeviceId,
