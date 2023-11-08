@@ -196,61 +196,78 @@ namespace BiometricAttendanceSystem.Controllers
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
-            //DateTime fromDate = DateTime.Parse(fromTime);
-            //DateTime toDate = DateTime.Parse(toTime);
+            // DateTime fromDate = DateTime.Parse(fromTime);
+            // DateTime toDate = DateTime.Parse(toTime);
 
-            string fromTime = "2023-10-31 12:12:12";
-            string toTime = "2023-11-07 23:23:23";
+            // string fromTime = "2023-10-07 12:12:12";
+            // string toTime = "2023-11-07 23:23:23";
 
-            List<DeviceConfig> deviceConfigs = GetDeviceConfigLIVE();
+            List<DeviceConfig> deviceConfigs = _db.DeviceConfigs.ToList();
+            List<AttendanceLog> attendanceLogs = new List<AttendanceLog>();
 
-            if (deviceConfigs.Count > 0)
+            foreach (var deviceConfig in deviceConfigs)
             {
-                foreach (var deviceConfig in deviceConfigs)
-                {
-                    var attendanceLogs = GetAttendanceLogsCZKEMByTimeRange(deviceConfig, fromTime, toTime);
-                    if (attendanceLogs.Count > 0)
-                    {
-                        if (deviceConfig.LastSyncDate.HasValue)
-                        {
-                            deviceConfig.LastSyncDate = deviceConfig.LastSyncDate.Value.AddDays(-7);
-                        }
-                        UpdateAttendanceLogs(deviceConfig.Name, attendanceLogs, deviceConfig.Ipaddress, deviceConfig.Port, deviceConfig.LastSyncDate);
-                    }
-                }
-            }
+                attendanceLogs = GetAttendanceLogsCZKEMByTimeRange(deviceConfig);
 
-            DateTime fromDate = DateTime.Parse(fromTime);
-            DateTime toDate = DateTime.Parse(toTime);
+                var existingLogs = _db.AttendanceLogs.Where(log => log.DeviceId == deviceConfig.DeviceId);
+                _db.AttendanceLogs.RemoveRange(existingLogs);
+
+                _db.AttendanceLogs.AddRange(attendanceLogs);
+                
+            }
+            _db.SaveChanges();
+
+            // if (deviceConfigs.Count > 0)
+            // {
+            //    foreach (var deviceConfig in deviceConfigs)
+            //    {
+            //        attendanceLogs = GetAttendanceLogsCZKEMByTimeRange(/*deviceConfig,*/ fromTime, toTime);
+            //        if (attendanceLogs.Count > 0)
+            //        {
+            //            if (deviceConfig.LastSyncDate.HasValue)
+            //            {
+            //                deviceConfig.LastSyncDate = deviceConfig.LastSyncDate.Value.AddDays(-7);
+            //            }
+
+            //            UpdateAttendanceLogs(deviceConfig.Name, attendanceLogs, deviceConfig.Ipaddress, deviceConfig.Port, 						deviceConfig.LastSyncDate);
+            //        }
+            //    }
+            // }
+
+            // DateTime fromDate = DateTime.Parse(fromTime);
+            // DateTime toDate = DateTime.Parse(toTime);
 
             //inner join of DeviceConfig, UserInfo and AttendanceLog
-            var query = (from a in _db.AttendanceLogs
-                         join d in _db.DeviceConfigs on a.DeviceId equals d.DeviceId
-                         join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
-                         where a.InputDate >= fromDate && a.InputDate <= toDate
-                         select new UserAttendanceLogByDeviceDetails
-                         {
-                             DeviceId = d.DeviceId,
-                             EnrollNumber = a.EnrollNumber,
-                             DeviceName = d.Name,
-                             Username = u.Name,
-                             InputDate = a.InputDate,
-                             InOutMode = a.InOutMode,
-                             IsActive = d.IsActive,
-                         }).Distinct();
+            // var query = (from a in _db.AttendanceLogs
+            //              join d in _db.DeviceConfigs on a.DeviceId equals d.DeviceId
+            //              join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
 
-            var pagedData = await query
-                .OrderByDescending(x => x.InputDate)
-                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-                .Take(validFilter.PageSize)
-                .ToListAsync();
+            //              select new UserAttendanceLogByDeviceDetails
+            //              {
+            //                  DeviceId = d.DeviceId,
+            //                  EnrollNumber = a.EnrollNumber,
+            //                  DeviceName = d.Name,
+            //                  Username = u.Name,
+            //                  InputDate = a.InputDate,
+            //                  InOutMode = a.InOutMode,
+            //                  IsActive = d.IsActive,
+            //              }).Distinct();
 
-            var totalRecords = await query.CountAsync(); ;
-            var pagedResponse = PaginationHelper.CreatePagedReponse<UserAttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
-            return Ok(pagedResponse);
+            //var pagedData = await query
+            //   .OrderByDescending(x => x.InputDate)
+            //   .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+            //   .Take(validFilter.PageSize)
+            //   .ToListAsync();
+
+            //var totalRecords = await query.CountAsync(); ;
+            //var pagedResponse = PaginationHelper.CreatePagedReponse<UserAttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
+            //return Ok(pagedResponse);
+
+            return Ok(await _db.AttendanceLogs.ToListAsync());
+         
         }
 
-        static private int UpdateAttendanceLogs(string deviceName, List<AttendanceLog> attendanceLogs, string ipAddress, int port, DateTime? syncedDate)
+        static private int UpdateAttendanceLogs(string deviceName, List<AttendanceLog> attendanceLogs, string ipAddress, int port, 	DateTime? syncedDate)
         {
             int rowsCount = 0;
             List<AttendanceLog> attenLog;
@@ -291,6 +308,8 @@ namespace BiometricAttendanceSystem.Controllers
             var attendanceLogs = new List<AttendanceLog>();
             var czkem = new CZKEM();
 
+            
+
             var isDeviceActive = czkem.Connect_Net(deviceConfig.Ipaddress, deviceConfig.Port);
             if (isDeviceActive)
             {
@@ -324,7 +343,7 @@ namespace BiometricAttendanceSystem.Controllers
             return attendanceLogs;
         }
 
-        public List<AttendanceLog> GetAttendanceLogsCZKEMByTimeRange(DeviceConfig deviceConfig, string fromTime, string toTime)
+        public List<AttendanceLog> GetAttendanceLogsCZKEMByTimeRange(DeviceConfig deviceConfig)
         {
             var attendanceLogs = new List<AttendanceLog>();
             var czkem = new CZKEM();
@@ -343,25 +362,35 @@ namespace BiometricAttendanceSystem.Controllers
                 int dwSecond = 0;
                 int dwWorkCode = 0;
 
-
-                if (czkem.ReadTimeGLogData(deviceConfig.DeviceId, fromTime, toTime))
+                while (czkem.SSR_GetGeneralLogData(deviceConfig.DeviceId, out dwEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkCode))
                 {
-                    while (czkem.SSR_GetGeneralLogData(deviceConfig.DeviceId, out dwEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkCode))
+                    attendanceLogs.Add(new AttendanceLog
                     {
-                        attendanceLogs.Add(new AttendanceLog
-                        {
-                            DeviceId = deviceConfig.DeviceId,
-                            EnrollNumber = dwEnrollNumber,
-                            InputDate = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond),
-                            CreatedOn = DateTime.Now,
-                            InOutMode = dwInOutMode
-                        });
-                    }
+                        DeviceId = deviceConfig.DeviceId,
+                        EnrollNumber = dwEnrollNumber,
+                        InputDate = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond),
+                        CreatedOn = DateTime.Now,
+                        InOutMode = dwInOutMode
+                    });
                 }
+
+
+                //while (czkem.SSR_GetGeneralLogData(75, out dwEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkCode))
+                //{
+                //    attendanceLogs.Add(new AttendanceLog
+                //    {
+                //        DeviceId = 75,
+                //        EnrollNumber = dwEnrollNumber,
+                //        InputDate = new DateTime(dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond),
+                //        CreatedOn = DateTime.Now,
+                //        InOutMode = dwInOutMode
+                //    });
+                //}
             }
 
             return attendanceLogs;
         }
+
         public List<DeviceConfig> GetDeviceConfigLIVE()
         {
             var deviceDbData = _db.DeviceConfigs.ToList();
@@ -384,6 +413,7 @@ namespace BiometricAttendanceSystem.Controllers
             }
             return _db.DeviceConfigs.ToList();
         }
+
         public List<UserInfo> GetUserInfoLIVE()
         {
             var userInfo = new List<UserInfo>();

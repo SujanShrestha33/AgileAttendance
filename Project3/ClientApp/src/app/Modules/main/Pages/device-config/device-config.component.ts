@@ -72,6 +72,7 @@ export class DeviceConfigComponent implements OnInit {
   }
 
   GetAttendanceLogByTime(){
+    console.log("starting..");
     this.http.get<any>(`${this.attUrl}/GetUpdatedAttendanceLogByTime`).subscribe(
     (response) => {
         console.log(response);

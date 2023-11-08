@@ -148,5 +148,6 @@ namespace BiometricAttendanceSystem.Controllers
             return _db.DeviceConfigs.ToList();
         }
     
+        public 
     }
 }
