@@ -333,8 +333,8 @@ namespace BiometricAttendanceSystem.Controllers
                 int dwSecond = 0;
                 int dwWorkCode = 0;
 
-                if (!ShouldSkipDevice(deviceConfig.DeviceId))
-                {
+                //if (!ShouldSkipDevice(deviceConfig.DeviceId))
+                //{
                     while (czkem.SSR_GetGeneralLogData(deviceConfig.DeviceId, out dwEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkCode))
                     {
                         attendanceLogs.Add(new AttendanceLog
@@ -346,7 +346,7 @@ namespace BiometricAttendanceSystem.Controllers
                             InOutMode = dwInOutMode
                         });
                     }
-                }
+                //}
 
                 //while (czkem.SSR_GetGeneralLogData(75, out dwEnrollNumber, out dwVerifyMode, out dwInOutMode, out dwYear, out dwMonth, out dwDay, out dwHour, out dwMinute, out dwSecond, ref dwWorkCode))
                 //{
@@ -432,15 +432,15 @@ namespace BiometricAttendanceSystem.Controllers
             return _db.UserInfos.ToList();
         }
 
-        bool ShouldSkipDevice(int deviceId)
-        {
-            //List<int> deviceIdsToSkip = new List<int> {  };
-            List<int> deviceIdsToSkip = new List<int>
-            {
-             3, 13, 14, 15, 17, 19, 23, 24, 31, 32, 33, 34, 35, 36, 37, 38, 47,
-             83, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96
-            };
-            return deviceIdsToSkip.Contains(deviceId);
-        }
+        //bool ShouldSkipDevice(int deviceId)
+        //{
+        //    //List<int> deviceIdsToSkip = new List<int> {  };
+        //    List<int> deviceIdsToSkip = new List<int>
+        //    {
+        //     3, 13, 14, 15, 17, 19, 23, 24, 31, 32, 33, 34, 35, 36, 37, 38, 47,
+        //     83, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96
+        //    };
+        //    return deviceIdsToSkip.Contains(deviceId);
+        //}
     }
 }
