@@ -52,8 +52,10 @@ namespace BiometricAttendanceSystem.Controllers
         public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfoCZKEM([FromQuery] PaginationFilter filter)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+            List<DeviceConfig> deviceConfigs = new List<DeviceConfig>();
+            deviceConfigs = _db.DeviceConfigs.ToList();
 
-            GetUserInfoLIVE();
+            GetUserInfoLIVE(deviceConfigs);
 
             var query = (from u in _db.UserInfos
                          join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId
@@ -84,18 +86,13 @@ namespace BiometricAttendanceSystem.Controllers
             var deviceConfigs = _db.DeviceConfigs.Where(d => deviceIds.Contains(d.DeviceId)).ToList();
             if (deviceConfigs.Count > 0)
             {
-                foreach (var deviceConfig in deviceConfigs)
-                {
-                    var userInfo = GetUserInfoLIVE();
-                    if (userInfo.Count > 0)
-                    {
-                        UpdateUserInfo(userInfo,deviceConfig.DeviceId);
-                    }
-                }
+                    var userInfo = GetUserInfoLIVE(deviceConfigs);
+                
             }
 
             var query = (from u in _db.UserInfos
-                         join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId                       
+                         join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId
+                         where deviceIds.Contains(d.DeviceId)
                          select new DeviceUserInfo
                          {
                              DeviceId = d.DeviceId,
@@ -148,10 +145,10 @@ namespace BiometricAttendanceSystem.Controllers
             return Ok(pagedResponse);
         }
 
-        public List<UserInfo> GetUserInfoLIVE()
+        public List<UserInfo> GetUserInfoLIVE(List<DeviceConfig> deviceConfigs)
         {
             var userInfo = new List<UserInfo>();
-            var deviceConfigs = _db.DeviceConfigs.ToList();
+            
             var czkem = new CZKEM();
 
             foreach (var deviceConfig in deviceConfigs)
@@ -180,42 +177,13 @@ namespace BiometricAttendanceSystem.Controllers
                     });
                 }
 
-                var log = _db.UserInfos.ToList();
-                foreach (var user in userInfo)
-                {
-                    var existingUser = _db.UserInfos.FirstOrDefault(u => u.DeviceId == user.DeviceId && u.EnrollNumber == user.EnrollNumber);
-                    if (existingUser == null)
-                    {
-                        _db.UserInfos.Add(user);
-                        _db.SaveChanges();
-                    }
-                }
+                var existingUsers = _db.UserInfos.Where(x => x.DeviceId == deviceConfig.DeviceId);
+                _db.UserInfos.RemoveRange(existingUsers);
+                _db.UserInfos.AddRange(userInfo);
+                _db.SaveChanges();
             }
+           
             return _db.UserInfos.ToList();
         }
-        static private int UpdateUserInfo(List<UserInfo> userInfo, int deviceId)
-        {
-            int rowsCount = 0;
-            List<UserInfo> userInfos;
-           
-            //get all users of particular device
-            userInfos = userInfo.FindAll(x => x.DeviceId == deviceId);
-
-            foreach (var user in userInfos)
-            {          
-                //check if user exists in the database
-                bool userExists = _db.UserInfos.Any(u => u.EnrollNumber == user.EnrollNumber);
-
-                if (!userExists)
-                {        
-                    _db.UserInfos.Add(user);
-                    rowsCount++;
-                }
-            }
-
-            _db.SaveChanges();
-            return rowsCount;
-        }
-      
     }
 }

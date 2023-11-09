@@ -157,13 +157,13 @@ export class AttendenceLogComponent implements OnInit {
   onPageSizeChange(): void {
     this.pageNumber = 1; // Reset to the first page when the page size changes.
     this.loadAttendanceLogs();
-   
+
   }
 
   onPageChange(event: any): void {
     this.pageNumber = event.pageIndex + 1;
     this.pageSize = event.pageSize;
-    
+
     if (!this.filterBool) {
       if (this.testIds != undefined) {
         if (this.testIds.length == 1) {
@@ -174,7 +174,7 @@ export class AttendenceLogComponent implements OnInit {
       }
     } else {
       this.filterTable();
-    } 
+    }
   }
 
   filterTable(){
@@ -189,9 +189,9 @@ export class AttendenceLogComponent implements OnInit {
         (this.userName == '' || this.userName == undefined ) &&
         (this.startDate == '' || this.startDate == undefined ) &&
         (this.endDate == '' || this.deviceId == undefined ) &&
-        (this.isActive == '' || this.isActive == undefined ) 
-      ){       
-        this.loadAttendanceLogs();     
+        (this.isActive == '' || this.isActive == undefined )
+      ){
+        this.loadAttendanceLogs();
     }
     else{
       if(this.startDate > this.endDate){
