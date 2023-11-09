@@ -36,7 +36,9 @@ export class AttendenceLogComponent implements OnInit {
   type: string;
   isLoading = false; // Add this variable
   filterBool = false; //for paginated data
+  paginatedBool = false;
   testIds = [];
+  responseCount:any;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -78,7 +80,7 @@ export class AttendenceLogComponent implements OnInit {
     this.isLoading = true;
     this.attendanceService.getAllLiveAttendance().subscribe(
       (res) => {
-        // console.log(res);
+        console.log(res);
         this.loadAttendanceLogs();
         this.isLoading = false;
         // this.showProgressBar = false; // Hide the progress bar when API call is completed
@@ -129,22 +131,22 @@ export class AttendenceLogComponent implements OnInit {
 
   loadMultipleDeviceLog() {
     this.isLoading = true;
-    // const body = [1, 2];
-    // console.log(this.testIds, this.pageNumber, this.pageSize);
+    this.paginatedBool = true;
     this.attendanceService
-      .getMultipleDeviceLiveAttendance(this.selectedDeviceIds, this.pageNumber, this.pageSize)
+      .getMultipleDeviceLiveAttendance(this.selectedDeviceIds)
       .subscribe((res) => {
         // console.log('Multiple');
         // console.log(res);
-        this.attendanceLogs = res.data;
+        this.attendanceLogs = res;
+        console.log(res);
         this.filteredLog = this.attendanceLogs;
         console.log(this.filteredLog);
-        this.totalRecords = res.totalRecords;
-       
+        this.responseCount = res.length;
+        console.log(this.responseCount);
         this.isLoading = false;
-        if(this.totalRecords == 0){
-          this.toastr.info('The device is Inactive');
-        }
+        // if(this.totalRecords == 0){
+        //   this.toastr.info('The device is Inactive');
+        // }
 
       }, error => {
         console.log(error.error);
@@ -161,17 +163,15 @@ export class AttendenceLogComponent implements OnInit {
   onPageChange(event: any): void {
     this.pageNumber = event.pageIndex + 1;
     this.pageSize = event.pageSize;
-
-    if (this.testIds != undefined) {
-      if(this.testIds.length == 1){
-        this.loadMultipleDeviceLog();
-      }
-    } else {
-      this.loadAttendanceLogs();
-    }
     
     if (!this.filterBool) {
-      this.loadAttendanceLogs();
+      if (this.testIds != undefined) {
+        if (this.testIds.length == 1) {
+          this.loadMultipleDeviceLog();
+        }
+      } else {
+        this.loadAttendanceLogs();
+      }
     } else {
       this.filterTable();
     } 
@@ -180,6 +180,7 @@ export class AttendenceLogComponent implements OnInit {
   filterTable(){
     this.isLoading = true;
     this.filterBool = true;
+    this.paginatedBool = false;
 
     if(
         (this.deviceId == '' || this.deviceId == undefined) &&
@@ -189,7 +190,7 @@ export class AttendenceLogComponent implements OnInit {
         (this.startDate == '' || this.startDate == undefined ) &&
         (this.endDate == '' || this.deviceId == undefined ) &&
         (this.isActive == '' || this.isActive == undefined ) 
-      ){
+      ){       
         this.loadAttendanceLogs();     
     }
     else{
@@ -206,7 +207,7 @@ export class AttendenceLogComponent implements OnInit {
           this.filteredLog = response.data;
           console.log(this.filteredLog);
           this.totalRecords = response.totalRecords;
-          console.log(this.totalRecords);
+          // console.log(this.totalRecords);
           this.isLoading = false;
         },
         error=>{

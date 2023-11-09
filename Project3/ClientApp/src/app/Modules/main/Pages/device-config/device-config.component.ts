@@ -51,39 +51,42 @@ export class DeviceConfigComponent implements OnInit {
     deviceId: null,
     port: null,
   };
-  
+
   a = getBaseUrl();
   private attUrl = `${this.a}attendancelog`;
 
-  isLoading= false;
-  smallSpinner : boolean = false;
+  isLoading = false;
+  smallSpinner: boolean = false;
 
   constructor(
     private deviceConfigService: DeviceConfigService,
     private http: HttpClient,
     private modalService: BsModalService,
-    private toastr : ToastrService,
-    private attendanceService : AttendanceService,
-    private router : Router
+    private toastr: ToastrService,
+    private attendanceService: AttendanceService,
+    private router: Router
   ) {}
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.getDeviceConfig();
   }
 
-  GetAttendanceLogByTime(){
-    console.log("starting..");
-    this.http.get<any>(`${this.attUrl}/GetUpdatedAttendanceLogByTime`).subscribe(
-    (response) => {
-        console.log(response);
-    },
-    error => {
-      console.log(error.error);
-    }
-    )
+  GetAttendanceLogAtOnce() {
+    this.smallSpinner = true;
+    console.log('starting..');
+    
+    this.http.get<any>(`${this.attUrl}/GetUpdatedAttendanceLogNew`).subscribe(
+      (response) => {        
+        console.log(response);  
+        this.smallSpinner = false;   
+      },
+      (error) => {
+        console.log(error.error);
+        this.smallSpinner = false;
+      }
+    );
   }
   getDeviceConfig() {
-    
     this.loading = true;
     // console.log('hello');
     this.deviceConfigService.getDeviceConfigs().subscribe(
@@ -150,16 +153,18 @@ export class DeviceConfigComponent implements OnInit {
       // console.log('cancel');
       this.toastr.error('Please fill in all required fields.');
     } else {
-
-      this.deviceConfigService.addDevice(this.deviceToAdd).subscribe((res) => {
-        // console.log(res);
-        this.getDeviceConfig();
-        this.toggleAdd();
-        this.clearForm();
-        this.toastr.success('Device added successfully');
-      }, error => {
-        this.toastr.error("Device ID already exists");
-      });
+      this.deviceConfigService.addDevice(this.deviceToAdd).subscribe(
+        (res) => {
+          // console.log(res);
+          this.getDeviceConfig();
+          this.toggleAdd();
+          this.clearForm();
+          this.toastr.success('Device added successfully');
+        },
+        (error) => {
+          this.toastr.error('Device ID already exists');
+        }
+      );
     }
   }
 
@@ -217,16 +222,18 @@ export class DeviceConfigComponent implements OnInit {
     this.modalRef = this.modalService.show(template, this.config);
   }
 
-  fetchAllDevice(){
+  fetchAllDevice() {
     this.smallSpinner = true;
-    this.deviceConfigService.fetchAllDevice()
-      .subscribe(res => {
+    this.deviceConfigService.fetchAllDevice().subscribe(
+      (res) => {
         this.smallSpinner = false;
         // console.log(res);
         this.getDeviceConfig();
-      }, error => {
+      },
+      (error) => {
         this.smallSpinner = false;
-      })
+      }
+    );
   }
 
   anyDeviceSelected(): boolean {
@@ -252,24 +259,22 @@ export class DeviceConfigComponent implements OnInit {
         this.getDeviceConfig();
         // console.log('Live Status Data:', liveStatusData);
         this.toastr.success('Live status fetched successfully.');
-    this.smallSpinner = false;
+        this.smallSpinner = false;
       },
       (error) => {
         console.error('Error fetching live status:', error);
         this.toastr.error('Error fetching live status.');
-    this.smallSpinner = false;
+        this.smallSpinner = false;
       }
     );
   }
 
-  fetchAllAttendance(){
-    const param = "live"
-    this.router.navigate([
-          'main/logs'
-    ], {queryParams : {param}});
+  fetchAllAttendance() {
+    const param = 'live';
+    this.router.navigate(['main/logs'], { queryParams: { param } });
   }
 
-  fetchSelectedAttendence(){
+  fetchSelectedAttendence() {
     const selectedDevices = this.deviceInfo.filter((item) => item.isSelected);
     if (selectedDevices.length === 0) {
       this.toastr.warning('Select at least one device to fetch live status.');
@@ -279,18 +284,20 @@ export class DeviceConfigComponent implements OnInit {
     this.router.navigate(['main/logs'], { queryParams: { selectedDeviceIds } });
   }
 
-  navigateUser(){
+  navigateUser() {
     const type = 'live';
-    this.router.navigate(['main/users'], { queryParams: {type}});
+    this.router.navigate(['main/users'], { queryParams: { type } });
   }
 
-  fetchSelectedDeviceUsersInfo(){
+  fetchSelectedDeviceUsersInfo() {
     const selectedDevices = this.deviceInfo.filter((item) => item.isSelected);
     if (selectedDevices.length === 0) {
       this.toastr.warning('Select at least one device to fetch live status.');
       return;
     }
     const selectedDeviceIds = selectedDevices.map((item) => item.deviceId);
-    this.router.navigate(['main/users'], { queryParams: { selectedDeviceIds } });
+    this.router.navigate(['main/users'], {
+      queryParams: { selectedDeviceIds },
+    });
   }
 }

@@ -134,5 +134,7 @@ namespace BiometricAttendanceSystem.Controllers
             return Ok(new ApiResponse(200, "Password changed successfully"));
         }
 
+
+
     }
 }
