@@ -70,3 +70,8 @@
 /Core/obj/project.assets.json
 /Core/obj/Release/net6.0/Core.csproj.AssemblyReference.cache
 /Core/obj/Release/net6.0/Core.csproj.FileListAbsolute.txt
+/.vs/AgileAttendance/v17/.wsuo
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json
+/Core/obj/Core.csproj.nuget.g.props
+/Infrastructure/obj/Infrastructure.csproj.nuget.g.props
