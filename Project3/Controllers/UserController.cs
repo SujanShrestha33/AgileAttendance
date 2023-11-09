@@ -137,8 +137,7 @@ namespace BiometricAttendanceSystem.Controllers
                       }).Distinct();        
 
             // Apply pagination
-            var pagedData = await query
-                
+            var pagedData = await query              
                 .OrderByDescending(x => x.InputDate)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
@@ -194,7 +193,6 @@ namespace BiometricAttendanceSystem.Controllers
             }
             return _db.UserInfos.ToList();
         }
-
         static private int UpdateUserInfo(List<UserInfo> userInfo, int deviceId)
         {
             int rowsCount = 0;

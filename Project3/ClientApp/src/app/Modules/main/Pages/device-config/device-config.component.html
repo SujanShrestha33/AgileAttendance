@@ -97,8 +97,19 @@
               <Span>
                 Update User Info(Selected Device)
               </Span>
-            </button>
+            </button> 
           </div>
+
+          <!-- <div class="col-sm-2" >
+            <button class="btn btn-outline-dark btn-md sync-option" (click)="GetAttendanceLogAtOnce()">           
+              <span >
+                <i class="fa fa-refresh"></i>               
+              </span>            
+              <span>
+                Get All AttendanceLogs
+              </span>
+          </button>
+          </div> -->
         </div>
       </div>
       <div *ngIf="isAdding" class="row my-3" [ngClass]="{'fade-in': isAdding}">
@@ -156,7 +167,6 @@
           <thead>
             <tr class="table-secondary">
               <th scope="col">Select</th>
-              <th scope="col">S.N.</th>
               <th scope="col">Device Address</th>
               <th scope="col">IP Address</th>
               <th scope="col">Port</th>
@@ -173,10 +183,7 @@
                 <div class="form-control" style="border:none">
                   <input type="checkbox" [(ngModel)]="item.isSelected">
                 </div>               
-              </td>
-              <td>
-                <div class="form-control" style="border:none">{{i+1}}</div>
-              </td>
+              </td>            
               <td>
                 <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.name">
               </td>

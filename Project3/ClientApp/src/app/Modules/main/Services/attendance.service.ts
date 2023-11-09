@@ -24,19 +24,27 @@ export class AttendanceService {
   }
 
   getAllLiveAttendance(){
-    return this.http.get<any>(`${this.attUrl}/GetUpdatedAttendanceLog`)
+    return this.http.get<any>(`${this.attUrl}/GetUpdatedAttendanceLogNew`)
   }
 
-  getMultipleDeviceLiveAttendance(body: any, pageNumber: number, pageSize: number): Observable<any> {
-    // console.log(body);
-    const params = new HttpParams()
-      .set('pageNumber', pageNumber.toString())
-      .set('pageSize', pageSize.toString());
-      // console.log(params);
+  // getMultipleDeviceLiveAttendance(body: any, pageNumber: number, pageSize: number): Observable<any> {
+  //   // console.log(body);
+  //   const params = new HttpParams()
+  //     .set('pageNumber', pageNumber.toString())
+  //     .set('pageSize', pageSize.toString());
+  //     // console.log(params);
+  //   return this.http.post<any>(
+  //     `${this.attUrl}/GetUserAttendanceLogOfMultipleDevicesLIVE`,
+  //     body, // Send the request body here
+  //     { params } // Send query parameters here
+  //   );
+  // }
+
+  getMultipleDeviceLiveAttendance(body: any): Observable<any> {
     return this.http.post<any>(
       `${this.attUrl}/GetUserAttendanceLogOfMultipleDevicesLIVE`,
-      body, // Send the request body here
-      { params } // Send query parameters here
+      body // Send the request body here
+       // Send query parameters here
     );
   }
 

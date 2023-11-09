@@ -132,6 +132,7 @@ namespace BiometricAttendanceSystem.Controllers
 
             foreach (var item in deviceDbData)
             {
+         
                 var isDeviceActive = czkem.Connect_Net(item.Ipaddress, item.Port); //Connects to Biometric Devic using IP and Port             
                 var currentDevice = _db.DeviceConfigs.Find(item.Id);
 
@@ -146,7 +147,7 @@ namespace BiometricAttendanceSystem.Controllers
                 }
             }
             return _db.DeviceConfigs.ToList();
-        }
-    
+        }   
+
     }
 }
