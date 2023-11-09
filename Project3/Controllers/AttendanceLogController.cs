@@ -434,12 +434,12 @@ namespace BiometricAttendanceSystem.Controllers
 
         bool ShouldSkipDevice(int deviceId)
         {
-            List<int> deviceIdsToSkip = new List<int> {  };
-            //List<int> deviceIdsToSkip = new List<int>
-            //{
-            // 3, 13, 14, 15, 17, 19, 23, 24, 31, 32, 33, 34, 35, 36, 37, 38, 47,
-            // 83, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96
-            //};
+            //List<int> deviceIdsToSkip = new List<int> {  };
+            List<int> deviceIdsToSkip = new List<int>
+            {
+             3, 13, 14, 15, 17, 19, 23, 24, 31, 32, 33, 34, 35, 36, 37, 38, 47,
+             83, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96
+            };
             return deviceIdsToSkip.Contains(deviceId);
         }
     }
