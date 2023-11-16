@@ -14,8 +14,8 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class AttendancelogController : ControllerBase
     {
-        private static BiometricAttendanceReaderDBContext _db;
-        public AttendancelogController(BiometricAttendanceReaderDBContext db)
+        private static AttendanceDBContext _db;
+        public AttendancelogController(AttendanceDBContext db)
         {
             _db = db;
         }
@@ -30,7 +30,7 @@ namespace BiometricAttendanceSystem.Controllers
             var userAttendanceLogOfMultipleDevice = (from a in _db.AttendanceLogs
                                                      join d in _db.DeviceConfigs on a.DeviceId equals d.DeviceId
                                                      join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
-                                                     select new UserAttendanceLogByDeviceDetails
+                                                     select new UsersAttendanceLogByDeviceDetails
                                                      {
                                                          DeviceId = d.DeviceId,
                                                          EnrollNumber = a.EnrollNumber,
@@ -92,15 +92,15 @@ namespace BiometricAttendanceSystem.Controllers
                 .ToListAsync();
 
             var totalRecords = await query.CountAsync(); ;
-            var pagedResponse = PaginationHelper.CreatePagedReponse<UserAttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
+            var pagedResponse = PaginationHelper.CreatePagedReponse<UsersAttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
             return Ok(pagedResponse);
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<IReadOnlyList<AttendanceLog>>> GetUserAttendanceLogOfMultipleDevicesLIVE(List<int> deviceIds/*, [FromQuery] PaginationFilter filter*/)
+        public async Task<ActionResult<IReadOnlyList<AttendanceLog>>> GetUserAttendanceLogOfMultipleDevicesLIVE(List<int> deviceIds, [FromQuery] PaginationFilter filter)
         {
-            //var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
             var deviceConfigs = _db.DeviceConfigs.Where(d => deviceIds.Contains(d.DeviceId)).ToList();
           
@@ -112,25 +112,16 @@ namespace BiometricAttendanceSystem.Controllers
                     _db.AttendanceLogs.RemoveRange(existingLogs);
 
                     _db.AttendanceLogs.AddRange(attendanceLogs);
-                    //if (attendanceLogs.Count > 0)
-                    //{
-                    //    if (deviceConfig.LastSyncDate.HasValue)
-                    //    {
-                    //        deviceConfig.LastSyncDate = deviceConfig.LastSyncDate.Value.AddDays(-7);
-                    //    }
-                    //    UpdateAttendanceLogs(deviceConfig.Name, attendanceLogs, deviceConfig.Ipaddress, deviceConfig.Port, deviceConfig.LastSyncDate);
-                    //}
+                  
                 }
-                _db.SaveChanges();           
-
-            //GetUserInfoLIVE();
+                _db.SaveChanges();
 
             //inner join of DeviceConfig, UserInfo and AttendanceLog
-            var userAttendanceLogOfMultipleDevice = (from a in _db.AttendanceLogs
+            var query = (from a in _db.AttendanceLogs
                                                      join d in _db.DeviceConfigs on a.DeviceId equals d.DeviceId
                                                      join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
                                                      where deviceIds.Contains(d.DeviceId)
-                                                     select new UserAttendanceLogByDeviceDetails
+                                                     select new UsersAttendanceLogByDeviceDetails
                                                      {
                                                          DeviceId = d.DeviceId,
                                                          EnrollNumber = a.EnrollNumber,
@@ -141,15 +132,15 @@ namespace BiometricAttendanceSystem.Controllers
                                                          IsActive = d.IsActive,
                                                      }).Distinct();
 
-            var pagedData = await userAttendanceLogOfMultipleDevice               
+            var pagedData = await query
                 .OrderByDescending(x => x.InputDate)
-                //.Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-                //.Take(validFilter.PageSize)
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
                 .ToListAsync();
 
-            //var totalRecords = await userAttendanceLogOfMultipleDevice.CountAsync(); ;
-            //var pagedResponse = PaginationHelper.CreatePagedReponse<UserAttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
-            return Ok(pagedData);
+            var totalRecords = await query.CountAsync(); ;
+            var pagedResponse = PaginationHelper.CreatePagedReponse<UsersAttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
+            return Ok(query);
         }
 
         [HttpGet("getupdatedattendancelog")]
@@ -177,7 +168,7 @@ namespace BiometricAttendanceSystem.Controllers
             var query = (from a in _db.AttendanceLogs
                          join d in _db.DeviceConfigs on a.DeviceId equals d.DeviceId
                          join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
-                         select new UserAttendanceLogByDeviceDetails
+                         select new UsersAttendanceLogByDeviceDetails
                          {
                              DeviceId = d.DeviceId,
                              EnrollNumber = a.EnrollNumber,

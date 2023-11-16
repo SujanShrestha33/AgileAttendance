@@ -8,6 +8,7 @@ using Infrastructure.Services;
 //using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BiometricAttendanceSystem.Helper;
+using Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = "ClientApp/dist";
 });
-builder.Services.AddDbContext<BiometricAttendanceReaderDBContext>(options =>
+builder.Services.AddDbContext<AttendanceDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
@@ -37,6 +38,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<AppIdentityDbContext>()
     .AddDefaultTokenProviders();
 builder.Services.AppIdentityServices(builder.Configuration);
+builder.Services.AddScoped<AttendanceRepository>();
 
 var app = builder.Build();
 

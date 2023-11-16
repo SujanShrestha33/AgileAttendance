@@ -2,7 +2,7 @@
 
 namespace BiometricAttendanceSystem.ReturnDTOs
 {
-    public class UserAttendanceLogByDeviceDetails
+    public class UsersAttendanceLogByDeviceDetails
     {
         public int DeviceId { get; set; }
         public string EnrollNumber { get; set; }
