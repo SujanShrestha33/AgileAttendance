@@ -109,13 +109,15 @@ namespace BiometricAttendanceSystem.Controllers
           
                 foreach (var deviceConfig in deviceConfigs)
                 {
-                    var attendanceLogs = GetAttendanceLogsCZKEMAtOnce(deviceConfig);
-
-                    var existingLogs = _db.AttendanceLogs.Where(log => log.DeviceId == deviceConfig.DeviceId);
-                    _db.AttendanceLogs.RemoveRange(existingLogs);
-
-                    _db.AttendanceLogs.AddRange(attendanceLogs);
-                  
+                    var attendanceLogs = GetAttendanceLogsCZKEM(deviceConfig);
+                    if (attendanceLogs.Count > 0)
+                    {
+                        if (deviceConfig.LastSyncDate.HasValue)
+                        {
+                            deviceConfig.LastSyncDate = deviceConfig.LastSyncDate.Value.AddDays(-7);
+                        }
+                        UpdateAttendanceLogs(attendanceLogs, deviceConfig.DeviceId);
+                    }
                 }
                 _db.SaveChanges();
 
@@ -183,7 +185,7 @@ namespace BiometricAttendanceSystem.Controllers
                         {
                             deviceConfig.LastSyncDate = deviceConfig.LastSyncDate.Value.AddDays(-7);
                         }
-                        UpdateAttendanceLogs(deviceConfig.Name, attendanceLogs, deviceConfig.Ipaddress, deviceConfig.Port, deviceConfig.LastSyncDate);
+                        UpdateAttendanceLogs(attendanceLogs, deviceConfig.DeviceId);
                     }
                 }
             }
@@ -254,19 +256,10 @@ namespace BiometricAttendanceSystem.Controllers
 
         }
 
-        static private int UpdateAttendanceLogs(string deviceName, List<AttendanceLog> attendanceLogs, string ipAddress, int port, 	DateTime? syncedDate)
+        static private int UpdateAttendanceLogs(List<AttendanceLog> attendanceLogs, int deviceId)
         {
             int rowsCount = 0;
             List<AttendanceLog> attenLog;
-
-            if (syncedDate == null)
-            {
-                attenLog = attendanceLogs;
-            }
-            else
-            {
-                attenLog = attendanceLogs.FindAll(x => x.InputDate >= syncedDate);
-            }
 
             var lastCreatedDates = _db.AttendanceLogs
                                     .GroupBy(log => log.DeviceId)
@@ -277,14 +270,8 @@ namespace BiometricAttendanceSystem.Controllers
                                     })
                                     .ToDictionary(item => item.DeviceId, item => item.LastCreatedOn);
 
-            foreach (var newLog in attenLog)
-            {
-                if (!lastCreatedDates.TryGetValue(newLog.DeviceId, out var lastCreatedOn) || newLog.InputDate > lastCreatedOn)
-                {
-                    _db.AttendanceLogs.Add(newLog);
-                }
-                rowsCount++;
-            }
+            var forthisdevice = lastCreatedDates.TryGetValue(deviceId, out var lastCreatedOn);
+            var latestLogs = attendanceLogs.FindAll(log => log.InputDate >= lastCreatedOn);
 
             _db.SaveChanges();
 

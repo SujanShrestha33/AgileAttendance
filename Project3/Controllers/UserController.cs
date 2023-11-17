@@ -215,8 +215,7 @@ namespace BiometricAttendanceSystem.Controllers
 
             _db.SaveChanges();
             return rowsCount;
-        }
-        
+        }       
 
     }
 }
