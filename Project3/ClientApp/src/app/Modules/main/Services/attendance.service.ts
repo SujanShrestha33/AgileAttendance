@@ -24,7 +24,7 @@ export class AttendanceService {
   }
 
   getAllLiveAttendance(){
-    return this.http.get<any>(`${this.attUrl}/GetUpdatedAttendanceLogNew`)
+    return this.http.get<any>(`${this.attUrl}/GetUpdatedAttendanceLog`)
   }
 
   // getMultipleDeviceLiveAttendance(body: any, pageNumber: number, pageSize: number): Observable<any> {
@@ -40,10 +40,15 @@ export class AttendanceService {
   //   );
   // }
 
-  getMultipleDeviceLiveAttendance(body: any): Observable<any> {
-    return this.http.post<any>(
+  getMultipleDeviceLiveAttendance(deviceIds: any): Observable<any> {
+
+    let params = new HttpParams()
+    .set('deviceIds', deviceIds.toString());
+    
+    return this.http.get<any>(
+      
       `${this.attUrl}/GetUserAttendanceLogOfMultipleDevicesLIVE`,
-      body // Send the request body here
+      {params} // Send the request body here
        // Send query parameters here
     );
   }

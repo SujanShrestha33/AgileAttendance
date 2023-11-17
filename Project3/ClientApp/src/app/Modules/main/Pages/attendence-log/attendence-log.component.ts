@@ -80,7 +80,7 @@ export class AttendenceLogComponent implements OnInit {
     this.isLoading = true;
     this.attendanceService.getAllLiveAttendance().subscribe(
       (res) => {
-        console.log(res);
+        // console.log(res);
         this.loadAttendanceLogs();
         this.isLoading = false;
         // this.showProgressBar = false; // Hide the progress bar when API call is completed
@@ -119,7 +119,7 @@ export class AttendenceLogComponent implements OnInit {
         (response: any) => {
           this.attendanceLogs = response.data;
           this.filteredLog = this.attendanceLogs;
-          console.log(this.attendanceLogs);
+          // console.log(this.attendanceLogs);
           this.totalRecords = response.totalRecords;
           this.isLoading = false;
         },
@@ -137,16 +137,16 @@ export class AttendenceLogComponent implements OnInit {
       .subscribe((res) => {
         // console.log('Multiple');
         // console.log(res);
-        this.attendanceLogs = res;
-        console.log(res);
+        this.attendanceLogs = res.data;
+        // console.log(res);
         this.filteredLog = this.attendanceLogs;
-        console.log(this.filteredLog);
-        this.responseCount = res.length;
-        console.log(this.responseCount);
+        // console.log(this.filteredLog);
+        this.responseCount = res.totalRecords;
+        // console.log(this.responseCount);
         this.isLoading = false;
-        // if(this.totalRecords == 0){
-        //   this.toastr.info('The device is Inactive');
-        // }
+        if(this.totalRecords == 0){
+          this.toastr.info('The device is Inactive');
+        }
 
       }, error => {
         console.log(error.error);
@@ -205,7 +205,7 @@ export class AttendenceLogComponent implements OnInit {
         this.deviceName,this.startDate,this.endDate,this.inOutMode,this.isActive)
         .subscribe((response: any) => {
           this.filteredLog = response.data;
-          console.log(this.filteredLog);
+          // console.log(this.filteredLog);
           this.totalRecords = response.totalRecords;
           // console.log(this.totalRecords);
           this.isLoading = false;

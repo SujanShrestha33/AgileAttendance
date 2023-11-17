@@ -1,6 +1,7 @@
 ﻿using BiometricAttendanceSystem.Helper;
 using BiometricAttendanceSystem.Pagination;
 using BiometricAttendanceSystem.ReturnDTOs;
+using Core;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        private static BiometricAttendanceReaderDBContext _db;
-        public UserController(BiometricAttendanceReaderDBContext db)
+        private static AttendanceDBContext _db;
+        private readonly AttendanceRepository _repo;
+        public UserController(AttendanceDBContext db,AttendanceRepository repo)
         {
             _db = db;
+            _repo = repo;
         }
 
         [HttpGet]
@@ -59,15 +62,17 @@ namespace BiometricAttendanceSystem.Controllers
 
             var query = (from u in _db.UserInfos
                          join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId
-                         select new DeviceUserInfo { 
-                            DeviceId = d.DeviceId,
-                            EnrollNumber = u.EnrollNumber,
-                            DeviceName = d.Name,
-                            UserName = u.Name
+                         select new DeviceUserInfo
+                         {
+                             DeviceId = d.DeviceId,
+                             EnrollNumber = u.EnrollNumber,
+                             DeviceName = d.Name,
+                             UserName = u.Name
                          });
 
             // Apply pagination
             var pagedData = await query
+                .OrderByDescending(x => x.EnrollNumber)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToListAsync();
@@ -86,8 +91,7 @@ namespace BiometricAttendanceSystem.Controllers
             var deviceConfigs = _db.DeviceConfigs.Where(d => deviceIds.Contains(d.DeviceId)).ToList();
             if (deviceConfigs.Count > 0)
             {
-                    var userInfo = GetUserInfoLIVE(deviceConfigs);
-                
+                var userInfo = GetUserInfoLIVE(deviceConfigs);
             }
 
             var query = (from u in _db.UserInfos
@@ -103,6 +107,7 @@ namespace BiometricAttendanceSystem.Controllers
 
             // Apply pagination
             var pagedData = await query
+                .OrderByDescending(x => x.EnrollNumber)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToListAsync();
@@ -118,37 +123,29 @@ namespace BiometricAttendanceSystem.Controllers
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
-            var query = (from d in _db.DeviceConfigs
-                      join a in _db.AttendanceLogs on d.DeviceId equals a.DeviceId
-                      join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
-                      select new UserAttendanceLog
-                      {
-                          DeviceId = d.DeviceId,
-                          EnrollNumber = a.EnrollNumber,
-                          InputDate = a.InputDate,
-                          CreatedOn = a.CreatedOn,
-                          DeviceName = d.Name,
-                          Username = u.Name,
-                          InOutMode = a.InOutMode,
-                          IsActive = d.IsActive
-                      }).Distinct();        
+            try
+            {
+                var results = await _repo.GetJoinedLogs();
+                var attendanceLogs = results.ToList();
 
-            // Apply pagination
-            var pagedData = await query              
-                .OrderByDescending(x => x.InputDate)
-                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-                .Take(validFilter.PageSize)
-                .ToListAsync();
+                var pagedData = attendanceLogs
+                                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                                .Take(validFilter.PageSize)
+                                .ToList();
 
-            var totalRecords = await query.CountAsync(); ;
-            var pagedResponse = PaginationHelper.CreatePagedReponse<UserAttendanceLog>(pagedData, validFilter, totalRecords);
-            return Ok(pagedResponse);
+                var totalRecords = attendanceLogs.Count(); ;
+                var pagedResponse = PaginationHelper.CreatePagedReponse<AttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
+                return Ok(pagedResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         public List<UserInfo> GetUserInfoLIVE(List<DeviceConfig> deviceConfigs)
         {
             var userInfo = new List<UserInfo>();
-            
             var czkem = new CZKEM();
 
             foreach (var deviceConfig in deviceConfigs)
@@ -182,7 +179,6 @@ namespace BiometricAttendanceSystem.Controllers
                 _db.UserInfos.AddRange(userInfo);
                 _db.SaveChanges();
             }
-           
             return _db.UserInfos.ToList();
         }
     }

@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Core.Entities
 {
-    public partial class BiometricAttendanceReaderDBContext : DbContext
+    public partial class AttendanceDBContext : DbContext
     {
-        public BiometricAttendanceReaderDBContext()
+        public AttendanceDBContext()
         {
         }
 
-        public BiometricAttendanceReaderDBContext(DbContextOptions<BiometricAttendanceReaderDBContext> options)
+        public AttendanceDBContext(DbContextOptions<AttendanceDBContext> options)
             : base(options)
         {
         }
@@ -26,11 +26,12 @@ namespace Core.Entities
         public virtual DbSet<UserInfo> UserInfos { get; set; } = null!;
         public virtual DbSet<UserLogin> UserLogins { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
+
         public virtual DbSet<AttendanceLogByDeviceDetails> AttendanceLogByDeviceDetails { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           
+          
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -74,7 +75,8 @@ namespace Core.Entities
 
             modelBuilder.Entity<AttendanceLog>(entity =>
             {
-                entity.HasKey(e => e.LogId);
+                entity.HasKey(e => e.LogId)
+                    .HasName("PK_AttendanceLogs_1");
 
                 entity.Property(e => e.LogId).HasColumnName("LogID");
 
@@ -89,9 +91,6 @@ namespace Core.Entities
 
             modelBuilder.Entity<DeviceConfig>(entity =>
             {
-                entity.HasIndex(e => e.DeviceId, "UQ_deviceID")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.DeviceId).HasColumnName("DeviceID");
@@ -99,10 +98,6 @@ namespace Core.Entities
                 entity.Property(e => e.Ipaddress)
                     .HasMaxLength(50)
                     .HasColumnName("IPAddress");
-
-                entity.Property(e => e.IsActive)
-                    .IsRequired()
-                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.LastSyncDate).HasColumnType("datetime");
 
@@ -149,15 +144,15 @@ namespace Core.Entities
             {
                 entity.ToTable("UserInfo");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.DeviceId).HasColumnName("DeviceID");
 
                 entity.Property(e => e.Enable).HasColumnName("enable");
 
                 entity.Property(e => e.EnrollNumber).HasMaxLength(50);
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name).HasMaxLength(100);
 
-                entity.Property(e => e.Password).HasMaxLength(50);
+                entity.Property(e => e.Password).HasMaxLength(100);
             });
 
             modelBuilder.Entity<UserLogin>(entity =>
