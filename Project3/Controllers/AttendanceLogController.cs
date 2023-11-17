@@ -185,9 +185,6 @@ namespace BiometricAttendanceSystem.Controllers
             var forthisdevice = lastCreatedDates.TryGetValue(deviceId, out var lastCreatedOn);
             var latestLogs = attendanceLogs.FindAll(log => log.InputDate >= lastCreatedOn);
 
-            var forthisdevice = lastCreatedDates.TryGetValue(deviceId, out var lastCreatedOn);
-            var latestLogs = attendanceLogs.FindAll(log => log.InputDate >= lastCreatedOn);
-
             _db.SaveChanges();
 
             return rowsCount;
