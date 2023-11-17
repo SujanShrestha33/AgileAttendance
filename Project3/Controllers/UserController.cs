@@ -55,9 +55,9 @@ namespace BiometricAttendanceSystem.Controllers
         public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfoCZKEM([FromQuery] PaginationFilter filter)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-            List<DeviceConfig> deviceConfigs = new List<DeviceConfig>();
-            deviceConfigs = _db.DeviceConfigs.ToList();
+            //List<DeviceConfig> deviceConfigs = new List<DeviceConfig>();
 
+            var deviceConfigs = _db.DeviceConfigs.ToList();
             GetUserInfoLIVE(deviceConfigs);
 
             var query = (from u in _db.UserInfos
@@ -175,11 +175,11 @@ namespace BiometricAttendanceSystem.Controllers
                 }
 
                 var existingUsers = _db.UserInfos.Where(x => x.DeviceId == deviceConfig.DeviceId);
+                var userCount = existingUsers.Count();
                 _db.UserInfos.RemoveRange(existingUsers);
-                _db.UserInfos.AddRange(userInfo);
-
-                _db.SaveChanges();
+                _db.UserInfos.AddRange(userInfo);              
             }
+            _db.SaveChanges();
             return _db.UserInfos.ToList();
         }
     }
