@@ -26,6 +26,7 @@ namespace Core.Entities
         public virtual DbSet<UserInfo> UserInfos { get; set; } = null!;
         public virtual DbSet<UserLogin> UserLogins { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
+        public virtual DbSet<AttendanceLogByDeviceDetails> AttendanceLogByDeviceDetails { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,6 +35,11 @@ namespace Core.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AttendanceLogByDeviceDetails>(entity =>
+            {
+                entity.HasNoKey();
+            });
+
             modelBuilder.Entity<AspNetUser>(entity =>
             {
                 entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");

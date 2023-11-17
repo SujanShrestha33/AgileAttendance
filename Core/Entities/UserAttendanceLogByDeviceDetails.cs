@@ -10,6 +10,7 @@ namespace Core.Entities
         public string? EnrollNumber { get; set; }
         public DateTime InputDate { get; set; }
         public int InOutMode { get; set; }
+        public bool? IsActive { get; set; }
         public string? DeviceName { get; set; }
         public string? Username { get; set; }
     }

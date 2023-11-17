@@ -71,21 +71,6 @@ export class DeviceConfigComponent implements OnInit {
     this.getDeviceConfig();
   }
 
-  GetAttendanceLogAtOnce() {
-    this.smallSpinner = true;
-    console.log('starting..');
-    
-    this.http.get<any>(`${this.attUrl}/GetUpdatedAttendanceLogNew`).subscribe(
-      (response) => {        
-        console.log(response);  
-        this.smallSpinner = false;   
-      },
-      (error) => {
-        console.log(error.error);
-        this.smallSpinner = false;
-      }
-    );
-  }
   getDeviceConfig() {
     this.loading = true;
     // console.log('hello');

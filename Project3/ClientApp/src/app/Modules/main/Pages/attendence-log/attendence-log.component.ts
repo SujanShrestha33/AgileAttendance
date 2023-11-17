@@ -137,11 +137,11 @@ export class AttendenceLogComponent implements OnInit {
       .subscribe((res) => {
         // console.log('Multiple');
         // console.log(res);
-        this.attendanceLogs = res;
+        this.attendanceLogs = res.data;
         console.log(res);
         this.filteredLog = this.attendanceLogs;
         console.log(this.filteredLog);
-        this.responseCount = res.length;
+        this.responseCount = res.totalRecords;
         console.log(this.responseCount);
         this.isLoading = false;
         // if(this.totalRecords == 0){

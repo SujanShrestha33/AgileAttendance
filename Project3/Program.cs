@@ -21,7 +21,7 @@ builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = "ClientApp/dist";
 });
-builder.Services.AddDbContext<AttendanceDBContext>(options =>
+builder.Services.AddDbContext<BiometricAttendanceReaderDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
@@ -38,6 +38,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<AppIdentityDbContext>()
     .AddDefaultTokenProviders();
 builder.Services.AppIdentityServices(builder.Configuration);
+
 builder.Services.AddScoped<AttendanceRepository>();
 
 var app = builder.Build();

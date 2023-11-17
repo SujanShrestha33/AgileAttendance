@@ -24,12 +24,22 @@ namespace BiometricAttendance.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> GetJoinedLogs()
-        {         
+        public async Task<IActionResult> GetJoinedLogs([FromQuery] PaginationFilter filter)
+        {
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
             try
             {
                 var results = await _repo.GetJoinedLogs();
-                return Ok(results);
+                var attendanceLogs = results.ToList();
+
+                var pagedData = attendanceLogs
+                                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                                .Take(validFilter.PageSize)
+                                .ToList();
+
+                var totalRecords = attendanceLogs.Count(); ;
+                var pagedResponse = PaginationHelper.CreatePagedReponse<AttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
+                return Ok(pagedResponse);
             }
             catch (Exception ex)
             {
