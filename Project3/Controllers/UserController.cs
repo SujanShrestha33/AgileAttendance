@@ -177,6 +177,7 @@ namespace BiometricAttendanceSystem.Controllers
                 var existingUsers = _db.UserInfos.Where(x => x.DeviceId == deviceConfig.DeviceId);
                 _db.UserInfos.RemoveRange(existingUsers);
                 _db.UserInfos.AddRange(userInfo);
+
                 _db.SaveChanges();
             }
             return _db.UserInfos.ToList();

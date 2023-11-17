@@ -183,8 +183,18 @@ namespace BiometricAttendanceSystem.Controllers
                                     .ToDictionary(item => item.DeviceId, item => item.LastCreatedOn);
 
             var forthisdevice = lastCreatedDates.TryGetValue(deviceId, out var lastCreatedOn);
-            var latestLogs = attendanceLogs.FindAll(log => log.InputDate >= lastCreatedOn);
-
+            if (forthisdevice == false)
+            {
+                _db.AttendanceLogs.AddRange(attendanceLogs);
+                rowsCount++;
+            }
+            else
+            {
+                var latestLogs = attendanceLogs.FindAll(log => log.InputDate >= lastCreatedOn);
+                _db.AttendanceLogs.AddRange(latestLogs);
+                rowsCount++;
+            }
+            
             _db.SaveChanges();
 
             return rowsCount;
@@ -248,6 +258,7 @@ namespace BiometricAttendanceSystem.Controllers
             }
             return _db.DeviceConfigs.ToList();
         }
+
         bool ShouldSkipDevice(int deviceId)
         {
             //List<int> deviceIdsToSkip = new List<int> { };

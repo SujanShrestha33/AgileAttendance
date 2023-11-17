@@ -138,15 +138,15 @@ export class AttendenceLogComponent implements OnInit {
         // console.log('Multiple');
         // console.log(res);
         this.attendanceLogs = res.data;
-        // console.log(res);
+        console.log(res);
         this.filteredLog = this.attendanceLogs;
         // console.log(this.filteredLog);
         this.responseCount = res.totalRecords;
         // console.log(this.responseCount);
         this.isLoading = false;
-        if(this.totalRecords == 0){
-          this.toastr.info('The device is Inactive');
-        }
+        // if(this.totalRecords == 0){
+        //   this.toastr.info('The device is Inactive');
+        // }
 
       }, error => {
         console.log(error.error);
