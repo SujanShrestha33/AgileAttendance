@@ -12,8 +12,8 @@ namespace Core
 {
     public class AttendanceRepository
     {
-        public static BiometricAttendanceReaderDBContext _db;
-        public AttendanceRepository(BiometricAttendanceReaderDBContext db)
+        public static AttendanceDBContext _db;
+        public AttendanceRepository(AttendanceDBContext db)
         {
             _db = db;
         }

@@ -15,9 +15,9 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class AttendancelogController : ControllerBase
     {
-        private static BiometricAttendanceReaderDBContext _db;
+        private static AttendanceDBContext _db;
         private readonly AttendanceRepository _repo;
-        public AttendancelogController(BiometricAttendanceReaderDBContext db, AttendanceRepository repo)
+        public AttendancelogController(AttendanceDBContext db, AttendanceRepository repo)
         {
             _db = db;
             _repo = repo;
@@ -29,26 +29,13 @@ namespace BiometricAttendanceSystem.Controllers
         {
             var validFilter = new PaginationFilter(pagefilter.PageNumber, pagefilter.PageSize);
 
-            //inner join of DeviceConfig, UserInfo and AttendanceLog
-            var userAttendanceLogOfMultipleDevice = (from a in _db.AttendanceLogs
-                                                     join d in _db.DeviceConfigs on a.DeviceId equals d.DeviceId
-                                                     join u in _db.UserInfos on a.EnrollNumber equals u.EnrollNumber
-                                                     select new UsersAttendanceLogByDeviceDetails
-                                                     {
-                                                         DeviceId = d.DeviceId,
-                                                         EnrollNumber = a.EnrollNumber,
-                                                         DeviceName = d.Name,
-                                                         Username = u.Name,
-                                                         InputDate = a.InputDate,
-                                                         InOutMode = a.InOutMode,
-                                                         IsActive = d.IsActive,
-                                                     }).Distinct();
-
-            var query = userAttendanceLogOfMultipleDevice.AsQueryable();
+            //get data using stored procedure
+            var results = await _repo.GetJoinedLogs();
+            var query = results.AsQueryable();
 
             if (filter.DeviceId.HasValue)
             {
-                query = query.Where(a => a.DeviceId == filter.DeviceId);
+                query = query.Where(a => a.DeviceID == filter.DeviceId);
             }
 
             if (!string.IsNullOrEmpty(filter.EnrollNumber))
@@ -86,16 +73,14 @@ namespace BiometricAttendanceSystem.Controllers
                 query = query.Where(a => a.IsActive == filter.IsActive);
             }
 
-            // Execute the query and return the filtered results
-            //Apply Pagination
-            var pagedData = await query              
-                .OrderByDescending(x => x.InputDate)
-                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-                .Take(validFilter.PageSize)
-                .ToListAsync();
+            
+            var pagedData = query
+                           .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                           .Take(validFilter.PageSize)
+                           .ToList();
 
-            var totalRecords = await query.CountAsync(); ;
-            var pagedResponse = PaginationHelper.CreatePagedReponse<UsersAttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
+            var totalRecords = query.Count(); 
+            var pagedResponse = PaginationHelper.CreatePagedReponse<AttendanceLogByDeviceDetails>(pagedData, validFilter, totalRecords);
             return Ok(pagedResponse);
         }
 
@@ -265,12 +250,12 @@ namespace BiometricAttendanceSystem.Controllers
         }
         bool ShouldSkipDevice(int deviceId)
         {
-            List<int> deviceIdsToSkip = new List<int> { };
-            //List<int> deviceIdsToSkip = new List<int>
-            //{
-            // 3, 13, 14, 15, 17, 19, 23, 24, 31, 32, 33, 34, 35, 36, 37, 38, 47,
-            // 83, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96
-            //};
+            //List<int> deviceIdsToSkip = new List<int> { };
+            List<int> deviceIdsToSkip = new List<int>
+            {
+             3, 13, 14, 15, 17, 19, 23, 24, 31, 32, 33, 34, 35, 36, 37, 38, 47,
+             83, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96
+            };
             return deviceIdsToSkip.Contains(deviceId);
         }
     }

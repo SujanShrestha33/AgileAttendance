@@ -14,9 +14,9 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        private static BiometricAttendanceReaderDBContext _db;
+        private static AttendanceDBContext _db;
         private readonly AttendanceRepository _repo;
-        public UserController(BiometricAttendanceReaderDBContext db,AttendanceRepository repo)
+        public UserController(AttendanceDBContext db,AttendanceRepository repo)
         {
             _db = db;
             _repo = repo;
@@ -72,6 +72,7 @@ namespace BiometricAttendanceSystem.Controllers
 
             // Apply pagination
             var pagedData = await query
+                .OrderByDescending(x => x.EnrollNumber)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToListAsync();
@@ -106,6 +107,7 @@ namespace BiometricAttendanceSystem.Controllers
 
             // Apply pagination
             var pagedData = await query
+                .OrderByDescending(x => x.EnrollNumber)
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToListAsync();
