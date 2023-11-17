@@ -44,7 +44,7 @@ export class AttendanceService {
 
     let params = new HttpParams()
     .set('deviceIds', deviceIds.toString());
-    console.log(params);
+    
     return this.http.get<any>(
       
       `${this.attUrl}/GetUserAttendanceLogOfMultipleDevicesLIVE`,
