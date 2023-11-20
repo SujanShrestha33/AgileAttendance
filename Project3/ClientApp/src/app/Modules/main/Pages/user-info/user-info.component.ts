@@ -49,9 +49,11 @@ export class UserInfoComponent implements OnInit {
     this.isLoading = true;
     this.userService.getUserInfo()
       .subscribe(res => {
-        this.userInfo = res;
+        this.userInfo = res.data;
         this.filteredUserInfo = this.userInfo;
-        // this.totalRecords = res.totalRecords;
+        // console.log(this.filteredUserInfo);
+        this.totalRecords = res.totalRecords;
+        // console.log(this.totalRecords);
         // console.log(res)
         // console.log(this.userInfo);
         this.isLoading = false;
@@ -68,7 +70,7 @@ export class UserInfoComponent implements OnInit {
         this.filteredUserInfo = this.userInfo;
         // console.log(res)
         // console.log(this.filteredUserInfo);
-        // this.totalRecords = res.totalRecords;
+        this.totalRecords = res.totalRecords;
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -83,7 +85,7 @@ export class UserInfoComponent implements OnInit {
         this.filteredUserInfo = this.userInfo;
         // console.log(res)
         // console.log(this.filteredUserInfo);
-        // this.totalRecords = res.totalRecords;
+        this.totalRecords = res.totalRecords;
         this.isLoading = false;
       }, error => {
         this.isLoading = false;

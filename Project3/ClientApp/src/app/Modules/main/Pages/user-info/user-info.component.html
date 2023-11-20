@@ -46,13 +46,12 @@
         </table>
       </div>
 
-      <!-- Pagination
+      <!-- Pagination -->
       <div class="row mt-2 d-flex justify-content-center">
-        <div class="col-md-6">
-          <mat-paginator [pageSizeOptions]="[10,50, 100, 500,1000]" [pageSize]="pageSize" [pageIndex]="pageNumber - 1"
-            [length]="totalRecords" (page)="onPageChange($event)"></mat-paginator>
-        </div>
-      </div> -->
+        <div class="col-md-6" >        
+          <h5 class="text-center">Total Records: {{totalRecords}}</h5>
+      </div>
+      </div>
     </div>
   </div>
 </div>

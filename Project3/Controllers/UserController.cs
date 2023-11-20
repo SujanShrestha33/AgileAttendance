@@ -22,11 +22,12 @@ namespace BiometricAttendanceSystem.Controllers
             _repo = repo;
         }
 
+        //Get all UserInfo from database
         [HttpGet]
         [Route("[action]")]
         public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfo([FromQuery] PaginationFilter filter)
         {
-            //var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
             var query = (from u in _db.UserInfos
                          join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId
@@ -36,20 +37,22 @@ namespace BiometricAttendanceSystem.Controllers
                              EnrollNumber = u.EnrollNumber,
                              DeviceName = d.Name,
                              UserName = u.Name
-                         }).ToListAsync();
+                         });
 
             //// Apply pagination
-            //var pagedData = await query
-            //    .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-            //    .Take(validFilter.PageSize)
-            //    .ToListAsync();
+            var pagedData = await query
+                .OrderByDescending(x => x.EnrollNumber)
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToListAsync();
 
-            //var totalRecords = await query.CountAsync(); ;
-            //var pagedResponse = PaginationHelper.CreatePagedReponse<DeviceUserInfo>(pagedData, validFilter, totalRecords);
-            return Ok(await query);
+            var totalRecords = await query.CountAsync(); ;
+            var pagedResponse = PaginationHelper.CreatePagedReponse<DeviceUserInfo>(pagedData, validFilter, totalRecords);
+            return Ok(pagedResponse);
 
         }
 
+        //Get all UserInfo from device - Live
         [HttpGet]
         [Route("[action]")]
         public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfoCZKEM([FromQuery] PaginationFilter filter)
