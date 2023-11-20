@@ -73,6 +73,7 @@ export class DeviceConfigComponent implements OnInit {
 
   getDeviceConfig() {
     this.loading = true;
+    this.isLoading = true;
     // console.log('hello');
     this.deviceConfigService.getDeviceConfigs().subscribe(
       (res: DeviceConfig[]) => {

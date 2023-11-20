@@ -176,7 +176,11 @@
               <th scope="col">Actions</th>
             </tr>
           </thead>
-
+          <div *ngIf="isLoading"  class="fade show spinner-wrapper" 
+          style="text-align: center; padding-top: calc(100vh / 5); width:20%;font-family:Verdana, Geneva, Tahoma, sans-serif" >
+            <i class="spinner-border"></i>
+            <!-- <small>Loading, Please wait...</small> -->
+          </div>
           <tbody>
             <tr class="text-center" *ngFor="let item of filteredDeviceInfo; let i = index">
               <td>

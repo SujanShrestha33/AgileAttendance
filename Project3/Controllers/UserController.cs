@@ -55,7 +55,6 @@ namespace BiometricAttendanceSystem.Controllers
         public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfoCZKEM([FromQuery] PaginationFilter filter)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-            //List<DeviceConfig> deviceConfigs = new List<DeviceConfig>();
 
             var deviceConfigs = _db.DeviceConfigs.ToList();
             GetUserInfoLIVE(deviceConfigs);
