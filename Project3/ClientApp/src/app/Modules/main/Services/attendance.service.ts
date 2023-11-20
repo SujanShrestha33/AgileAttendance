@@ -71,14 +71,16 @@ export class AttendanceService {
       if(deviceName){
         params = params.set('deviceName', deviceName.toString());
       }
-      if(startDate < endDate){
+
+      if(startDate <= endDate){
         const startInputDate = this.datePipe.transform(startDate, 'yyyy-MM-dd');
         params = params.set('startDate', startInputDate);
       }
-      if(endDate > startDate){
+      if(endDate >= startDate ){
         const endInputDate = this.datePipe.transform(endDate, 'yyyy-MM-dd');
         params = params.set('endDate', endInputDate);
       }
+
       if(inOutMode){
         params = params.set('inOutMode', deviceName.toString());
       }
