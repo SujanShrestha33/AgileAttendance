@@ -52,7 +52,6 @@ namespace BiometricAttendanceSystem.Controllers
             {
                 query = query.Where(a => a.Username != null && a.Username.StartsWith(filter.Username));
             }
-
           
             if (filter.StartDate.HasValue)
             {

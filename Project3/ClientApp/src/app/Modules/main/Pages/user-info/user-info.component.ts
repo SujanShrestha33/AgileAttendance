@@ -49,10 +49,11 @@ export class UserInfoComponent implements OnInit {
     this.isLoading = true;
     this.userService.getUserInfo()
       .subscribe(res => {
-        this.userInfo = res.data;
+        this.userInfo = res;
+       
         this.filteredUserInfo = this.userInfo;
         // console.log(this.filteredUserInfo);
-        this.totalRecords = res.totalRecords;
+        // this.totalRecords = res.Count;
         // console.log(this.totalRecords);
         // console.log(res)
         // console.log(this.userInfo);

@@ -138,7 +138,7 @@ export class AttendenceLogComponent implements OnInit {
         // console.log('Multiple');
         // console.log(res);
         this.attendanceLogs = res.data;
-        console.log(res);
+        // console.log(res);
         this.filteredLog = this.attendanceLogs;
         // console.log(this.filteredLog);
         this.responseCount = res.totalRecords;
@@ -205,7 +205,7 @@ export class AttendenceLogComponent implements OnInit {
         this.deviceName,this.startDate,this.endDate,this.inOutMode,this.isActive)
         .subscribe((response: any) => {
           this.filteredLog = response.data;
-          console.log(this.filteredLog);
+          // console.log(this.filteredLog);
           this.totalRecords = response.totalRecords;
           // console.log(this.totalRecords);
           this.isLoading = false;
