@@ -50,7 +50,7 @@ namespace BiometricAttendanceSystem.Controllers
 
             if (!string.IsNullOrEmpty(filter.Username))
             {
-                query = query.Where(a => a.Username.StartsWith(filter.Username));
+                query = query.Where(a => a.Username != null && a.Username.StartsWith(filter.Username));
             }
 
             if (filter.StartDate.HasValue)
@@ -73,7 +73,6 @@ namespace BiometricAttendanceSystem.Controllers
                 query = query.Where(a => a.IsActive == filter.IsActive);
             }
 
-            
             var pagedData = query
                            .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                            .Take(validFilter.PageSize)
