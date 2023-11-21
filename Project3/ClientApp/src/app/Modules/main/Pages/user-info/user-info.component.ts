@@ -50,7 +50,7 @@ export class UserInfoComponent implements OnInit {
     this.userService.getUserInfo()
       .subscribe(res => {
         this.userInfo = res;
-        console.log(res);
+        // console.log(res);
         this.filteredUserInfo = this.userInfo;
         // console.log(this.filteredUserInfo);
         this.totalRecords = res.length;

@@ -26,7 +26,6 @@ namespace Core.Entities
         public virtual DbSet<UserInfo> UserInfos { get; set; } = null!;
         public virtual DbSet<UserLogin> UserLogins { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
-        public virtual DbSet<AttendanceLogByDeviceDetails> AttendanceLogByDeviceDetails { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,11 +34,6 @@ namespace Core.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AttendanceLogByDeviceDetails>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
             modelBuilder.Entity<AspNetUser>(entity =>
             {
                 entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
@@ -49,6 +43,10 @@ namespace Core.Entities
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
                 entity.Property(e => e.Email).HasMaxLength(256);
+
+                entity.Property(e => e.ExpiresAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("expiresAt");
 
                 entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
@@ -148,8 +146,6 @@ namespace Core.Entities
             modelBuilder.Entity<UserInfo>(entity =>
             {
                 entity.ToTable("UserInfo");
-
-                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Enable).HasColumnName("enable");
 

@@ -20,29 +20,26 @@ export class AccountService {
     if(localStorage.getItem('token') != null
       || localStorage.getItem('email') != null
       || localStorage.getItem('username') != null
+     
       )
     {
       const token = localStorage.getItem('token').toString();
       const email = localStorage.getItem('email');
       const username = localStorage.getItem('username');
+      const expiresAt = localStorage.getItem('expiresAt');
       const user = {
         email: email,
         token: token,
-        username: username
+        username: username,
+        expiresAt:expiresAt,
       }
 
       this.currentUserSource = new BehaviorSubject<User>(user);
-      // console.log(this.currentUserSource);
-
       this.currentUser$ = this.currentUserSource.asObservable();
-      // console.log(this.currentUser$);
   }
 }
 
-  getCurrentUserValue(){
-    // console.log(this.currentUser$);
-    // console.log(this.currentUserSource);
-
+  getCurrentUserValue(){   
     return this.currentUserSource.value;
   }
 
@@ -61,15 +58,50 @@ export class AccountService {
   }
 
   logout(){
-    localStorage.removeItem('token');
-    localStorage.removeItem('email');
-    localStorage.removeItem('username');
+    localStorage.clear();
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('email');
+    // localStorage.removeItem('username');
     this.currentUserSource.next(null);
+    this.stopRefreshTokenTimer();
     this.router.navigateByUrl('/');
+  
   }
 
   //for jwt-interceptor
   getToken(){
-  return localStorage.getItem('token');
+    return localStorage.getItem('token');
+  }
+
+  refreshToken() {
+    return this.http.post(this.loginUrl + 'account/refresh-token', this.currentUserSource.value)
+      .pipe(map((user: User) => {
+        localStorage.setItem('token', user.token);
+        this.currentUserSource.next(user);
+        this.startRefreshTokenTimer();
+        return user;
+      }));
+  }
+  
+  // helper methods
+  private refreshTokenTimeout;
+  
+  startRefreshTokenTimer() {
+    clearTimeout(this.refreshTokenTimeout);
+    // set a timeout to refresh the token a minute before it expires
+    const expires = new Date(this.currentUserSource.value.expiresAt);
+    const timeout = expires.getTime() - Date.now() - (120 * 1000);
+  
+    this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
+  }
+  
+  private stopRefreshTokenTimer() {
+    clearTimeout(this.refreshTokenTimeout);
+  }
+  
+  sessionExpire() {
+    if (localStorage.getItem("token") == null) {
+      this.router.navigateByUrl("/");
+    }
   }
 }
