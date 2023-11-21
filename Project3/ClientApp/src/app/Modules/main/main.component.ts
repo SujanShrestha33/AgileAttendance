@@ -26,7 +26,7 @@ export class MainComponent implements OnInit {
 
   idleTime() {
       this.timer = new IdleTimer({
-          timeout: 30, //expired after 20 min
+          timeout: 2400, //expired after 40 min
           onTimeout: () => {
               this.accountService.logout()
               this.timer.cleanUp();

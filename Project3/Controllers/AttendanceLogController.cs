@@ -15,9 +15,9 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class AttendancelogController : ControllerBase
     {
-        private static AttendanceDBContext _db;
+        private static BiometricAttendanceReaderDBContext _db;
         private readonly AttendanceRepository _repo;
-        public AttendancelogController(AttendanceDBContext db, AttendanceRepository repo)
+        public AttendancelogController(BiometricAttendanceReaderDBContext db, AttendanceRepository repo)
         {
             _db = db;
             _repo = repo;
