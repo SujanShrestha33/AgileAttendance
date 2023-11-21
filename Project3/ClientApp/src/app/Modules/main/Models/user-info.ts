@@ -1,7 +1,7 @@
 export interface UserInfo {
   id : number;
-  userName : string;
+  name : string;
   deviceId : string;
   enrollNumber : string;
-  deviceName : string
+  // deviceName : string
 }

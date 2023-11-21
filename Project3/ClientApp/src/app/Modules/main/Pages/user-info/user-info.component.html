@@ -23,7 +23,7 @@
               <th scope="col">Device ID</th>
               <th scope="col">Enroll Number</th>
               <th scope="col">Username</th>
-              <th scope="col">Device Address</th>
+              <!-- <th scope="col">Device Address</th> -->
             </tr>
           </thead>
           <div *ngIf="isLoading"  class="fade show spinner-wrapper" 
@@ -39,8 +39,8 @@
             <tr *ngFor="let item of filteredUserInfo">
               <td>{{item.deviceId}}</td>
               <td>{{item.enrollNumber}}</td>
-              <td>{{item.userName}}</td>
-              <td>{{item.deviceName}}</td>
+              <td>{{item.name}}</td>
+              <!-- <td>{{item.deviceName}}</td> -->
             </tr>
           </tbody>
         </table>

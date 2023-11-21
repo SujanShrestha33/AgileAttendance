@@ -12,6 +12,6 @@ namespace Core.Entities
         public int InOutMode { get; set; }
         public bool? IsActive { get; set; }
         public string? DeviceName { get; set; }
-        public string? Username { get; set; }
+        //public string? Username { get; set; }
     }
 }

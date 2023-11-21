@@ -119,7 +119,7 @@ export class AttendenceLogComponent implements OnInit {
         (response: any) => {
           this.attendanceLogs = response.data;
           this.filteredLog = this.attendanceLogs;
-          // console.log(this.attendanceLogs);
+          console.log(this.attendanceLogs);
           this.totalRecords = response.totalRecords;
           this.isLoading = false;
         },
@@ -186,7 +186,7 @@ export class AttendenceLogComponent implements OnInit {
         (this.deviceId == '' || this.deviceId == undefined) &&
         (this.deviceName == '' || this.deviceName == undefined ) &&
         (this.enrollNumber == '' || this.enrollNumber == undefined ) &&
-        (this.userName == '' || this.userName == undefined ) &&
+        // (this.userName == '' || this.userName == undefined ) &&
         (this.startDate == '' || this.startDate == undefined ) &&
         (this.endDate == '' || this.deviceId == undefined ) &&
         (this.isActive == '' || this.isActive == undefined ) 
@@ -201,7 +201,7 @@ export class AttendenceLogComponent implements OnInit {
         this.toastr.warning('Please choose end date greater than start date');
       }
       this.attendanceService
-      .filter(this.pageNumber, this.pageSize, this.deviceId,this.enrollNumber,this.userName,
+      .filter(this.pageNumber, this.pageSize, this.deviceId,this.enrollNumber,
         this.deviceName,this.startDate,this.endDate,this.inOutMode,this.isActive)
         .subscribe((response: any) => {
           this.filteredLog = response.data;

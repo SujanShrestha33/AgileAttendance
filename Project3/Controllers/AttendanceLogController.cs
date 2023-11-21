@@ -48,10 +48,10 @@ namespace BiometricAttendanceSystem.Controllers
                 query = query.Where(a => a.DeviceName.StartsWith(filter.DeviceName));
             }
 
-            if (!string.IsNullOrEmpty(filter.Username))
-            {
-                query = query.Where(a => a.Username != null && a.Username.StartsWith(filter.Username));
-            }
+            //if (!string.IsNullOrEmpty(filter.Username))
+            //{
+            //    query = query.Where(a => a.Username != null && a.Username.StartsWith(filter.Username));
+            //}
           
             if (filter.StartDate.HasValue)
             {
