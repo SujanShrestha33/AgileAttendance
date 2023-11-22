@@ -76,7 +76,7 @@ export class AttendanceService {
         const startInputDate = this.datePipe.transform(startDate, 'yyyy-MM-dd');
         params = params.set('startDate', startInputDate);
       }
-      if(endDate ){
+      if(endDate){
         const endInputDate = this.datePipe.transform(endDate, 'yyyy-MM-dd');
         params = params.set('endDate', endInputDate);
       }

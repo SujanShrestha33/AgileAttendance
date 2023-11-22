@@ -188,7 +188,7 @@ export class AttendenceLogComponent implements OnInit {
         (this.enrollNumber == '' || this.enrollNumber == undefined ) &&
         // (this.userName == '' || this.userName == undefined ) &&
         (this.startDate == '' || this.startDate == undefined ) &&
-        (this.endDate == '' || this.deviceId == undefined ) &&
+        (this.endDate == '' || this.endDate == undefined ) &&
         (this.isActive == '' || this.isActive == undefined ) 
       ){       
         this.loadAttendanceLogs();     
@@ -205,7 +205,7 @@ export class AttendenceLogComponent implements OnInit {
         this.deviceName,this.startDate,this.endDate,this.inOutMode,this.isActive)
         .subscribe((response: any) => {
           this.filteredLog = response.data;
-          // console.log(this.filteredLog);
+          console.log(this.filteredLog);
           this.totalRecords = response.totalRecords;
           // console.log(this.totalRecords);
           this.isLoading = false;
