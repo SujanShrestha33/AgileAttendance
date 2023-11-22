@@ -39,7 +39,7 @@ namespace BiometricAttendanceSystem.Controllers
             //                 UserName = u.Name
             //             }).ToListAsync();
 
-            var query = await _db.UserInfos.ToListAsync();
+            var query = await _db.UserInfos.OrderBy(x => x.DeviceId).ToListAsync();
 
             // Apply pagination
             //var pagedData = await query
@@ -62,7 +62,7 @@ namespace BiometricAttendanceSystem.Controllers
             var deviceConfigs = _db.DeviceConfigs.ToList();
             GetUserInfoLIVE(deviceConfigs);
 
-            var query = await _db.UserInfos.ToListAsync();
+            var query = await _db.UserInfos.OrderBy(x=>x.DeviceId).ToListAsync();
 
             return Ok(query);
         }
@@ -145,8 +145,8 @@ namespace BiometricAttendanceSystem.Controllers
                 var existingUsers = _db.UserInfos.Where(x => x.DeviceId == deviceConfig.DeviceId);
                 var userCount = existingUsers.Count();
                 _db.UserInfos.RemoveRange(existingUsers);
-                _db.UserInfos.AddRange(userInfo);              
             }
+            _db.UserInfos.AddRange(userInfo);              
             _db.SaveChanges();
 
             return _db.UserInfos.ToList();
