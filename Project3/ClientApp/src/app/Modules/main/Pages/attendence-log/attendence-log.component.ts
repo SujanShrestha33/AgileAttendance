@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AttendenceLogComponent implements OnInit {
   attendanceLogs: any[] = [];
   filteredData : any[] = [];
+  
   //filter attributes
   deviceId: any;
   enrollNumber:any;
@@ -23,8 +24,8 @@ export class AttendenceLogComponent implements OnInit {
   isActive:any;
 
   items = [
-    {booleanValue: "true", name: "Active",},
-    {booleanValue: "false", name: "Inactive",}
+    {booleanValue: "true", name: "Online",},
+    {booleanValue: "false", name: "Offline",}
   ]
 
   pageNumber = 1;
@@ -204,6 +205,7 @@ export class AttendenceLogComponent implements OnInit {
       .filter(this.pageNumber, this.pageSize, this.deviceId,this.enrollNumber,
         this.deviceName,this.startDate,this.endDate,this.inOutMode,this.isActive)
         .subscribe((response: any) => {
+          
           this.filteredLog = response.data;
           // console.log(this.filteredLog);
           this.totalRecords = response.totalRecords;

@@ -42,7 +42,7 @@ input:focus {
 
 .select-status {   
   padding: 0; 
-  min-width:100%;
+  width:100%;
 }
 
 .select-status:focus, .form-control:focus{
@@ -50,12 +50,12 @@ input:focus {
   border-bottom:2px solid grey;
 }
 
-.active{
+.online{
   background-color: white;
   color:green;
 }
 
-.inactive{
+.offline{
   background-color: white;
   color:red;
 }

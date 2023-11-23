@@ -57,6 +57,7 @@ export class DeviceConfigComponent implements OnInit {
 
   isLoading = false;
   smallSpinner: boolean = false;
+  isRunning: boolean = false;
 
   constructor(
     private deviceConfigService: DeviceConfigService,
@@ -74,6 +75,7 @@ export class DeviceConfigComponent implements OnInit {
   getDeviceConfig() {
     this.loading = true;
     this.isLoading = true;
+   
     // console.log('hello');
     this.deviceConfigService.getDeviceConfigs().subscribe(
       (res: DeviceConfig[]) => {
@@ -86,6 +88,7 @@ export class DeviceConfigComponent implements OnInit {
       (error) => {
         // console.log(error.error);
         this.loading = false;
+        
       }
     );
   }
@@ -101,7 +104,7 @@ export class DeviceConfigComponent implements OnInit {
         item.ipaddress.toLowerCase().includes(query) ||
         item.port.toString().includes(query) ||
         item.deviceId.toString().includes(query) ||
-        (item.isActive ? 'active' : 'inactive').includes(query) ||
+        (item.isActive ? 'online' : 'offline').includes(query) ||
         (item.lastSyncDate ? item.lastSyncDate.includes(query) : false)
     );
     // console.log(this.filteredDeviceInfo);
@@ -261,6 +264,7 @@ export class DeviceConfigComponent implements OnInit {
   }
 
   fetchSelectedAttendence() {
+
     const selectedDevices = this.deviceInfo.filter((item) => item.isSelected);
     if (selectedDevices.length === 0) {
       this.toastr.warning('Select at least one device to fetch live status.');
@@ -268,6 +272,7 @@ export class DeviceConfigComponent implements OnInit {
     }
     const selectedDeviceIds = selectedDevices.map((item) => item.deviceId);
     this.router.navigate(['main/logs'], { queryParams: { selectedDeviceIds } });
+  
   }
 
   navigateUser() {
