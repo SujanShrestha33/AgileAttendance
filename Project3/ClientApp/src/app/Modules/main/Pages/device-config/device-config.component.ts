@@ -291,4 +291,6 @@ export class DeviceConfigComponent implements OnInit {
       queryParams: { selectedDeviceIds },
     });
   }
+
+ 
 }

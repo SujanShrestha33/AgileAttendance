@@ -159,7 +159,7 @@
         <table class="table table-bordered">
           <thead>
             <tr class="table-secondary">
-              <th scope="col">Select</th>
+              <th scope="col-2">Select</th>
               <th scope="col">Device ID</th>
               <th scope="col">Device Name</th>
               <th scope="col">IP Address</th>
@@ -178,7 +178,7 @@
           
           <tbody>
             <tr class="text-center" *ngFor="let item of filteredDeviceInfo; let i = index">              
-              <td style="width:2%">
+              <td  style="width:2%">
                 <div class="form-control" style="border:none">
                   <input type="checkbox" [(ngModel)]="item.isSelected">
                 </div>               
