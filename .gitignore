@@ -70,3 +70,8 @@
 /Core/obj/project.assets.json
 /Core/obj/Release/net6.0/Core.csproj.AssemblyReference.cache
 /Core/obj/Release/net6.0/Core.csproj.FileListAbsolute.txt
+/Core/obj/Debug/net6.0/Core.AssemblyInfoInputs.cache
+/Infrastructure/obj/Debug/net6.0/Infrastructure.AssemblyInfoInputs.cache
+/Infrastructure/obj/Debug/net6.0/Infrastructure.csproj.FileListAbsolute.txt
+/Infrastructure/obj/Infrastructure.csproj.nuget.g.props
+/Core/obj/Core.csproj.nuget.g.props
