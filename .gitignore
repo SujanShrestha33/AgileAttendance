@@ -75,3 +75,8 @@
 /Infrastructure/obj/Debug/net6.0/Infrastructure.csproj.FileListAbsolute.txt
 /Infrastructure/obj/Infrastructure.csproj.nuget.g.props
 /Core/obj/Core.csproj.nuget.g.props
+/Core/obj/Release/net6.0/Core.AssemblyInfo.cs
+/Core/obj/Release/net6.0/Core.AssemblyInfoInputs.cache
+/Infrastructure/obj/Release/net6.0/Infrastructure.AssemblyInfo.cs
+/Infrastructure/obj/Release/net6.0/Infrastructure.AssemblyInfoInputs.cache
+/Infrastructure/obj/Release/net6.0/Infrastructure.csproj.FileListAbsolute.txt
