@@ -30,7 +30,7 @@ namespace Core.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,6 +49,10 @@ namespace Core.Entities
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
                 entity.Property(e => e.Email).HasMaxLength(256);
+
+                entity.Property(e => e.ExpiresAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("expiresAt");
 
                 entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
@@ -148,8 +152,6 @@ namespace Core.Entities
             modelBuilder.Entity<UserInfo>(entity =>
             {
                 entity.ToTable("UserInfo");
-
-                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Enable).HasColumnName("enable");
 

@@ -14,79 +14,63 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        private static AttendanceDBContext _db;
+        private static BiometricAttendanceReaderDBContext _db;
         private readonly AttendanceRepository _repo;
-        public UserController(AttendanceDBContext db,AttendanceRepository repo)
+        public UserController(BiometricAttendanceReaderDBContext db,AttendanceRepository repo)
         {
             _db = db;
             _repo = repo;
         }
 
+        //Get all UserInfo from database
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfo([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfo()
         {
             //var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
-            var query = (from u in _db.UserInfos
-                         join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId
-                         select new DeviceUserInfo
-                         {
-                             DeviceId = d.DeviceId,
-                             EnrollNumber = u.EnrollNumber,
-                             DeviceName = d.Name,
-                             UserName = u.Name
-                         }).ToListAsync();
+            //var query = (from u in _db.UserInfos
+            //             join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId
+            //             select new DeviceUserInfo
+            //             {
+            //                 DeviceId = u.DeviceId,
+            //                 EnrollNumber = u.EnrollNumber,
+            //                 DeviceName = d.Name,
+            //                 UserName = u.Name
+            //             }).ToListAsync();
 
-            //// Apply pagination
+            var query = await _db.UserInfos.OrderBy(x => x.DeviceId).ToListAsync();
+
+            // Apply pagination
             //var pagedData = await query
+            //    .OrderBy(x => x.DeviceId)
             //    .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
             //    .Take(validFilter.PageSize)
             //    .ToListAsync();
 
             //var totalRecords = await query.CountAsync(); ;
             //var pagedResponse = PaginationHelper.CreatePagedReponse<DeviceUserInfo>(pagedData, validFilter, totalRecords);
-            return Ok(await query);
+            return Ok(query);
 
         }
 
+        //Get all UserInfo from device - Live
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfoCZKEM([FromQuery] PaginationFilter filter)
-        {
-            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-            List<DeviceConfig> deviceConfigs = new List<DeviceConfig>();
-            deviceConfigs = _db.DeviceConfigs.ToList();
-
+        public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfoCZKEM()
+        {          
+            var deviceConfigs = _db.DeviceConfigs.ToList();
             GetUserInfoLIVE(deviceConfigs);
 
-            var query = (from u in _db.UserInfos
-                         join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId
-                         select new DeviceUserInfo
-                         {
-                             DeviceId = d.DeviceId,
-                             EnrollNumber = u.EnrollNumber,
-                             DeviceName = d.Name,
-                             UserName = u.Name
-                         });
+            var query = await _db.UserInfos.OrderBy(x=>x.DeviceId).ToListAsync();
 
-            // Apply pagination
-            var pagedData = await query
-                .OrderByDescending(x => x.EnrollNumber)
-                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-                .Take(validFilter.PageSize)
-                .ToListAsync();
-
-            var totalRecords = await query.CountAsync(); ;
-            var pagedResponse = PaginationHelper.CreatePagedReponse<DeviceUserInfo>(pagedData, validFilter, totalRecords);
-            return Ok(pagedResponse);
+            return Ok(query);
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfoOfMultipleDevicesCZKEM(List<int> deviceIds, [FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IReadOnlyList<UserInfo>>> GetUserInfoOfMultipleDevicesCZKEM(List<int> deviceIds)
         {
-            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
             var deviceConfigs = _db.DeviceConfigs.Where(d => deviceIds.Contains(d.DeviceId)).ToList();
             if (deviceConfigs.Count > 0)
@@ -95,26 +79,10 @@ namespace BiometricAttendanceSystem.Controllers
             }
 
             var query = (from u in _db.UserInfos
-                         join d in _db.DeviceConfigs on u.DeviceId equals d.DeviceId
-                         where deviceIds.Contains(d.DeviceId)
-                         select new DeviceUserInfo
-                         {
-                             DeviceId = d.DeviceId,
-                             EnrollNumber = u.EnrollNumber,
-                             DeviceName = d.Name,
-                             UserName = u.Name
-                         });
-
-            // Apply pagination
-            var pagedData = await query
-                .OrderByDescending(x => x.EnrollNumber)
-                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-                .Take(validFilter.PageSize)
-                .ToListAsync();
-
-            var totalRecords = await query.CountAsync(); ;
-            var pagedResponse = PaginationHelper.CreatePagedReponse<DeviceUserInfo>(pagedData, validFilter, totalRecords);
-            return Ok(pagedResponse);
+                         where deviceIds.Contains(u.DeviceId)
+                         select u).ToListAsync();
+            
+            return Ok(await query);
         }
 
         [HttpGet]
@@ -175,10 +143,12 @@ namespace BiometricAttendanceSystem.Controllers
                 }
 
                 var existingUsers = _db.UserInfos.Where(x => x.DeviceId == deviceConfig.DeviceId);
+                var userCount = existingUsers.Count();
                 _db.UserInfos.RemoveRange(existingUsers);
-                _db.UserInfos.AddRange(userInfo);
-                _db.SaveChanges();
             }
+            _db.UserInfos.AddRange(userInfo);              
+            _db.SaveChanges();
+
             return _db.UserInfos.ToList();
         }
     }

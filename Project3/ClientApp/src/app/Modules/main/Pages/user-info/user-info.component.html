@@ -23,7 +23,7 @@
               <th scope="col">Device ID</th>
               <th scope="col">Enroll Number</th>
               <th scope="col">Username</th>
-              <th scope="col">Device Address</th>
+              <!-- <th scope="col">Device Address</th> -->
             </tr>
           </thead>
           <div *ngIf="isLoading"  class="fade show spinner-wrapper" 
@@ -39,20 +39,19 @@
             <tr *ngFor="let item of filteredUserInfo">
               <td>{{item.deviceId}}</td>
               <td>{{item.enrollNumber}}</td>
-              <td>{{item.userName}}</td>
-              <td>{{item.deviceName}}</td>
+              <td>{{item.name}}</td>
+              <!-- <td>{{item.deviceName}}</td> -->
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Pagination
+      <!-- Pagination -->
       <div class="row mt-2 d-flex justify-content-center">
-        <div class="col-md-6">
-          <mat-paginator [pageSizeOptions]="[10,50, 100, 500,1000]" [pageSize]="pageSize" [pageIndex]="pageNumber - 1"
-            [length]="totalRecords" (page)="onPageChange($event)"></mat-paginator>
-        </div>
-      </div> -->
+        <div class="col-md-6" >        
+          <h5 class="text-center"><b>Total Records:</b> {{totalRecords}}</h5>
+      </div>
+      </div>
     </div>
   </div>
 </div>

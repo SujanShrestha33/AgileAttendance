@@ -42,7 +42,7 @@
                   Updating....
                 </span>
               </button>
-              <button class="btn btn-outline-dark btn-md" *ngIf="anyDeviceSelected()" (click)="fetchSelectedLiveStatus()">
+              <button class="btn btn-outline-dark btn-md" *ngIf="anyDeviceSelected()"(click)="fetchSelectedLiveStatus()">
                 <span *ngIf="!smallSpinner">
                   <i class="fa fa-refresh"></i>
                   <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
@@ -60,7 +60,7 @@
             </div>
           </div>
           <div class="col-sm-2" >
-            <button class="btn btn-outline-dark btn-md" *ngIf="!anyDeviceSelected()" (click)="fetchAllAttendance()">
+            <button class="btn btn-outline-dark btn-md" *ngIf="!anyDeviceSelected()" [disabled]="smallSpinner" (click)="fetchAllAttendance()">
               <span>
                 <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
                 <i class="fa fa-refresh"></i>
@@ -69,7 +69,7 @@
                 Update Live Attendance (All Devices)
               </Span>
             </button>
-            <button class="btn btn-outline-dark btn-md" *ngIf="anyDeviceSelected()" (click)="fetchSelectedAttendence()">
+            <button class="btn btn-outline-dark btn-md" *ngIf="anyDeviceSelected()" [disabled]="smallSpinner" (click)="fetchSelectedAttendence()">
               <span>
                 <i class="fa fa-refresh"></i>
                 <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
@@ -80,7 +80,7 @@
             </button>
           </div>
           <div class="col-sm-2" >
-            <button class="btn btn-outline-dark btn-md" *ngIf="!anyDeviceSelected()" (click)="navigateUser()">
+            <button class="btn btn-outline-dark btn-md" *ngIf="!anyDeviceSelected()" [disabled]="smallSpinner" (click)="navigateUser()">
               <span>
                 <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
                 <i class="fa fa-refresh"></i>
@@ -89,7 +89,7 @@
                 Update User Info (All Devices)
               </Span>
             </button>
-            <button class="btn btn-outline-dark btn-md" *ngIf="anyDeviceSelected()" (click)="fetchSelectedDeviceUsersInfo()">
+            <button class="btn btn-outline-dark btn-md" *ngIf="anyDeviceSelected()" [disabled]="smallSpinner" (click)="fetchSelectedDeviceUsersInfo()">
               <span>
                 <!-- <fa-icon [icon]="faRecycle"></fa-icon> -->
                 <i class="fa fa-refresh"></i>
@@ -100,15 +100,8 @@
             </button> 
           </div>
 
-          <!-- <div class="col-sm-2" >
-            <button class="btn btn-outline-dark btn-md sync-option" (click)="GetAttendanceLogAtOnce()">           
-              <span >
-                <i class="fa fa-refresh"></i>               
-              </span>            
-              <span>
-                Get All AttendanceLogs
-              </span>
-          </button>
+          <!-- <div class="col-sm-2 ml-auto" >
+            <span>1 Device(s) active</span>
           </div> -->
         </div>
       </div>
@@ -162,43 +155,51 @@
           </div>
         </div>
       </div>
-      <div style="height: 80vh; overflow: auto;">
-        <table class="table table-bordered ">
+      <div class="table-responsive" style="height: 80vh; overflow: auto;">
+        <table class="table table-bordered">
           <thead>
             <tr class="table-secondary">
-              <th scope="col">Select</th>
-              <th scope="col">Device Address</th>
+              <th scope="col-2">Select</th>
+              <th scope="col">Device ID</th>
+              <th scope="col">Device Name</th>
               <th scope="col">IP Address</th>
               <th scope="col">Port</th>
-              <th scope="col">Device ID</th>
               <th scope="col">Status</th>
               <th scope="col">Last Status Checked</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
 
+          <div *ngIf="isLoading"  class="fade show spinner-wrapper" 
+            style="text-align: center; padding-top: calc(100vh / 5); width:20%;" >
+              <i class="spinner-border"></i>
+              <!-- <small>Loading, Please wait...</small> -->
+          </div>
+          
           <tbody>
-            <tr class="text-center" *ngFor="let item of filteredDeviceInfo; let i = index">
-              <td>
+            <tr class="text-center" *ngFor="let item of filteredDeviceInfo; let i = index">              
+              <td  style="width:2%">
                 <div class="form-control" style="border:none">
                   <input type="checkbox" [(ngModel)]="item.isSelected">
                 </div>               
-              </td>            
-              <td>
+              </td>      
+              <td  style="width:8%">
+                <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.deviceId">
+              </td>  
+                  
+              <td style="width:32%">
                 <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.name">
               </td>
-              <td>
+              <td style="width:18%">
                 <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.ipaddress">
               </td>
-              <td>
+              <td style="width: 8%">
                 <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.port">
               </td>
+             
               <td>
-                <input class="form-control" [disabled]="!item.isEditable" type="text" [(ngModel)]="item.deviceId">
-              </td>
-              <td style="width:13%">
                 <div class="form-control" style="border:none;">
-                    {{ item.isActive ? 'Active' : 'Inactive' }}
+                    {{ item.isActive ? 'Online' : 'Offline' }}
                     <span *ngIf="item.isActive">
                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
                         <circle cx="3" cy="7" r="3" fill="green" fill-opacity="1.0"/>
@@ -211,12 +212,12 @@
                     </span>
                 </div>              
               </td>
-              <td>
-                <div class="form-control" style="border:none">
+              <td >
+                <div class="form-control" style="border:none;">
                   {{ item.lastSyncDate ? (item.lastSyncDate | date:'yyyy-MM-dd hh:mm:ss a') : 'N/A' }}
                 </div>     
               </td>
-              <td style="width: 8%">
+              <td style="width:8%">
                 <i class="fabook"></i>
 
                 <button title="Edit Device" class="btn btn-sm btn-rounded btn-dark" *ngIf="!item.isEditable"

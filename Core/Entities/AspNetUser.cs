@@ -14,7 +14,7 @@ namespace Core.Entities
         }
 
         public string Id { get; set; } = null!;
-        public string DisplayName { get; set; } = null!;
+        public string? DisplayName { get; set; }
         public string? UserName { get; set; }
         public string? NormalizedUserName { get; set; }
         public string? Email { get; set; }
@@ -29,6 +29,8 @@ namespace Core.Entities
         public DateTimeOffset? LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
+        public string? Token { get; set; }
+        public DateTime? ExpiresAt { get; set; }
 
         public virtual ICollection<UserClaim> UserClaims { get; set; }
         public virtual ICollection<UserLogin> UserLogins { get; set; }

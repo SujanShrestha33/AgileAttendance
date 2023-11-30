@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AttendenceLogComponent implements OnInit {
   attendanceLogs: any[] = [];
   filteredData : any[] = [];
+  
   //filter attributes
   deviceId: any;
   enrollNumber:any;
@@ -23,8 +24,8 @@ export class AttendenceLogComponent implements OnInit {
   isActive:any;
 
   items = [
-    {booleanValue: "true", name: "Active",},
-    {booleanValue: "false", name: "Inactive",}
+    {booleanValue: "true", name: "Online",},
+    {booleanValue: "false", name: "Offline",}
   ]
 
   pageNumber = 1;
@@ -144,9 +145,9 @@ export class AttendenceLogComponent implements OnInit {
         this.responseCount = res.totalRecords;
         // console.log(this.responseCount);
         this.isLoading = false;
-        if(this.totalRecords == 0){
-          this.toastr.info('The device is Inactive');
-        }
+        // if(this.totalRecords == 0){
+        //   this.toastr.info('The device is Inactive');
+        // }
 
       }, error => {
         console.log(error.error);
@@ -157,13 +158,13 @@ export class AttendenceLogComponent implements OnInit {
   onPageSizeChange(): void {
     this.pageNumber = 1; // Reset to the first page when the page size changes.
     this.loadAttendanceLogs();
-
+   
   }
 
   onPageChange(event: any): void {
     this.pageNumber = event.pageIndex + 1;
     this.pageSize = event.pageSize;
-
+    
     if (!this.filterBool) {
       if (this.testIds != undefined) {
         if (this.testIds.length == 1) {
@@ -174,7 +175,7 @@ export class AttendenceLogComponent implements OnInit {
       }
     } else {
       this.filterTable();
-    }
+    } 
   }
 
   filterTable(){
@@ -186,12 +187,12 @@ export class AttendenceLogComponent implements OnInit {
         (this.deviceId == '' || this.deviceId == undefined) &&
         (this.deviceName == '' || this.deviceName == undefined ) &&
         (this.enrollNumber == '' || this.enrollNumber == undefined ) &&
-        (this.userName == '' || this.userName == undefined ) &&
+        // (this.userName == '' || this.userName == undefined ) &&
         (this.startDate == '' || this.startDate == undefined ) &&
-        (this.endDate == '' || this.deviceId == undefined ) &&
-        (this.isActive == '' || this.isActive == undefined )
-      ){
-        this.loadAttendanceLogs();
+        (this.endDate == '' || this.endDate == undefined ) &&
+        (this.isActive == '' || this.isActive == undefined ) 
+      ){       
+        this.loadAttendanceLogs();     
     }
     else{
       if(this.startDate > this.endDate){
@@ -201,9 +202,10 @@ export class AttendenceLogComponent implements OnInit {
         this.toastr.warning('Please choose end date greater than start date');
       }
       this.attendanceService
-      .filter(this.pageNumber, this.pageSize, this.deviceId,this.enrollNumber,this.userName,
+      .filter(this.pageNumber, this.pageSize, this.deviceId,this.enrollNumber,
         this.deviceName,this.startDate,this.endDate,this.inOutMode,this.isActive)
         .subscribe((response: any) => {
+          
           this.filteredLog = response.data;
           // console.log(this.filteredLog);
           this.totalRecords = response.totalRecords;

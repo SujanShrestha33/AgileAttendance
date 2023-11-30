@@ -14,9 +14,9 @@ namespace BiometricAttendanceSystem.Controllers
     [Route("[controller]")]
     public class AttendancelogController : ControllerBase
     {
-        private static AttendanceDBContext _db;
+        private static BiometricAttendanceReaderDBContext _db;
         private readonly AttendanceRepository _repo;
-        public AttendancelogController(AttendanceDBContext db, AttendanceRepository repo)
+        public AttendancelogController(BiometricAttendanceReaderDBContext db, AttendanceRepository repo)
         {
             _db = db;
             _repo = repo;
@@ -47,11 +47,11 @@ namespace BiometricAttendanceSystem.Controllers
                 query = query.Where(a => a.DeviceName.StartsWith(filter.DeviceName));
             }
 
-            if (!string.IsNullOrEmpty(filter.Username))
-            {
-                query = query.Where(a => a.Username.StartsWith(filter.Username));
-            }
-
+            //if (!string.IsNullOrEmpty(filter.Username))
+            //{
+            //    query = query.Where(a => a.Username != null && a.Username.StartsWith(filter.Username));
+            //}
+          
             if (filter.StartDate.HasValue)
             {
                 query = query.Where(a => a.InputDate >= filter.StartDate);
@@ -72,7 +72,6 @@ namespace BiometricAttendanceSystem.Controllers
                 query = query.Where(a => a.IsActive == filter.IsActive);
             }
 
-            
             var pagedData = query
                            .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                            .Take(validFilter.PageSize)
@@ -183,8 +182,18 @@ namespace BiometricAttendanceSystem.Controllers
                                     })
                                     .ToDictionary(item => item.DeviceId, item => item.LastCreatedOn);
             var forthisdevice = lastCreatedDates.TryGetValue(deviceId, out var lastCreatedOn);
-            var latestLogs = attendanceLogs.FindAll(log => log.InputDate >= lastCreatedOn);
-
+            if (forthisdevice == false)
+            {
+                _db.AttendanceLogs.AddRange(attendanceLogs);
+                rowsCount++;
+            }
+            else
+            {
+                var latestLogs = attendanceLogs.FindAll(log => log.InputDate >= lastCreatedOn);
+                _db.AttendanceLogs.AddRange(latestLogs);
+                rowsCount++;
+            }
+            
             _db.SaveChanges();
 
             return rowsCount;
@@ -248,6 +257,7 @@ namespace BiometricAttendanceSystem.Controllers
             }
             return _db.DeviceConfigs.ToList();
         }
+
         bool ShouldSkipDevice(int deviceId)
         {
             //List<int> deviceIdsToSkip = new List<int> { };

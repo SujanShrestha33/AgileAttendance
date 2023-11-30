@@ -5,10 +5,6 @@
         <div class="col-sm-6">
           <h1>Attendance Logs</h1>
         </div>
-        <!-- <div class="col-sm-4 pull-right">
-          <input class="form-control" id="search" type="text" [(ngModel)]="searchQuery" (input)="performSearch()"
-            placeholder="Search...">
-        </div> -->
       </div>
       <!-- Table -->
       <div style="height: 72vh; overflow: auto;">
@@ -17,7 +13,7 @@
             <tr class="table-secondary text-align-center">
               <th scope="col">Device ID</th>
               <th scope="col">Enroll Number</th>
-              <th scope="col">Username</th>
+              <!-- <th scope="col">Username</th> -->
               <th scope="col">Device Address</th>
               <th scope="col">Input Date</th>
               <th scope="col">Device Status</th>
@@ -30,9 +26,9 @@
               <th scope="col">
                 <input class="filter-input" [(ngModel)]="enrollNumber" type="text" placeholder="Enroll Number" (input)="filterTable()"/>
               </th>
-              <th scope="col">
+              <!-- <th scope="col">
                 <input class="filter-input" [(ngModel)]="userName" type="text" placeholder="Username" (input)="filterTable()"/>
-              </th>
+              </th> -->
               <th scope="col">
                 <input class="filter-input" [(ngModel)]="deviceName" type="text" placeholder="Device Name" (input)="filterTable()"/>
               </th>
@@ -53,7 +49,7 @@
               <th scope="col" style="width:15%">   
                 <div class="form-control" style="border:none;">
                   <ng-select class="select-status"
-                      placeholder="Select device status"
+                      placeholder="Device status"
                       [(ngModel)]="isActive"
                       (change)="filterTable()" >
                       <ng-option [value]="item.booleanValue" *ngFor="let item of items">
@@ -82,14 +78,14 @@
 
           <tbody *ngIf="!isLoading">
             <tr *ngFor="let log of filteredLog">
-              <td>{{ log.deviceId }}</td>
+              <td>{{ log.deviceID }}</td>
               <td>{{ log.enrollNumber }}</td>
-              <td>{{ log.username }}</td>
+              <!-- <td>{{ log.username }}</td> -->
               <td>{{ log.deviceName }}</td>
               <td>{{ log.inputDate | date:'yyyy-MM-dd hh:mm:ss a' }}</td>
 
-              <td [ngClass]="{'active': log.isActive, 'inactive': !log.isActive}">
-                {{ log.isActive ? 'Active' : 'Inactive' }}
+              <td [ngClass]="{'online': log.isActive, 'offline': !log.isActive}">
+                {{ log.isActive ? 'Online' : 'Offline' }}
               </td>
 
               <td *ngIf="log.inOutMode == 0">Check-In</td>
@@ -101,10 +97,7 @@
                                      
             </tr>
           </tbody>
-        </table>
-        <!-- <div *ngIf="isLoading" >
-          <i class="spinner-border"></i>
-        </div> -->
+        </table>      
       </div>
 
       <!-- Pagination -->

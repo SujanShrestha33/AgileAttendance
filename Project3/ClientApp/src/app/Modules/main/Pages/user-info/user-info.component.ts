@@ -50,8 +50,11 @@ export class UserInfoComponent implements OnInit {
     this.userService.getUserInfo()
       .subscribe(res => {
         this.userInfo = res;
+        // console.log(res);
         this.filteredUserInfo = this.userInfo;
-        // this.totalRecords = res.totalRecords;
+        // console.log(this.filteredUserInfo);
+        this.totalRecords = res.length;
+        // console.log(this.totalRecords);
         // console.log(res)
         // console.log(this.userInfo);
         this.isLoading = false;
@@ -64,11 +67,11 @@ export class UserInfoComponent implements OnInit {
     this.isLoading = true;
     this.userService.getUserInfoLive()
       .subscribe(res => {
-        this.userInfo = res.data;
+        this.userInfo = res;
         this.filteredUserInfo = this.userInfo;
         // console.log(res)
         // console.log(this.filteredUserInfo);
-        // this.totalRecords = res.totalRecords;
+        this.totalRecords = res.length;
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -79,11 +82,11 @@ export class UserInfoComponent implements OnInit {
     this.isLoading = true;
     this.userService.getMultipleDeviceUserInfo(this.selectedDeviceIds)
       .subscribe(res => {
-        this.userInfo = res.data;
+        this.userInfo = res;
         this.filteredUserInfo = this.userInfo;
         // console.log(res)
         // console.log(this.filteredUserInfo);
-        // this.totalRecords = res.totalRecords;
+        this.totalRecords = res.length;
         this.isLoading = false;
       }, error => {
         this.isLoading = false;
@@ -97,8 +100,8 @@ export class UserInfoComponent implements OnInit {
     // Filter the deviceInfo array based on the search query.
     this.filteredUserInfo = this.userInfo.filter(
       (item) =>
-        item.userName.toLowerCase().includes(query) ||
-        item.deviceName.toLowerCase().includes(query) ||
+        item.name.toLowerCase().includes(query) ||
+        // item.deviceName.toLowerCase().includes(query) ||
         item.enrollNumber.toLowerCase().includes(query) ||
         item.deviceId.toString().includes(query)
     );

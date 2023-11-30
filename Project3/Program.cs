@@ -21,7 +21,7 @@ builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = "ClientApp/dist";
 });
-builder.Services.AddDbContext<AttendanceDBContext>(options =>
+builder.Services.AddDbContext<BiometricAttendanceReaderDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 

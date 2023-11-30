@@ -53,7 +53,7 @@ export class AttendanceService {
     );
   }
 
-  filter(pageNumber: number, pageSize: number, deviceId:number, enrollNumber:string, userName:string,deviceName:string,startDate: Date, endDate:Date, inOutMode:string, isActive:string)
+  filter(pageNumber: number, pageSize: number, deviceId:number, enrollNumber:string,deviceName:string,startDate: Date, endDate:Date, inOutMode:string, isActive:string)
   : Observable<any> {
     let params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
@@ -65,20 +65,22 @@ export class AttendanceService {
       if(enrollNumber){
         params = params.set('enrollNumber', enrollNumber.toString());
       }
-      if(userName){
-        params = params.set('userName', userName.toString());
-      }
+      // if(userName){
+      //   params = params.set('userName', userName.toString());
+      // }
       if(deviceName){
         params = params.set('deviceName', deviceName.toString());
       }
-      if(startDate < endDate){
+      
+      if(startDate){
         const startInputDate = this.datePipe.transform(startDate, 'yyyy-MM-dd');
         params = params.set('startDate', startInputDate);
       }
-      if(endDate > startDate){
+      if(endDate){
         const endInputDate = this.datePipe.transform(endDate, 'yyyy-MM-dd');
         params = params.set('endDate', endInputDate);
       }
+
       if(inOutMode){
         params = params.set('inOutMode', deviceName.toString());
       }
