@@ -75,3 +75,4 @@
 /.vs/VSWorkspaceState.json
 /Core/obj/Core.csproj.nuget.g.props
 /Infrastructure/obj/Infrastructure.csproj.nuget.g.props
+/Infrastructure/obj/Debug/net6.0/Infrastructure.AssemblyInfoInputs.cache
