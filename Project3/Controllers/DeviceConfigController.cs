@@ -11,6 +11,7 @@ using System.Reflection.Metadata;
 using BiometricAttendanceSystem.Pagination;
 using Microsoft.AspNetCore.JsonPatch.Internal;
 using Core.Entities;
+using Hangfire;
 
 namespace BiometricAttendanceSystem.Controllers
 {
@@ -19,10 +20,11 @@ namespace BiometricAttendanceSystem.Controllers
     public class DeviceConfigController : ControllerBase
     {
         private readonly BiometricAttendanceReaderDBContext _db;
-
-        public DeviceConfigController(BiometricAttendanceReaderDBContext db)
+        private readonly IBackgroundJobClient _backgroundJobClient;
+        public DeviceConfigController(BiometricAttendanceReaderDBContext db, IBackgroundJobClient backgroundJobClient )
         {
             _db = db;
+            _backgroundJobClient = backgroundJobClient;
         }
 
         [HttpGet]
@@ -86,7 +88,7 @@ namespace BiometricAttendanceSystem.Controllers
         [HttpPatch]
         [Route("[action]")]
         public async Task<List<DeviceConfig>> GetDeviceConfigCZKEM()
-        {
+        {           
             GetDeviceConfigLIVE();
             return await _db.DeviceConfigs.ToListAsync();
         }
@@ -102,7 +104,6 @@ namespace BiometricAttendanceSystem.Controllers
         [Route("[action]")]
         public async Task<List<DeviceConfig>> GetMultipleDevicesCZKEM(List<int> deviceIds)
         {
-
             //GetDeviceConfigLIVE();
             var deviceDbData = _db.DeviceConfigs.Where(d => deviceIds.Contains(d.DeviceId)).ToList();
             var czkem = new CZKEM();

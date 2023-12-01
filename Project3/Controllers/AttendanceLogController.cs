@@ -4,7 +4,6 @@ using BiometricAttendanceSystem.ReturnDTOs;
 using Core;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Data;
 using zkemkeeper;
 
@@ -171,8 +170,6 @@ namespace BiometricAttendanceSystem.Controllers
             int rowsCount = 0;
             //List<AttendanceLog> attenLog;
 
-            //}
-
             var lastCreatedDates = _db.AttendanceLogs
                                     .GroupBy(log => log.DeviceId)
                                     .Select(group => new
@@ -181,6 +178,7 @@ namespace BiometricAttendanceSystem.Controllers
                                         LastCreatedOn = group.Max(log => log.CreatedOn)
                                     })
                                     .ToDictionary(item => item.DeviceId, item => item.LastCreatedOn);
+
             var forthisdevice = lastCreatedDates.TryGetValue(deviceId, out var lastCreatedOn);
             if (forthisdevice == false)
             {
