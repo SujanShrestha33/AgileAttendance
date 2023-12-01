@@ -4,8 +4,6 @@ using BiometricAttendanceSystem.ReturnDTOs;
 using Core;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Data;
 using zkemkeeper;
 
